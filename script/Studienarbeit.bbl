@@ -1,0 +1,49 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{anyt/global//global/global}
+  \entry{Test123}{book}{}
+    \name{author}{1}{}{%
+      {{hash=TT}{%
+         family={Test},
+         familyi={T\bibinitperiod},
+         given={Test},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Test Verlag}%
+    }
+    \strng{namehash}{TT1}
+    \strng{fullhash}{TT1}
+    \field{label}{Test}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Test18}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{edition}{Version Test}
+    \field{title}{Test}
+    \list{location}{1}{%
+      {Mannheim}%
+    }
+    \field{month}{01}
+    \field{year}{2018}
+  \endentry
+\enddatalist
+\endinput
