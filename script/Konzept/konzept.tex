@@ -1,2 +1,12 @@
 \section{Konzept}
 Hier wird ein Konzept mit Mock Ups und Architektur entstehen
+\subsection{Datenerfassung}
+\subsection{Auswertung}
+\subsection{Entscheidungsalgorithmus}
+Ziel der Anwendung ist es, basierend auf zuvor aufgenommenen Daten eine Entscheidung zu fällen, welche Emotion der Nutzer der 
+Anwendung aktuell empfinden könnte. Die Entscheidung muss dabei die verschiedenen Ergebnisse der Auswertungsebene einbeziehen
+und aus diesen auf eine Emotion schließen. Deshalb muss eine Einheitliche Datenstruktur entwickelt werden, über die die Auswertungsebene
+die Daten zur Verfügung stellt. \\
+Die Entscheidung könnte hierbei über ein \textit{Scoring} entstehen. Dieses \textit{Scoring} müsste dabei auf der Auswertungsebene stattfinden, 
+wobei jeder der Auswertungsalgorithmen ein \textit{Scoring} für die verschiedenen Emotionen angeben muss. Am Ende könnten z. Bsp. die verschiedenen 
+\textit{Scorings} addiert und die Emotion mit dem höchsten \textit{Scoring} ausgewählt werden.

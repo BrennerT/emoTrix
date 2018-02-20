@@ -196,11 +196,11 @@ INPUT ./Bilder/sensor.jpg
 INPUT ./Bilder/sensor.jpg
 INPUT Konzept/konzept.tex
 INPUT Konzept/konzept.tex
-INPUT Umsetzung/umsetzung.tex
-INPUT Umsetzung/umsetzung.tex
-INPUT Schluss/schluss.tex
-INPUT Schluss/schluss.tex
 INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/cm/cmti12.tfm
+INPUT Umsetzung/umsetzung.tex
+INPUT Umsetzung/umsetzung.tex
+INPUT Schluss/schluss.tex
+INPUT Schluss/schluss.tex
 INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/cm/cmcsc10.tfm
 INPUT Studienarbeit.aux
 INPUT Studienarbeit.run.xml
