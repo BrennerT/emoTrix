@@ -17,6 +17,33 @@
 \endgroup
 
 \datalist[entry]{anyt/global//global/global}
+  \entry{Sch13}{book}{}
+    \name{author}{1}{}{%
+      {{hash=SPM}{%
+         family={Schwarzer-Petruck},
+         familyi={S\bibinitperiod-P\bibinitperiod},
+         given={Myriam},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer VS, Wiesbaden}%
+    }
+    \strng{namehash}{SPM1}
+    \strng{fullhash}{SPM1}
+    \field{label}{Sch}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelalpha}{Sch13}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{chapter}{Was sind Emotionen?}
+    \field{isbn}{978-3-658-04619-4}
+    \field{title}{Emotionen und pädagogische Professionalität}
+    \field{month}{12}
+    \field{year}{2013}
+  \endentry
+
   \entry{Test123}{book}{}
     \name{author}{1}{}{%
       {{hash=TT}{%
