@@ -186,14 +186,14 @@ OUTPUT Studienarbeit.lot
 INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT Theorie/theorie.tex
+INPUT Theorie/theorie.tex
+INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/cm/cmbx12.tfm
 INPUT Bilder/sensor.jpg
 INPUT ./Bilder/sensor.jpg
 INPUT ./Bilder/sensor.jpg
 INPUT ./Bilder/sensor.jpg
 INPUT ./Bilder/sensor.jpg
-INPUT Theorie/theorie.tex
-INPUT Theorie/theorie.tex
-INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/cm/cmbx12.tfm
 INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/cm/cmti12.tfm
 INPUT C:/Program Files/MiKTeX 2.9/fonts/tfm/public/cm/cmcsc10.tfm
 INPUT Studienarbeit.aux

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.9)  20 FEB 2018 12:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.9)  20 FEB 2018 12:43
 entering extended mode
 **d:/Dokumente/DHBW/Studienarbeit/emoTrix/script/Studienarbeit.tex
 (d:/Dokumente/DHBW/Studienarbeit/emoTrix/script/Studienarbeit.tex
@@ -866,16 +866,16 @@ Bilder/DHBW_MA_Logo.jpg>] (Studienarbeit.toc)
 \tf@lot=\write7
 \openout7 = `Studienarbeit.lot'.
 
-[4]
-<Bilder/sensor.jpg, id=21, 702.625pt x 526.96875pt>
+[4] [1] (Theorie/theorie.tex
+<Bilder/sensor.jpg, id=27, 702.625pt x 526.96875pt>
 File: Bilder/sensor.jpg Graphic file (type jpg)
 <use Bilder/sensor.jpg>
-Package pdftex.def Info: Bilder/sensor.jpg  used on input line 53. on input lin
-e 53.
+Package pdftex.def Info: Bilder/sensor.jpg  used on input line 14. on input lin
+e 14.
 Package pdftex.def Info: Requested size: 312.9803pt x 234.73755pt on input line
- 53.
- [1 <./Bilder/sensor.jpg>] (Theorie/theorie.tex) [2] [3] [4]
-Overfull \hbox (8.45677pt too wide) in paragraph at lines 69--69
+ 14.
+) [2 <./Bilder/sensor.jpg>] [3] [4]
+Overfull \hbox (8.45677pt too wide) in paragraph at lines 68--68
 []\OT1/cmr/m/n/12 Myriam Schwarzer-Petruck. \OT1/cmr/m/it/12 Emo-tio-nen und p[
 ]adagogische Pro-fes-sio-na-lit[]at\OT1/cmr/m/n/12 . Sprin-
  []
@@ -888,7 +888,7 @@ Package logreq Info: Writing requests to 'Studienarbeit.run.xml'.
 Here is how much of TeX's memory you used:
  10366 strings out of 493312
  173029 string characters out of 3138871
- 440164 words of memory out of 3000000
+ 441164 words of memory out of 3000000
  13737 multiletter control sequences out of 15000+200000
  13696 words of font info for 53 fonts, out of 3000000 for 9000
  1145 hyphenation exceptions out of 8191
@@ -901,7 +901,7 @@ nts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
 /public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
 sfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
 cmti12.pfb>
-Output written on Studienarbeit.pdf (11 pages, 283501 bytes).
+Output written on Studienarbeit.pdf (11 pages, 287630 bytes).
 PDF statistics:
  72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
