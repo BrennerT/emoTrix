@@ -3,16 +3,19 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>EmoTrix</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>EmoTrix</h3>
+<ion-content padding class="no-scroll">
+  <h3>Willkommen zu EmoTrix</h3>
 
-  <p>
-    This project is about finding ways to use smartphone sensors for detecting the emotions of a user
-  </p>
+  <ion-list>
+    <button ion-item test-link *ngFor="let t of tests">
+      <ion-label>{{t.name}}</ion-label>
+      <ion-checkbox></ion-checkbox>
+    </button> 
+  </ion-list>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <button ion-button secondary>Auswertung</button>
 </ion-content>
