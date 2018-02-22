@@ -19,6 +19,10 @@
     overflow: hidden;
 }
 
+ion-navbar{
+    max-height: 56px;
+}
+
 .logo{
-    justify-self: stretch;
+    height: 30px;
 }
