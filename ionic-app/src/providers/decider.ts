@@ -1,41 +1,72 @@
 import { Injectable } from '@angular/core';
-import { IndicatorScores } from './classes/IndicatorScores';
+import { IndicatorScore } from './classes/IndicatorScore';
+import { EmotionScore } from './classes/EmotionScore';
 
 @Injectable()
 export class Decider {
 
-    data: Array<{timestamp: string, indicators: Array<IndicatorScores>}>;
-    resultData: Array<{timestamp: string, emotion: string}>;
+    data: Array<{timestamp_id: Date, indicators: Array<IndicatorScore>}>;
+    resultData: Array<{timestamp_id: Date, emotionScores: Array<EmotionScore>}>;
 
     constructor() {
 
     }
 
-    public addIndicatorScores(indicatorScores: IndicatorScores){
-        
+    public addIndicatorScores(indicatorScores: Array<IndicatorScore>){
+        //aktuellen Zeitpunkt ermitteln
+        var timestamp: Date = this.getTimeStamp();
+        //empfangene Daten zu Data hinzufügen
+        this.data.push({ timestamp_id: timestamp, indicators: indicatorScores });
     }
 
-    private assumeEmotion(timestamp: string){
-        
+    public decide(){
+        //Iterieren über jeden angegebenen Zeitpunkt und Emotion dazu schätzen
+        this.data.forEach(element => {
+            this.assumeEmotion(element.timestamp_id);
+        });
+        //Graph generieren
+        this.generateGraph(this.resultData);
     }
 
-    private executeCausalityRules(){
+
+    private assumeEmotion(timestamp: Date){
+        //Finden der hinterlegten Indicator zu einer Timestamp
+        var currentIndicators: Array<IndicatorScore> = this.data.find(e => e.timestamp_id == timestamp).indicators
+        //Ausführen der Kausalitätsregeln auf die aktuellen Indicator; Zurückgeben eines EmotionScoreArrays
+        var emotionScores: Array<EmotionScore> = this.executeCausalityRules(currentIndicators);
+        //Hinzufügen des EmotionscoreArrays zur ResultData mit gegebener Timestamp
+        this.resultData.push({ timestamp_id: timestamp, emotionScores: emotionScores })
+    }
+
+    private executeCausalityRules(indicatorScores: Array<IndicatorScore>){    
+        var emotionScores: Array<EmotionScore>;
+        //Initiales Anlegen der EmotionScores mit Score 0; iteriert über alle im Enum angegebenen Emotionen
+        EmotionScore.emotionsEnum.forEach(e => {
+            var es: EmotionScore = new EmotionScore(e,0);
+            emotionScores.push(es);
+        });
+        //hier müssen die verschiedenen Kausalitätregeln implementiert werden, die die einzelnen Emotionscores verändern
+        emotionScores = this.applyEffect("angry",20, emotionScores);
+        emotionScores = this.applyEffect("sad",-10, emotionScores);
+
+        return emotionScores;
 
     }
 
-    private getTimeStamp(){
+    public getTimeStamp(){
+        var date: Date = new Date();
+        return date;
+    }
+
+    private applyEffect(emotion: string, value: number, esArray: Array<EmotionScore>){
+        var element = esArray.find(e => e.emotion == emotion);
+        element.score = element.score + value;
+        return esArray;
 
     }
 
-    private applyPostivEffect(score, value){
-
-    }
-
-    private applyNegativEffect(score, value){
-
-    }
-    public generateGraph(){
-
+    public generateGraph(result){
+        //TO-DO
     }
 
 }
