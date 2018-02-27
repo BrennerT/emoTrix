@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100%"
+   height="auto"
+   viewBox="0 0 120 30"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="EmoTrix-Logo.svg">
+  <defs
+     id="defs2">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 148.49999 : 1"
+       inkscape:vp_y="0 : 999.99997 : 0"
+       inkscape:vp_z="210.00001 : 148.49999 : 1"
+       inkscape:persp3d-origin="105 : 98.999997 : 1"
+       id="perspective10320" />
+    <linearGradient
+       id="linearGradient4548"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4546" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="transparent"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="274.55562"
+     inkscape:cy="37.061195"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Schatten"
+     style="display:inline"
+     transform="translate(0,-267)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:47.05636215px;line-height:1.25;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#007eb4;fill-opacity:1;stroke:none;stroke-width:0.34364426"
+       x="95.83815"
+       y="306.39529"
+       id="text4568-1-1"
+       transform="scale(1.0430997,0.95868114)"><tspan
+         sodipodi:role="line"
+         id="tspan4566-2-2"
+         x="95.83815"
+         y="306.39529"
+         style="fill:#007eb4;fill-opacity:1;stroke-width:0.34364426">x</tspan></text>
+    <ellipse
+       style="opacity:0.54599998;fill:#007eb4;fill-opacity:1;stroke-width:0.07742997;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path4663"
+       cx="100.9772"
+       cy="283.22388"
+       rx="11.810551"
+       ry="11.370728" />
+  </g>
+  <g
+     inkscape:label="Vordergrund"
+     id="layer1"
+     inkscape:groupmode="layer"
+     style="display:inline"
+     transform="translate(0,-267)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.27182007px;line-height:1.25;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#007eb4;fill-opacity:1;stroke:none;stroke-width:0.19916129"
+       x="30.668322"
+       y="290.06821"
+       id="text4576"
+       transform="scale(0.99965943,1.0003407)"><tspan
+         sodipodi:role="line"
+         id="tspan4574"
+         x="30.668322"
+         y="290.06821"
+         style="fill:#007eb4;fill-opacity:1;stroke-width:0.19916129">Emo</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.05309296px;line-height:1.25;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00008c;fill-opacity:1;stroke:none;stroke-width:0.20486678"
+       x="69.950226"
+       y="299.82663"
+       id="text4580"
+       transform="scale(1.0282973,0.97248142)"><tspan
+         sodipodi:role="line"
+         id="tspan4582"
+         x="69.950226"
+         y="299.82663"
+         style="stroke-width:0.20486678">Tri</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:47.05636215px;line-height:1.25;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00008c;fill-opacity:1;stroke:none;stroke-width:0.34364426"
+       x="92.981995"
+       y="304.61093"
+       id="text4568-1"
+       transform="scale(1.0430997,0.95868113)"><tspan
+         sodipodi:role="line"
+         id="tspan4566-2"
+         x="92.981995"
+         y="304.61093"
+         style="fill:#00008c;fill-opacity:1;stroke-width:0.34364426">x</tspan></text>
+  </g>
+</svg>
