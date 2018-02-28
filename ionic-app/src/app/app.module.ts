@@ -9,6 +9,8 @@ import { KeyboardScannerPage } from '../pages/keyboard-scanner/keyboard-scanner'
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { Decider } from '../providers/decider';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -28,6 +30,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    Decider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
