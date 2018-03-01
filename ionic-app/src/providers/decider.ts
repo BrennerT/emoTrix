@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IndicatorScore } from './classes/IndicatorScore';
-import { EmotionScore } from './classes/EmotionScore';
+import { EmotionScore, emotions } from './classes/EmotionScore';
 
 @Injectable()
 export class Decider {
@@ -41,9 +41,9 @@ export class Decider {
     private executeCausalityRules(indicatorScores: Array<IndicatorScore>){    
         var emotionScores: Array<EmotionScore>;
         //Initiales Anlegen der EmotionScores mit Score 0; iteriert über alle im Enum angegebenen Emotionen
-        EmotionScore.emotions.forEach(e => {
-            var es: EmotionScore = new EmotionScore(e,0);
-            emotionScores.push(es);
+        emotions.forEach(emotion => {
+            var emotionScore : EmotionScore = {emotion, score: 0};
+            emotionScores.push(emotionScore);
         });
         //hier müssen die verschiedenen Kausalitätregeln implementiert werden, die die einzelnen Emotionscores verändern
         emotionScores = this.applyEffect("angry",20, emotionScores);
@@ -53,7 +53,7 @@ export class Decider {
 
     }
 
-    public getTimeStamp(){
+    public getTimeStamp = () => {
         var date: Date = new Date();
         return date;
     }
