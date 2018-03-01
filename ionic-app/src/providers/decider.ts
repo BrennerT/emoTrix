@@ -5,8 +5,8 @@ import { EmotionScore, emotions } from './classes/EmotionScore';
 @Injectable()
 export class Decider {
 
-    data: Array<{timestamp_id: Date, indicators: Array<IndicatorScore>}>;
-    resultData: Array<{timestamp_id: Date, emotionScores: Array<EmotionScore>}>;
+    data: Array<{timestamp: Date, indicators: IndicatorScore[]}> = [];
+    resultData: Array<{timestamp: Date, emotionScores: EmotionScore[]}> = [];
 
     constructor() {
 
@@ -16,13 +16,13 @@ export class Decider {
         //aktuellen Zeitpunkt ermitteln
         var timestamp: Date = this.getTimeStamp();
         //empfangene Daten zu Data hinzufügen
-        this.data.push({ timestamp_id: timestamp, indicators: indicatorScores });
+        this.data.push({ timestamp, indicators: indicatorScores });
     }
 
     public decide(){
         //Iterieren über jeden angegebenen Zeitpunkt und Emotion dazu schätzen
         this.data.forEach(element => {
-            this.assumeEmotion(element.timestamp_id);
+            this.assumeEmotion(element.timestamp);
         });
         //Graph generieren
         this.generateGraph(this.resultData);
@@ -31,11 +31,11 @@ export class Decider {
 
     private assumeEmotion(timestamp: Date){
         //Finden der hinterlegten Indicator zu einer Timestamp
-        var currentIndicators: Array<IndicatorScore> = this.data.find(e => e.timestamp_id == timestamp).indicators
+        var currentIndicators: Array<IndicatorScore> = this.data.find(e => e.timestamp == timestamp).indicators
         //Ausführen der Kausalitätsregeln auf die aktuellen Indicator; Zurückgeben eines EmotionScoreArrays
         var emotionScores: Array<EmotionScore> = this.executeCausalityRules(currentIndicators);
         //Hinzufügen des EmotionscoreArrays zur ResultData mit gegebener Timestamp
-        this.resultData.push({ timestamp_id: timestamp, emotionScores: emotionScores })
+        this.resultData.push({ timestamp: timestamp, emotionScores: emotionScores })
     }
 
     private executeCausalityRules(indicatorScores: Array<IndicatorScore>){    
