@@ -41,7 +41,7 @@ export class Decider {
     private executeCausalityRules(indicatorScores: Array<IndicatorScore>){    
         var emotionScores: Array<EmotionScore>;
         //Initiales Anlegen der EmotionScores mit Score 0; iteriert über alle im Enum angegebenen Emotionen
-        EmotionScore.emotionsEnum.forEach(e => {
+        EmotionScore.emotions.forEach(e => {
             var es: EmotionScore = new EmotionScore(e,0);
             emotionScores.push(es);
         });
