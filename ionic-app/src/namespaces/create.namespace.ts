@@ -18,7 +18,7 @@ export namespace Create {
 
     export function randomArray<T>(generator: () => T, size: number) : T[]{
         var randomArray : T[] = [];
-        while(size >= 0){
+        while(size > 0){
             randomArray.push(generator());
             size = size - 1;
         }
