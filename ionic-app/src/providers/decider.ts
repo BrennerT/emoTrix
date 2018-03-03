@@ -1,3 +1,4 @@
+import { CausalityRule } from './classes/CausalityRule';
 import { Injectable } from '@angular/core';
 import { IndicatorScore } from './classes/IndicatorScore';
 import { EmotionScore, emotions } from './classes/EmotionScore';
@@ -7,10 +8,7 @@ export class Decider {
 
     data: Array<{timestamp: Date, indicators: IndicatorScore[]}> = [];
     resultData: Array<{timestamp: Date, emotionScores: EmotionScore[]}> = [];
-
-    constructor() {
-
-    }
+    causalityRules: Array<CausalityRule> = [];
 
     public addIndicatorScores(indicatorScores: Array<IndicatorScore>){
         //aktuellen Zeitpunkt ermitteln
@@ -24,8 +22,6 @@ export class Decider {
         this.data.forEach(element => {
             this.assumeEmotion(element.timestamp);
         });
-        //Graph generieren
-        this.generateGraph(this.resultData);
     }
 
 
@@ -39,16 +35,17 @@ export class Decider {
     }
 
     private executeCausalityRules(indicatorScores: Array<IndicatorScore>){    
-        var emotionScores: Array<EmotionScore>;
+        var emotionScores: Array<EmotionScore> = [];
         //Initiales Anlegen der EmotionScores mit Score 0; iteriert über alle im Enum angegebenen Emotionen
         emotions.forEach(emotion => {
             var emotionScore : EmotionScore = {emotion, score: 0};
             emotionScores.push(emotionScore);
         });
-        //hier müssen die verschiedenen Kausalitätregeln implementiert werden, die die einzelnen Emotionscores verändern
-        emotionScores = this.applyEffect("angry",20, emotionScores);
-        emotionScores = this.applyEffect("sad",-10, emotionScores);
 
+        this.causalityRules.forEach((causalityRule) => {
+            emotionScores = causalityRule.execute(emotionScores)  
+        })
+        
         return emotionScores;
 
     }
@@ -66,7 +63,7 @@ export class Decider {
     }
 
     public generateGraph(result){
-        //TO-DO
+        //TODO: Entwickeln einer grafischen Darstellung der Ergebnisse
     }
 
 }
