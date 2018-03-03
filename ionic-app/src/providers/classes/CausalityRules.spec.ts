@@ -13,15 +13,15 @@ describe("CausalityRule", () => {
                 () => true,
                 [
                     (data: EmotionScore[]) => {
-                        var angry = data.find((emotionScore) => {return emotionScore.emotion == emotions[1]});
+                        var angry = data.find((emotionScore) => {return emotionScore.emotion == <emotion>"angry"});
                         angry.score = angry.score * 2;
                         return data;
                     }
                 ]
             );
             
-            const dataMock = [{emotion: emotions[1], score: 0.5}];
-            var expected = [{emotion: emotions[1], score: 1}];
+            const dataMock = [{emotion: <emotion>"angry", score: 0.5}];
+            var expected = [{emotion: <emotion>"angry", score: 1}];
 
             var result = target.execute(dataMock);            
             expect(result).toEqual(expected)

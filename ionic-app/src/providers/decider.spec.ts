@@ -1,6 +1,6 @@
 import { EmotionScore, emotion } from './classes/EmotionScore';
 import { CausalityRule } from './classes/CausalityRule';
-import { IndicatorScore, indicators } from './classes/IndicatorScore';
+import { IndicatorScore, indicators, indicator } from './classes/IndicatorScore';
 import { Decider } from './decider';
 import { Create } from '../namespaces/create.namespace';
 
@@ -29,17 +29,17 @@ describe("Decider", () => {
             const target = new Decider();
             const mockNow = new Date(); 
             const expected = [{timestamp: mockNow, emotionScores: [
-                {emotion: "happy", score: 0},
-                {emotion: "angry", score: 20},
-                {emotion: "sad", score: 0},
-                {emotion: "suprised", score: 0}
+                {emotion: <emotion>"happy", score: 0},
+                {emotion: <emotion>"angry", score: 20},
+                {emotion: <emotion>"sad", score: 0},
+                {emotion: <emotion>"suprised", score: 0}
             ]}];
 
             const rule = new CausalityRule(
                 (indicatorScore : IndicatorScore) => {
-                    return indicatorScore.indicator == "stress" && indicatorScore.score >= 0.5;
+                    return indicatorScore.indicator == <indicator>"stress" && indicatorScore.score >= 0.5;
                 }, [(data: EmotionScore[]) => {
-                    var angry = data.find((element)=>{return element.emotion == "angry"});
+                    var angry = data.find((element)=>{return element.emotion == <emotion>"angry"});
                     angry.score = angry.score + 20;
                     return data;
                 }]
@@ -48,7 +48,7 @@ describe("Decider", () => {
             target.causalityRules.push(rule);
             target.getTimeStamp = () => mockNow;
             target.data = [
-                {timestamp: mockNow, indicators: [{indicator: "stress", score: 0.5}]}
+                {timestamp: mockNow, indicators: [{indicator: <indicator>"stress", score: 0.5}]}
             ];
 
             target.decide();
