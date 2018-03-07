@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 
 import { KeyboardScannerPage } from './../keyboard-scanner/keyboard-scanner';
 import { Decider } from '../../providers/decider';
+import { GsrPage } from '../gsr/gsr';
 
 @Component({
   selector: 'page-home',
@@ -15,7 +16,8 @@ export class HomePage {
   constructor(public navCtrl: NavController, public decider: Decider) {
     this.tests = [
       {name: "Keyboard Scanner", component: KeyboardScannerPage},
-      {name: "Test", component: HomePage}
+      {name: "Test", component: HomePage},
+      {name: "GSR", component: GsrPage}
     ];
   }
   
