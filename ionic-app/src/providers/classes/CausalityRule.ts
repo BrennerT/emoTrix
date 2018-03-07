@@ -1,14 +1,16 @@
+import { ScoreTransformation, Condition } from './CausalityRule';
 import { EmotionScore } from './EmotionScore';
 import { IndicatorScore } from './IndicatorScore';
+
+export type Condition = (indicatorA: IndicatorScore, indicatorB?: IndicatorScore) => boolean;
+export type ScoreTransformation = (emotionScores: EmotionScore[]) => EmotionScore[];
+
 export class CausalityRule {
 
-    condition: (indicatorA: IndicatorScore, indicatorB?: IndicatorScore) => boolean;
-    effects: Array<(emotionScores: EmotionScore[]) => EmotionScore[]>;
-
-    constructor(condition, effects){
-        this.condition = condition;
-        this.effects = effects;
-    }
+    constructor(
+        private condition : Condition,
+        private effects : ScoreTransformation[]
+    ) {}
 
     public execute(data : Array<EmotionScore>) {
         if(this.condition){
