@@ -1,4 +1,15 @@
 page-gsr {
-    
-    
+    ion-card-header {
+        font-weight: bold;
+    }
+    ion-slide.swiper-slide {
+        align-items: flex-start;
+    }
+
+    .chart-container {
+        position: relative;
+        margin: auto;
+        height: 47vh !important;
+      }
+
 }
