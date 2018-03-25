@@ -1,3 +1,4 @@
+import { CameraPage } from './../camera/camera';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
@@ -17,7 +18,8 @@ export class HomePage {
     this.tests = [
       {name: "Keyboard Scanner", component: KeyboardScannerPage},
       {name: "Test", component: HomePage},
-      {name: "GSR", component: GsrPage}
+      {name: "GSR", component: GsrPage},
+      {name: "Camera", component: CameraPage}
     ];
   }
   

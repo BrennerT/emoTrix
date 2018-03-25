@@ -38,8 +38,8 @@ describe('MyApp Component', () => {
     expect(component instanceof MyApp).toBe(true);
   });
 
-  it('should have two pages', () => {
-    expect(component.pages.length).toBe(3);
+  it('should have four pages', () => {
+    expect(component.pages.length).toBe(4);
   });
 
   it('true should be true', () => {
