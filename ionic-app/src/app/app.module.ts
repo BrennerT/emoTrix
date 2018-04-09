@@ -1,3 +1,4 @@
+import { CameraPage } from './../pages/camera/camera';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -11,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Decider } from '../providers/decider';
+import { Camera } from '@ionic-native/camera';
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { Decider } from '../providers/decider';
     MyApp,
     HomePage,
     KeyboardScannerPage,
-    GsrPage
+    GsrPage,
+    CameraPage
   ],
   imports: [
     BrowserModule,
@@ -29,12 +32,14 @@ import { Decider } from '../providers/decider';
     MyApp,
     HomePage,
     KeyboardScannerPage,
-    GsrPage
+    GsrPage,
+    CameraPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Decider,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
