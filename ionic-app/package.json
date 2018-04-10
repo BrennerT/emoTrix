@@ -27,12 +27,12 @@
         "@ionic-native/bluetooth-serial": "^4.5.3",
         "@ionic-native/camera": "^4.6.0",
         "@ionic-native/core": "4.5.3",
-        "@ionic-native/keyboard": "^4.5.3",
+        "@ionic-native/keyboard": "^4.6.0",
         "@ionic-native/splash-screen": "4.5.3",
         "@ionic-native/status-bar": "4.5.3",
         "@ionic/storage": "2.0.1",
         "chart.js": "^2.7.2",
-        "cordova-android": "^6.2.3",
+        "cordova-android": "7.0.0",
         "cordova-plugin-bluetooth-serial": "^0.4.7",
         "cordova-plugin-device": "^2.0.1",
         "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -80,8 +80,6 @@
             "cordova-plugin-whitelist": {},
             "cordova-plugin-camera": {}
         },
-        "platforms": [
-            "android"
-        ]
+        "platforms": []
     }
 }
