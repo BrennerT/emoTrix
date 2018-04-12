@@ -1,3 +1,4 @@
+import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -26,18 +27,31 @@ export class CameraPage {
       destinationType: this.camera.DestinationType.FILE_URI,
   }
 
-  constructor(private camera: Camera) {
+  constructor(private camera: Camera, private mediaCapture: MediaCapture) {
   }
 
-  makeTest(){
-    this.camera.getPicture(this.cameraOptions).then((imageUri) => {
-      // set src of img to new image uri
-      this.latestPicture = imageUri;
-    }, (err) => {
-      // TODO: Handle Error
-      console.log("error");
-      console.log(err);
-    })
+  makeTest(video : boolean = false){
+    if(video){
+      console.log("will do video");
+      this.mediaCapture.captureVideo().then((data: MediaFile[]) => {
+        console.log("getting data");
+        console.log(data);
+      },
+      (err: CaptureError) => {
+        console.log("Error");
+        console.log(err);
+      });    
+    } else {
+      this.camera.getPicture(this.cameraOptions).then((imageUri) => {
+        // set src of img to new image uri
+        this.latestPicture = imageUri;
+      }, (err) => {
+        // TODO: Handle Error
+        console.log("error");
+        console.log(err);
+      })
+    }
+    
   }
 
 }

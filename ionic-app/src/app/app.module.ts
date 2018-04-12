@@ -13,7 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Decider } from '../providers/decider';
 import { Camera } from '@ionic-native/camera';
-
+import { MediaCapture } from '@ionic-native/media-capture';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { Camera } from '@ionic-native/camera';
     SplashScreen,
     Decider,
     Camera,
+    MediaCapture,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
