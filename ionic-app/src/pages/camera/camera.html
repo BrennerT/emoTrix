@@ -13,6 +13,8 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button (click)="makeTest(true)">Make Test</button>
+  <button ion-button (click)="makeTest()">Make Picture</button>
   <img [src]="latestPicture" *ngIf="latestPicture">
+  <button ion-button (click)="makeTest(true)">Make Video</button>
+  <video [src]="latestVideo" *ngIf="latestVideo" autoplay="autoplay" loop="loop" width="100px" height="100px"></video>
 </ion-content>

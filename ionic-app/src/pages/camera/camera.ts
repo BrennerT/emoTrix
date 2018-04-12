@@ -19,6 +19,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 export class CameraPage {
 
   latestPicture: String;
+  latestVideo: String;
 
   cameraOptions : CameraOptions = {
       // we want high quality, make emotrix great again
@@ -35,7 +36,8 @@ export class CameraPage {
       console.log("will do video");
       this.mediaCapture.captureVideo().then((data: MediaFile[]) => {
         console.log("getting data");
-        console.log(data);
+        console.log(data[0].fullPath);
+        this.latestVideo = data[0].fullPath;
       },
       (err: CaptureError) => {
         console.log("Error");
