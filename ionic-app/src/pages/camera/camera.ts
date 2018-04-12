@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import { Camera } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 /**
  * Generated class for the CameraPage page.
@@ -17,24 +17,26 @@ import { Camera } from '@ionic-native/camera';
 })
 export class CameraPage {
 
+  latestPicture: String;
+
+  cameraOptions : CameraOptions = {
+      // we want high quality, make emotrix great again
+      quality: 100,
+      //Picture will be saved and URI will be returned
+      destinationType: this.camera.DestinationType.FILE_URI,
+  }
+
   constructor(private camera: Camera) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CameraPage');
-  }
-
   makeTest(){
-    console.log(this.camera.getPicture());
-    this.camera.getPicture({
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }).then((imageData) => {
-      console.log(imageData);
+    this.camera.getPicture(this.cameraOptions).then((imageUri) => {
+      // set src of img to new image uri
+      this.latestPicture = imageUri;
     }, (err) => {
       // TODO: Handle Error
+      console.log("error");
+      console.log(err);
     })
   }
 
