@@ -13,6 +13,18 @@
 \addbibresource{Studienarbeit.bib}
 \usepackage{setspace}
 
+\makeatletter
+\newcommand{\sectionauthor}[1]{%
+	\begin{flushright}
+			{\parindent0pt\vspace*{-33pt}%
+			\linespread{1.1}\large\scshape#1%
+			\par\nobreak\vspace*{5pt}}
+		%Inhalt...
+	\end{flushright}
+}
+\makeatother
+
+
 \begin{document}
 \begin{titlepage}
 	\begin{figure}
@@ -46,6 +58,7 @@
 \pagenumbering{arabic}
 \onehalfspacing
 \section{Einleitung}
+\sectionauthor{Torben Brenner}
 Das ist unsere Studienarbeit. \footcite[Vgl.][S. 9000]{Test123}
 Das Ziel dieser Studienarbeit ist es, Möglichkeiten zu erkunden, mit Smartphones Emotionen zu erfassen. 
 Dabei werden in das Smartphone integrierte Sensoren, über zusätzliche Hardware angeschlossene Sensoren und die Interaktion des 
