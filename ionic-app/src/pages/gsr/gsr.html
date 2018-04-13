@@ -13,15 +13,15 @@
     <!--Slide 1-->
     <ion-slide>
       <ion-list padding>
-        <button ion-button block (click)="startScanning()">scan</button>
+        <button ion-button block (click)="disconnect()">Disconnect</button>
         <ion-list-header>
           Paired Devices
         </ion-list-header>
         <ion-item *ngFor="let p of pairedDevices">
           <span (click)="selectDevice(p.device.address)">{{p.device.name}} - {{p.device.address}}</span>
-          <ion-icon [ngClass]='p.connected' name="checkmark" item-right></ion-icon>
+          <ion-icon [ngClass]='p.status' name="checkmark" item-right></ion-icon>
         </ion-item>
-        <button ion-button block (click)="disconnect()">Disconnect</button>
+        <button ion-button block (click)="startScanning()">scan</button>
         <ion-list-header>
           Available Devices
         </ion-list-header>

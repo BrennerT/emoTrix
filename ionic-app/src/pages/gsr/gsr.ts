@@ -3,7 +3,6 @@ import { NavController, AlertController } from 'ionic-angular';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js';
-import $ from 'jquery';
 
 @Component({
   selector: 'page-gsr',
@@ -72,7 +71,7 @@ export class GsrPage {
       let hc05s = [];
       successfulPairing.forEach(element => {
         if(element.name === "HC-05"){
-          hc05s.push({connected: "disconnected", device: element});
+          hc05s.push({status: "disconnected", device: element});
           console.log(element);
         };
         this.pairedDevices = hc05s;
@@ -107,7 +106,6 @@ export class GsrPage {
       });
   }
 
-  success = (data) => alert("Success: " + data);
   fail = (error) => alert("Error: " + error);
 
   selectDevice(address: any) {
@@ -126,11 +124,20 @@ export class GsrPage {
         {
           text: 'Connect',
           handler: () => {
-            var found = this.pairedDevices.find(function(element) {
-              return element.device.address.equals(address);
-            });
             console.log(address);
-            this.bluetoothSerial.connect(address).subscribe(this.success,this.fail);
+            var found = self.pairedDevices.find(function(element) {
+              return element.device.address === address;
+            });
+            this.bluetoothSerial.connect(address).subscribe((data) => {
+              found.status = "connected";
+              self.cdr.detectChanges();
+              console.log("Connection successful: " + data)
+            }
+              ,(error) => {
+                found.status = "disconnected";
+                self.cdr.detectChanges();
+                console.log(error);
+              });
             self.bluetoothSerial.subscribe(";").subscribe(
               function (data){
                 self.value = data.substring(0,data.length - 1);
@@ -141,7 +148,7 @@ export class GsrPage {
                 self.cdr.detectChanges();
             }, function (error){
                 console.log(error);
-            }) 
+            });
           }
         }
       ]
@@ -167,6 +174,7 @@ export class GsrPage {
 }
 
   disconnect() {
+    var self = this;
     let alert = this.alertCtrl.create({
       title: 'Disconnect?',
       message: 'Do you want to Disconnect?',
@@ -181,7 +189,15 @@ export class GsrPage {
         {
           text: 'Disconnect',
           handler: () => {
-            this.bluetoothSerial.disconnect().then(this.success,this.fail);
+            this.bluetoothSerial.disconnect().then(
+              (data) => {
+                var found = self.pairedDevices.find(function(element) {
+                  return element.status === "connected";
+                });
+                found.status = "disconnected";
+                console.log("Sucessfully disconnected: "+ found.device.address + " "+ data);
+              },
+              this.fail);    
           }
         }
       ]
