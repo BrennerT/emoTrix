@@ -17,17 +17,17 @@
         <ion-list-header>
           Paired Devices
         </ion-list-header>
-        <button ion-item *ngFor="let device of pairedDevices">
-          <ion-label >{{device.name}} : {{device.address}}</ion-label>
-          <ion-checkbox (click)="selectDevice(device.address)"></ion-checkbox>
-        </button>
+        <ion-item *ngFor="let p of pairedDevices">
+          <span (click)="selectDevice(p.device.address)">{{p.device.name}} - {{p.device.address}}</span>
+          <ion-icon [ngClass]='p.connected' name="checkmark" item-right></ion-icon>
+        </ion-item>
         <button ion-button block (click)="disconnect()">Disconnect</button>
         <ion-list-header>
           Available Devices
         </ion-list-header>
         <ion-item *ngFor='let device of unpairedDevices'>
           <span (click)="selectDevice(device.address)">
-            {{device.name}} : {{device.address}}
+            {{device.name}} - {{device.address}}
           </span>
         </ion-item>
 

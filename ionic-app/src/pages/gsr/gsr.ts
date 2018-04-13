@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js';
+import $ from 'jquery';
 
 @Component({
   selector: 'page-gsr',
@@ -18,7 +19,6 @@ export class GsrPage {
   pairedDevices: any;
   gettingDevices: Boolean;
   stop: Boolean;
-  hc05s: Array<any>;
   lineChart: any;
   time: any;
   model: any;
@@ -69,30 +69,37 @@ export class GsrPage {
 
   listPairings(){
     this.bluetoothSerial.list().then((successfulPairing) => {
-      this.pairedDevices = successfulPairing;
+      let hc05s = [];
+      successfulPairing.forEach(element => {
+        if(element.name === "HC-05"){
+          hc05s.push({connected: "disconnected", device: element});
+          console.log(element);
+        };
+        this.pairedDevices = hc05s;
+      })
     },
     (err) => {
       console.log(err);
     });
+
+    
   }
 
   /* Slide 1 - Find, Connect, Disconnect */
   startScanning() {
-    this.pairedDevices = null;
     this.unpairedDevices = null;
-    this.hc05s = [];
 
     this.gettingDevices = true;
     this.bluetoothSerial.discoverUnpaired().then((success) => {
         
         this.gettingDevices = false;
+        let hc05s = [];
         success.forEach(element => {
           if(element.name === "HC-05"){
-            this.hc05s.push(element);
-            console.log(element)
-          }
-          ;
-          this.unpairedDevices = this.hc05s;
+            hc05s.push(element);
+            console.log(element);
+          };
+          this.unpairedDevices = hc05s;
         });
       },
       (err) => {
@@ -100,8 +107,8 @@ export class GsrPage {
       });
   }
 
-  success = (data) => alert(data);
-  fail = (error) => alert(error);
+  success = (data) => alert("Success: " + data);
+  fail = (error) => alert("Error: " + error);
 
   selectDevice(address: any) {
     var self = this;
@@ -119,13 +126,16 @@ export class GsrPage {
         {
           text: 'Connect',
           handler: () => {
+            var found = this.pairedDevices.find(function(element) {
+              return element.device.address.equals(address);
+            });
             console.log(address);
             this.bluetoothSerial.connect(address).subscribe(this.success,this.fail);
             self.bluetoothSerial.subscribe(";").subscribe(
               function (data){
                 self.value = data.substring(0,data.length - 1);
                 if(self.time%10 == 0){
-                self.addData(self.lineChart,self.time, self.value);
+                  self.addData(self.lineChart,self.time, self.value);
                 }
                 self.time++;
                 self.cdr.detectChanges();
@@ -171,7 +181,7 @@ export class GsrPage {
         {
           text: 'Disconnect',
           handler: () => {
-            this.bluetoothSerial.disconnect();
+            this.bluetoothSerial.disconnect().then(this.success,this.fail);
           }
         }
       ]
