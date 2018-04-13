@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.9)  12 APR 2018 19:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.9)  13 APR 2018 09:17
 entering extended mode
 **d:/Dokumente/DHBW/Studienarbeit/emoTrix/script/Studienarbeit.tex
 (d:/Dokumente/DHBW/Studienarbeit/emoTrix/script/Studienarbeit.tex
@@ -872,12 +872,6 @@ Overfull \hbox (14.58952pt too wide) in paragraph at lines 13--18
 ng von Emo-tio-nen besch[]aftigen
  []
 
-
-Overfull \hbox (14.90022pt too wide) in paragraph at lines 13--18
-\OT1/cmr/m/it/12 deut-sam wahr-ge-nom-me-ne Si-tua-ti-on"\OT1/cmr/m/n/12 [Sch13
-, S.51 Z.20ff]. Das Mus-ter um-fasst laut Schwarzer-
- []
-
 <Bilder/sensor.jpg, id=27, 702.625pt x 526.96875pt>
 File: Bilder/sensor.jpg Graphic file (type jpg)
 <use Bilder/sensor.jpg>
@@ -906,10 +900,10 @@ Package logreq Info: Writing requests to 'Studienarbeit.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 10393 strings out of 493312
- 173686 string characters out of 3138871
+ 10387 strings out of 493312
+ 173599 string characters out of 3138871
  443164 words of memory out of 3000000
- 13747 multiletter control sequences out of 15000+200000
+ 13741 multiletter control sequences out of 15000+200000
  13696 words of font info for 53 fonts, out of 3000000 for 9000
  1145 hyphenation exceptions out of 8191
  41i,8n,45p,978b,1648s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -921,7 +915,7 @@ nts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
 /public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
 sfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
 cmti12.pfb>
-Output written on Studienarbeit.pdf (14 pages, 303852 bytes).
+Output written on Studienarbeit.pdf (14 pages, 306141 bytes).
 PDF statistics:
  85 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
