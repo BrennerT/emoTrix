@@ -1,20 +1,25 @@
 \section{Theoretische Grundlagen}
 \subsection{Biometrie}
-\sectionauthor{Torben Brenner}
-Bei der Biometrie handelt es sich um eine Wissenschaft, welche sich mit der Vermessung von biologischen Merkmalen beschäftigt. \newline
-Die Ergebnisse dieser Messungen können dann dazu verwendet werden, Individuen zu beschreiben und zu identifizieren. Dieser Bereich der Biometrie wird auch als \textit{biometrische Erkennungsverfahren} beschrieben. Eine andere Facette der Biometrie, die \textit{biometrische Statistik},beschäftigt sich mit der Auswertung der erfassten Daten um diese zur Analyse zu nutzen.\newline
-Mit der biometrischen Statistik, werden wir uns in dieser Studienarbeit beschäftigen, um die Merkmale, die mittels Smartphone erfasst werden, auszuwerten und damit Rückschlüsse auf die Emotionen eines Menschen zu ermöglichen.
+\subsectionauthor{Torben Brenner}
+Bei der Biometrie handelt es sich um eine Wissenschaft, welche sich mit der Vermessung von biologischen Merkmalen beschäftigt.\newline
+Die Ergebnisse dieser Messungen können dann dazu verwendet werden, Individuen zu beschreiben und zu identifizieren. Dieser Bereich 
+der Biometrie wird auch als \textit{biometrische Erkennungsverfahren} beschrieben. Eine andere Facette der Biometrie, die \textit{biometrische Statistik},
+beschäftigt sich mit der Auswertung der erfassten Daten um diese zur Analyse zu nutzen.\newline
+Mit der biometrischen Statistik, werden wir uns in dieser Studienarbeit beschäftigen, um die Merkmale, die mittels 
+Smartphone erfasst werden, auszuwerten und damit Rückschlüsse auf die Emotionen eines Menschen zu ermöglichen.
 \subsection{Smartphone}
 \sectionauthor{Torben Brenner}
 Ein Smartphone differenziert sich durch mehrere Aspekte von einem herkömmlichen Telefon. Der erste Unterschied, so wie alten mobil Telefonen, ist das Telefonieren ohne direkten Kabelanschluss an das Netz oder zusätzliche Basisstation.\newline 
 Wodurch es sich aber von den eben genannten mobil Telefonen unterscheidet, ist die Leistungsfähigkeit der einzelnen Komponenten. So besitzen heutige Smartphones häufig Prozessoren mit Acht Kernen und Leistungen ab 1,7 GHz pro Kern. Neben der Leistungsfähigkeit des Prozessors ist auch die Menge des verbauten Hauptspeichers gewachsen. Die wenigsten Smartphones besitzen heute noch weniger als 2 Gigabyte Arbeitsspeicher. Diese stärkeren Komponenten ermöglichen das ausführen komplexer Anwendungen und außerdem Multitasking. Das lässt beim Vergleich mit der Definiton eines Computers es auch zu, zu behaupten das Smartphones ebenfalls Computer sind. \textbf{TODO: das hier mit quellen und bezug auf die beiden definitionen}\newline
 Der Hauptunterschied ist aber die Menge der verbauten Sensoren. Wie Kai Biermann auf Zeit Online schreibt, ermöglichen diese es einem Smartphone zu sehen, fühlen und hören \footcite[Vgl.][S. 1 Abs. 2]{Bie14}. In diesem Artikel beschreibt Biermann die enormen Möglichkeiten die diese Sensoren ermöglichen. So ermöglicht ein Smartphone die Navigation per Positionsbestimmung, das Mikrofon das hören und die Handykamera ermöglicht dem Smartphone das sehen. Gerade weil Smartphone Kameras immer besser werden sind die Möglichkeiten zur Gesichtserkennung deutlich gestiegen, wie zuletzt Apple mit dem IPhone X zeigte, das Emotionen über die Kamera erkennt und diese auf die sogenannten Animojis überträgt. \textbf{TODO: Finde Quelle für diese Aussage} 
 \subsection{Was sind Emotionen?}
-\sectionauthor{Torben Brenner}
-Da wir uns in dieser Arbeit primär mit der Erkennung von Emotionen beschäftigen wollen, ist es wichtig den Begriff Emotion zu definieren.\newline
-Schwarzer-Petruck beschreibt in ihrem Werk Emotionen und pädagogische Professionalität eine Emotion als \textit{``ein komplexes Muster körperlicher und mentaler Veränderungen als Antwort auf eine als persönlich bedeutsam wahrgenommene Situation''}\footcite[S.51 Z.20ff]{Sch13}.Das Muster umfasst laut Schwarzer-Petruck die Aspekte des kognitiven Prozess, die Gefühle, eine Verhaltensreaktion und eine physiologische Erregung.
+\subsectionauthor{Torben Brenner}
+Da wir uns in dieser Arbeit primär mit der Erkennung von Emotionen beschäftigen wollen, ist es wichtig den Begriff Emotion zu definieren.
+Schwarzer-Petruck beschreibt in ihrem Werk Emotionen und pädagogische Professionalität eine Emotion als \textit{``ein komplexes
+Muster körperlicher und mentaler Veränderungen als Antwort auf eine als persönlich bedeutsam wahrgenommene Situation''}\footcite[S.51 Z.20ff]{Sch13}.
+Das Muster umfasst laut Schwarzer-Petruck die Aspekte des kognitiven Prozess, die Gefühle, eine Verhaltensreaktion und eine physiologische Erregung.
 \subsection{Grundlagen der Emotionserkennung}
-\sectionauthor{Torben Brenner}
+\subsectionauthor{Torben Brenner}
 Nach dem nun geklärt ist was unter einer Emotion verstanden wird, stellt sich die Frage wie man diese erkennen kann. Das Problem hierbei ist, dass es eine große Anzahl an Emotionen gibt, laut Hokuma\footcite[Vgl.][Absch. 1]{Hok17} sind es 34.000 unterschiedliche Emotionen. Diese verschiedenen Emotionen lassen sich nur schwer erfassen und unterscheiden, weshalb ein Weg gefunden werden muss die Emotionen einzuteilen. Diese Einteilung wurde bereits von Robert Plutchick vorgenommen und herausgekommen sind dabei acht primäre Emotionen: Freude, Traurigkeit, Akzeptanz, Ekel, Angst, Wut, Überraschung und Erwartung.\newline
 Mit diesen acht Emotionen hat Plutchick das Rad der Emotionen gebildet(siehe Abbildung).
 \begin{figure}[h]
@@ -28,7 +33,7 @@ Das Rad stellt die primären Emotionen dabei in Relation, wobei die Kombinatione
 In der Literatur gibt es neben dem Model von Plutchick auch das \textit{Gevena Emotion Wheel}. Dieses Modell betrachtet die Emotionen nicht in acht primären Hauptkategorien, sondern unterscheidet zwischen 20 Emotionen anhand von zwei Parametern, die Valenz und die Kontrolle. Die Kontrolle bezeichnet, wie stark Individuum eine Situation kontrollieren kann. Die Valenz sagt aus ob eine Situation für das Individuum eher angenehm oder unangenehm ist.\newline 
 Beide Modelle können dafür genutzt werden um Emotionen auszuwerten, wobei hier zu diskutieren ist welches Modell besser geeignet ist.
 \subsection{Umgang mit biometrischen Daten}
-\sectionauthor{Torben Brenner}
+\subsectionauthor{Torben Brenner}
 Eine Problematik, mit der wir uns in dieser Arbeit beschäftigen müssen, ist der Umstand das biometrische Daten nicht immer einen direkten Schluss auf einen Emotion zulassen. So lässt ein hochfrequenter Puls keinen direkten Schluss auf die Emotion zu die ein Individuum gerade empfindet. Er kann maximal ein Indiz für verschiedene Emotionen sein, z. Bsp. Wut oder Angst. Um mit diesem Umstand umzugehen benötigen wir zwei neue Begriffe die im folgenden genauer erläutert werden. 
 \subsubsection{Indiz}
 Ein Indiz ist im allgemeinen Sprachgebrauch ein Anzeichen für einen Umstand, an dem sich ein Zustand oder eine Entwicklung absehen lässt\footcite[Vgl.][]{Dud18}. In unserer Arbeit, sehen wir Daten die wir von den Sensoren bekommen, als Indizien an. Ein Indiz macht es wahrscheinlicher bzw. unwahrscheinlicher das ein Individuum eine bestimmte Emotion verspürt. 
@@ -45,7 +50,7 @@ Ein Werkzeug um kausale Zusammenhänge darzustellen ist in der Literatur der Kau
 Die Grafik zeigt ein fiktives Beispiel für einen kausalen Graphen. In diesem Beispiel von Thoemmes wird dargestellt das Bindungsstil, Geschlecht, Stressoren und Gene Einfluss auf Depressionen haben. Wichtig ist, dass alle Annahmen die in einem solchen Graph gemacht werden theoretisch begründet werden müssen. Ist dies nicht der Fall, dürfen sie kritisiert und infrage gestellt werden \footcite[Vgl. ][S.3 Kausale Graphen - DAGs]{Tho11}.
 \subsection{Welche Möglichkeiten gibt es?}
 \subsubsection{Nutzerinteraktionen}
-\sectionauthor{Torben Brenner}
+\subsubsectionauthor{Torben Brenner}
 Im Laufe des Alltags verwenden Nutzer ihr Smartphone sehr häufig. Dabei können unteranderem Aspekte wie das Tippverhalte, 
 z. Bsp. verwendet der User viele Smileys, Rückschlüsse auf den emotionalen Zustand eines Nutzers ermöglichen.
 \subsubsection{Im Smartphone eingebaute Sensoren}
