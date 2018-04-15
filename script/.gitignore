@@ -1,3 +1,5 @@
 # Ignore dist directory
+Studienarbeit.pdf
+Studienarbeit.synctex.gz
 Studienarbeit.run.xml
 dist/
