@@ -39,10 +39,14 @@ export class CameraComponent {
   }
 
   /**
-   * Depending on the used mode of this component, the method will either return a 
-   * String URI to the path of a picture or video taken by the user.
-   * pictureMode false -> videoUri
-   * pictureMode true -> imageUri
+   * Depending on the used mode of this component, the method will either set latestPicture or LatestVideo
+   * Variable. 
+   * pictureMode false -> latestVideo = videoUri
+   * pictureMode true -> latestImage = image data in base 64 encoding and jpeg format
+   * 
+   * The reason for the use of two different ways to return the data, is that returning the picture 
+   * in base64 enables ionic livereload function for debugging. Videos can only be returned as URI, so 
+   * for Videos the livereload is not possible.
    */
   useCamera(){
     if(this.pictureMode){
@@ -59,7 +63,7 @@ export class CameraComponent {
       console.log("create a video");
       this.mediaCapture.captureVideo().then((data: MediaFile[]) => {
         console.log("receiving video data");
-        console.log(data[0].fullPath);
+        console.log("")
         this.latestVideo = data[0].fullPath;
       },
       (err: CaptureError) => {
