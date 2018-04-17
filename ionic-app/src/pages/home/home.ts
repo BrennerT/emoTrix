@@ -1,10 +1,10 @@
-import { CameraPage } from './../camera/camera';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { KeyboardScannerPage } from './../keyboard-scanner/keyboard-scanner';
 import { Decider } from '../../providers/decider';
 import { GsrPage } from '../gsr/gsr';
+import { PulsPage } from './../puls/puls';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +19,7 @@ export class HomePage {
       {name: "Keyboard Scanner", component: KeyboardScannerPage},
       {name: "Test", component: HomePage},
       {name: "GSR", component: GsrPage},
-      {name: "Camera", component: CameraPage}
+      {name: "Puls", component: PulsPage}
     ];
   }
   

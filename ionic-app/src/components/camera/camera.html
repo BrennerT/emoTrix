@@ -1,4 +1,7 @@
 <!-- Generated template for the CameraComponent component -->
 <div>
-  {{text}}
+    <button ion-button (click)="useCamera()"> Use Camera </button>
+    <img [src]="latestPicture" item-width="100px" item-height="100px" *ngIf="latestPicture"/>
+    <video [src]="latestVideo" width="200px" height="200px" *ngIf="latestVideo" 
+            loop="loop" autoplay="autoplay"></video>
 </div>

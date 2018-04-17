@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { KeyboardScannerPage } from '../pages/keyboard-scanner/keyboard-scanner';
 import { GsrPage } from '../pages/gsr/gsr';
-import { CameraPage } from './../pages/camera/camera';
+import { PulsPage } from './../pages/puls/puls';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,7 +26,7 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'KeyboardScanner', component: KeyboardScannerPage},
       { title: 'GSR', component: GsrPage},
-      { title: 'Camera', component: CameraPage}
+      { title: 'Puls', component: PulsPage}
     ];
 
   }

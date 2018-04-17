@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { CameraComponent } from './../../components/camera/camera';
+
 /**
  * Generated class for the PulsPage page.
  *
@@ -8,7 +10,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * on Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-puls',
   templateUrl: 'puls.html',
