@@ -79,13 +79,22 @@ Der Hauptunterschied ist aber die Menge der verbauten Sensoren. Wie Kai Biermann
 Wie bereits erwähnt, sind in Smartphones sehr viele unterschiedliche Sensoren verbaut. Diese ermöglichen es dem Smartphone den Zustand seiner Umwelt zu erfassen und somit auch Informationen über den Nutzer in Form von Daten zu erhalten. \newline
 So gibt es aktuell so gut wie keine Smartphones mehr, die ohne einen Kamera oder Gyrosensor auf den Markt kommen. Die Kamera, kann z. Bsp. zum analysieren der Gesichtsgeometrie einer Person verwendet werden. Der Gyrosensor bietet verschiedene Möglichkeiten Informationen über eine Person zu erfassen, so könnte er zum einen zur Erfassung des Gangstils (engl. \textit{automatic gait recognition}) verwendet werden oder unterstützend bei der Analyse des Tippverhaltens wirken. So könnte analysiert werden, mit welcher Stärke ein Nutzer seine Nachrichten eingibt was unter anderem ein Indiz für Aggression, also Wut wäre. 
 \subsubsection{Sensoren}
-\subsubsectionauthor{Torben Brenner}
-Sensoren dienen zur Erfassung eines physikalischen Zustandes und der Transformation dieses Zustandes in einen Impuls der verarbeitet werden kann\footcite[Vgl.][]{Web18}. In der Computertechnik, dienen Sensoren häufig dazu, den physikalischen Zustand verständlich für einen Computer zu machen, in dem dieser in einen Datensatz umgewandelt wird.  
+\subsubsectionauthor{Torben Brenner \& Lukas Seemann}
+Sensoren dienen zur Erfassung eines physikalischen Zustandes und der Transformation dieses Zustandes in einen Impuls der verarbeitet werden kann\footcite[Vgl.][]{Web18}. In der Computertechnik, dienen Sensoren häufig dazu, den physikalischen Zustand verständlich für einen Computer zu machen, in dem dieser in einen Datensatz umgewandelt wird. \newline 
 %Ursprünglich aus anderem Kapitel hizugefügt
-Im Rahmen des Projektes wird die Möglichkeit erforscht, mit Hilfe eines Arduinos die Hautleitfähigkeit aufzuzeichnen. 
-Diese ist ein großer Faktor bei der Bestimmung von Emotionen und wird unteranderem auch in Lügendetektoren verwendet. 
+Die bereits in Kapitel 2.4.2 beschriebene elektrodermale Aktivität kann mithilfe von EDA-Sensoren gemessen werden. Diese Art von Sensoren sind üblicherweise nicht in Smartphones eingebaut, weswegen die Hautleitfähigkeit mit externer Hardware gemessen werden muss. \newline
+Die für heute eher unübliche Messungsart der elektrodermalen Aktivität stellt die endosomatische Messung dar. Indem winizige Elektroden in die Haut eingestochen werden, kann die Aktivität der Nerven in der Haut gemessen werden. \footcite[Vgl.][Folie 25]{Sch12} Hierbei handelt es sich jedoch nicht um eine Messung der Hauteleitfähigkeit sondern um eine Messung des Hautpotenzials. \newline
+Bei der exosomatischen Messung hingegen wird ein schwacher Strom von ungefähr 0.5 Volt an die Haut angelegt. Die Spannung wird hierbei konstant gehalten, wodurch die Leitfähigkeit der Haut gemessen werden kann. Hierbei gemessen wird entweder in der Einheit Siemens für den elektrischen Leitwert oder in Ohm für den Widerstand. Die Elektroden des Sensor sind meistens aus Silber oder Silberchlorid und werden meist an zwei Stellen der nicht dominanten Hand angebracht. \footcite[Vgl.][Folie 25]{Sch12} Wie in Abbildung ? dargestellt gibt es verschiedenen Möglichkeiten der Handinnenfläche, die gut geeignet sind, (\#1, \#2 oder \#3). \newline 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=11cm]{Bilder/sensor.jpg}
-	\caption{Das ist ein cooler GSR Sensor}
+	\includegraphics[width=12cm]{Bilder/gsr-hand.jpg}
+	\caption[Positionsmöglichkeiten der EDA-Messung]{Positionsmöglichkeiten der EDA-Messung\footnotemark}
+\end{figure}\footcitetext[][Folie 25]{Sch12}
+\newline
+Diese Art von Sensoren sind die heutzutage übliche Vorgehensweise bei EDA-Messungen. Häufig sind sie auch unter dem Namen GSR-Sensor\footnote{GSR: Galvanic Skin Response} bekannt und darunter im Internet erhältlich. GSR-Sensoren sind als Modul für den Mikrocontroller Arduino verfügbar.\footcite[beispielsweise:][]{Gro18} Dies stellt eine Möglichkeit dar, einem mobilen Endgerät die Sensordaten zum Beispiel über Bluetooth oder WiFi zur Verfügung zu stellen. In Abbildung ? ist ein GSR-Sensor inklusive der Elektroden für die Fingerinnenseiten, der mit Arduinos kompatibel ist, abgebildet.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=15cm]{Bilder/sensor.jpg}
+	\caption[GSR-Sensor mit Finger-Elektroden]{GSR-Sensor mit Finger-Elektroden\footnotemark}
 \end{figure}%
+\footcitetext{Gro18}
