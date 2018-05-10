@@ -4,7 +4,7 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import { GSRSensor } from '../../providers/sensors/GSRSensor';
-
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'page-gsr',
   templateUrl: 'gsr.html',
@@ -22,7 +22,9 @@ export class GsrPage {
   lineChart: any;
   time: any;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private bluetoothSerial: BluetoothSerial, private cdr: ChangeDetectorRef, public GsrSensor: GSRSensor ){
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
+              private bluetoothSerial: BluetoothSerial, private cdr: ChangeDetectorRef, public GsrSensor: GSRSensor,
+              public storage: Storage ){
     this.value= 1;
     this.oldValue = 1;
     bluetoothSerial.enable();
@@ -235,6 +237,7 @@ export class GsrPage {
     .catch((e) => {
     console.log(e);
     });
+    this.setStatus(true);
   }
 
   resetGraph(){
@@ -242,6 +245,16 @@ export class GsrPage {
     this.lineChart.data.datasets[0].data= [];
     this.time = 0;
     this.lineChart.update();
+    this.setStatus(false);
+  }
+
+  setStatus(done: boolean){
+    this.storage.get("testStatus").then(data =>{if(data){
+      var status = data;
+      status.gsr = done;
+      this.storage.set("testStatus", status);
+    } else {alert("No data found")}  
+    });
   }
 
   /* Slide 4 */

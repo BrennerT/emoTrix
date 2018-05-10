@@ -11,10 +11,11 @@
   <h3>Willkommen zu EmoTrix</h3>
 
   <ion-list>
-    <button ion-item test-link *ngFor="let t of tests">
-      <ion-label>{{t.name}}</ion-label>
-      <ion-checkbox></ion-checkbox>
-    </button> 
+      <ion-item *ngFor="let t of tests" (click)="navigate(t.component)">
+          <span>{{t.name}}</span>
+          <ion-icon name="{{t.icon}}" item-left></ion-icon>
+          <ion-icon [name]="t.done ? 'checkmark' :'arrow-forward'" item-right></ion-icon>
+        </ion-item>
   </ion-list>
 
   <button ion-button secondary>Auswertung</button>
