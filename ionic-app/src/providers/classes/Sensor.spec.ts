@@ -7,7 +7,7 @@ describe("Sensor", () => {
         it("should force its children to implement sensor and mapper", () => {
 
             class GSRSensor extends SensorEvaluator{
-                mapper = (data: any) => {
+                mapper (data: any) {
                     if(<number> data){
                         if(data >= 300) {
                             return [{indicator: <indicator>"relaxed", score: 50}]

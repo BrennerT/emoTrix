@@ -17,6 +17,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Decider } from '../providers/decider';
 import { Camera } from '@ionic-native/camera';
 import { MediaCapture } from '@ionic-native/media-capture';
+import { GSRSensor } from '../providers/sensors/GSRSensor';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MediaCapture } from '@ionic-native/media-capture';
     Decider,
     Camera,
     MediaCapture,
+    GSRSensor,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

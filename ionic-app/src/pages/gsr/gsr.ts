@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js';
+import { GSRSensor } from '../../providers/sensors/GSRSensor';
 
 @Component({
   selector: 'page-gsr',
@@ -14,23 +15,24 @@ export class GsrPage {
   @ViewChild('lineCanvas') lineCanvas;
 
   value: any;
+  oldValue: number;
   unpairedDevices: any;
   pairedDevices: any;
   gettingDevices: Boolean;
-  stop: Boolean;
   lineChart: any;
   time: any;
-  model: any;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private bluetoothSerial: BluetoothSerial, private cdr: ChangeDetectorRef){
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private bluetoothSerial: BluetoothSerial, private cdr: ChangeDetectorRef, public GsrSensor: GSRSensor ){
     this.value= 1;
+    this.oldValue = 1;
     bluetoothSerial.enable();
-    this.model = {};
     this.time = 0;
   }
 
   ionViewDidLoad() {
+    //gekoppelte Devices auflisten
     this.listPairings();
+    //Initialisieren des Charts
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
@@ -60,10 +62,10 @@ export class GsrPage {
               }
           ]
         },
-        options: {
+      options: {
           maintainAspectRatio: false
-        }
-      });
+      }
+    });
   }
 
   listPairings(){
@@ -80,8 +82,6 @@ export class GsrPage {
     (err) => {
       console.log(err);
     });
-
-    
   }
 
   /* Slide 1 - Find, Connect, Disconnect */
@@ -124,37 +124,53 @@ export class GsrPage {
         {
           text: 'Connect',
           handler: () => {
-            console.log(address);
-            var found = self.pairedDevices.find(function(element) {
-              return element.device.address === address;
-            });
-            this.bluetoothSerial.connect(address).subscribe((data) => {
-              found.status = "connected";
-              self.cdr.detectChanges();
-              console.log("Connection successful: " + data)
-            }
-              ,(error) => {
-                found.status = "disconnected";
-                self.cdr.detectChanges();
-                console.log(error);
-              });
-            self.bluetoothSerial.subscribe(";").subscribe(
-              function (data){
-                self.value = data.substring(0,data.length - 1);
-                if(self.time%10 == 0){
-                  self.addData(self.lineChart,self.time, self.value);
-                }
-                self.time++;
-                self.cdr.detectChanges();
-            }, function (error){
-                console.log(error);
-            });
+            self.connect(address);
           }
         }
       ]
     });
     alert.present();
 
+  }
+
+  connect(address: any){
+    var self = this;
+    console.log(address);
+    var found = this.pairedDevices.find(function(element) {
+      return element.device.address === address;
+    });
+
+
+    this.bluetoothSerial.connect(address).subscribe((data) => {
+      found.status = "connected";
+      this.cdr.detectChanges();
+      console.log("Connection successful: " + data)
+    }
+      ,(error) => {
+        found.status = "disconnected";
+        this.cdr.detectChanges();
+        console.log(error);
+      });
+      
+    this.bluetoothSerial.subscribe(";").subscribe(
+      function (data){
+        self.value = data.substring(0,data.length - 1);
+        if(self.time%10 == 0){
+          self.addData(self.lineChart,self.time, self.value);
+          if(self.time != 0){
+            var data: any = {value: self.value, oldValue: self.oldValue};
+            self.GsrSensor.onSensorData(data);
+          }  
+          self.oldValue = self.value;
+        }
+        self.time++;
+        self.cdr.detectChanges();
+        
+    }, function (error){
+        console.log(error);
+    });
+
+    
   }
 
   addData(chart, label, data) {
@@ -227,7 +243,6 @@ export class GsrPage {
     this.time = 0;
     this.lineChart.update();
   }
-
 
   /* Slide 4 */
   util(){

@@ -10,9 +10,11 @@ export class Decider {
     resultData: Array<{timestamp: Date, emotionScores: EmotionScore[]}> = [];
     causalityRules: Array<CausalityRule> = [];
 
+
     public addIndicatorScores(indicatorScores: Array<IndicatorScore>){
         //aktuellen Zeitpunkt ermitteln
         var timestamp: Date = this.getTimeStamp();
+        console.log("Added the following to IndicatorScoresArray: " + "{" +  timestamp+ ", indicators: " + indicatorScores[0].indicator +  " "+ indicatorScores[0].score+"}");
         //empfangene Daten zu Data hinzufügen
         this.data.push({ timestamp, indicators: indicatorScores });
     }
