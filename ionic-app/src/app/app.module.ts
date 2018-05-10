@@ -12,6 +12,7 @@ import { PulsPage } from '../pages/puls/puls';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { Decider } from '../providers/decider';
 import { Camera } from '@ionic-native/camera';
@@ -28,6 +29,7 @@ import { MediaCapture } from '@ionic-native/media-capture';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     ComponentsModule
   ],
   bootstrap: [IonicApp],
