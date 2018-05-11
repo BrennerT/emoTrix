@@ -12,7 +12,7 @@ describe("Decider", () => {
             const target = new Decider();
             const mockNow = new Date();
             const scores = Create.randomArray(Create.randomIndicatorScore, 20);  
-            const expected = [{timestamp: mockNow, indicators: scores}]
+            const expected = [{timestamp: mockNow, indicatorScores: scores}]
             
             target.getTimeStamp = () => mockNow;
             target.addIndicatorScores(scores);
@@ -48,7 +48,7 @@ describe("Decider", () => {
             target.causalityRules.push(rule);
             target.getTimeStamp = () => mockNow;
             target.data = [
-                {timestamp: mockNow, indicators: [{indicator: <indicator>"stress", score: 0.5}]}
+                {timestamp: mockNow, indicatorScores: [{indicator: <indicator>"stress", score: 0.5}]}
             ];
 
             target.decide();

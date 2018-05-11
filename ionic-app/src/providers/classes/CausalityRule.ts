@@ -12,12 +12,13 @@ export class CausalityRule {
         private effects : ScoreTransformation[]
     ) {}
 
-    public execute(data : Array<EmotionScore>) {
-        if(this.condition){
-             this.effects.forEach((effect) => {
-                data = effect(data)
-            });           
-        }
+    public execute(data : Array<EmotionScore>, indicatorScores: IndicatorScore[]) {
+        indicatorScores.forEach((indicatorScore) =>{
+            if(this.condition(indicatorScore)){
+                this.effects.forEach((effect) => {
+                   data = effect(data);
+               })           
+        }});
         return data;
     }
     

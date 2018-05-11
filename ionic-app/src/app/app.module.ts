@@ -18,6 +18,7 @@ import { Decider } from '../providers/decider';
 import { Camera } from '@ionic-native/camera';
 import { MediaCapture } from '@ionic-native/media-capture';
 import { GSRSensor } from '../providers/sensors/GSRSensor';
+import { DecisionPage } from '../pages/decision/decision';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { GSRSensor } from '../providers/sensors/GSRSensor';
     HomePage,
     KeyboardScannerPage,
     GsrPage,
-    PulsPage
+    PulsPage,
+    DecisionPage
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { GSRSensor } from '../providers/sensors/GSRSensor';
     HomePage,
     KeyboardScannerPage,
     GsrPage,
-    PulsPage
+    PulsPage, 
+    DecisionPage
   ],
   providers: [
     StatusBar,

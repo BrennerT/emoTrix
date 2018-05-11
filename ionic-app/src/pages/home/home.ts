@@ -7,6 +7,7 @@ import { GsrPage } from '../gsr/gsr';
 import { PulsPage } from './../puls/puls';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { Storage} from'@ionic/storage';
+import { DecisionPage } from '../decision/decision';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class HomePage {
 
   status: {keyboard: boolean , gsr: boolean, puls: boolean};
   tests: Array<{name: String, component: any, done: boolean, icon: String}>;
-
+  
 
   constructor(public navCtrl: NavController, public decider: Decider, public storage: Storage) {
     this.storage.get("testStatus").then(data=> {if(data){
@@ -43,6 +44,10 @@ export class HomePage {
   navigate(page: any): void {
     this.navCtrl.setRoot(page);
     
+ }
+
+ decide(){
+  this.navCtrl.setRoot(DecisionPage);
  }
   
 }
