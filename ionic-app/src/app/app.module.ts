@@ -1,3 +1,4 @@
+import { FaceEmotionPage } from './../pages/face-emotion/face-emotion';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -27,7 +28,8 @@ import { DecisionPage } from '../pages/decision/decision';
     KeyboardScannerPage,
     GsrPage,
     PulsPage,
-    DecisionPage
+    DecisionPage,
+    FaceEmotionPage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { DecisionPage } from '../pages/decision/decision';
     KeyboardScannerPage,
     GsrPage,
     PulsPage, 
-    DecisionPage
+    DecisionPage,
+    FaceEmotionPage
   ],
   providers: [
     StatusBar,
