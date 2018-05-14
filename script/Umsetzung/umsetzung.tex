@@ -12,5 +12,44 @@ Für das Projekt wurde ein Arduino UNO R3 Board verwendet. \footcite[Vgl.][]{Ard
 	\caption[Arduino UNO R3 (links) und Grove Base Shield]{Arduino UNO R3 (links) und Grove Base Shield\footnotemark}
 \end{figure}%
 \footcitetext[Bilder von:][]{Sou18, Rei18}
+\newline 
+Mit diesen Komponenten werden die vom Sensor zurückgelieferten Daten an den Arduino geleitet. Von dort aus müssen die Daten, an die mobile Applikation weitergeleitet werden. Aus diesem Grund muss an das Arduino Board ein Bluetooth-Modul angebracht werden, das Daten senden und empfangen kann. Das Empfangen von Daten ist notwendig, um die Messung zu Starten, wohingegen das Senden für die Übermittlung der Sensordaten benötigt wird. Heutige Smartphones verfügen meistens immer über eine Bluetooth-Schnittstelle, aus welchem Grund Bluetooth gut für die Übertragung geeignet ist. Eine weitere Möglichkeit wäre die Übertragung über WiFi gewesen. Das Arduino-Board wurde mit einem HC05-Bluetooth-Modul erweitert, welches Daten senden und empfangen kann. Dieses ist in Abbildung ? zu sehen.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=6cm]{Bilder/hc05.jpg}
+	\caption[HC-05-Bluetooth-Modul für Arduino]{HC-05-Bluetooth-Modul für Arduino\footnotemark}
+\end{figure}%
+\newline
+Die Beschreibung der Entwicklungsarbeiten wird in zwei Teile aufgespalten. Der erste Teil ist der Quellcode des Arduinos, der zweite Teil die Entwicklung des Emotionstest in der emoTrix-App. \newline
+In Listing ? ist der Quellcode des Arduinos abgebildet. In den Zeilen 1 wird die SofwareSerial-Bibliothek eingebunden, um die Kommunikation zu Modulen wie dem Bluetooth-Modul zu ermöglichen. und damit dem Arduino mitgetiel\newpage
+\begin{lstlisting}[caption={Quellcode des Arduinos},style=Arduino]
+#include <SoftwareSerial.h>
+SoftwareSerial BTserial (10, 11); const int GSR=A0;
+int sensorValue=0; int gsr_average=0;
+boolean measuring = false; char BTString;
+
+void setup(){
+	BTserial.begin(9600);
+}
+
+void loop(){
+	BTString = BTserial.read();
+	if(BTString == 'S'){
+		measuring = true;
+	}
+	if(BTString == 'F'){
+		measuring = false;
+	}
+	if(measuring){
+		long sum=0;
+		for(int i=0;i<10;i++){ 
+			sensorValue=analogRead(GSR);
+			sum += sensorValue; delay(5);
+		}
+		gsr_average = sum/10;
+		BTserial.print(gsr_average); BTserial.println( ";");
+	}
+}
+\end{lstlisting}
 \subsection{Auswertung der Testergebnisse}
 \subsection{Benutzeroberfläche der App}
