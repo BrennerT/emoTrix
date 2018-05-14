@@ -12,17 +12,17 @@ Für das Projekt wurde ein Arduino UNO R3 Board verwendet. \footcite[Vgl.][]{Ard
 	\caption[Arduino UNO R3 (links) und Grove Base Shield]{Arduino UNO R3 (links) und Grove Base Shield\footnotemark}
 \end{figure}%
 \footcitetext[Bilder von:][]{Sou18, Rei18}
-\newline 
+\newline \newline
 Mit diesen Komponenten werden die vom Sensor zurückgelieferten Daten an den Arduino geleitet. Von dort aus müssen die Daten, an die mobile Applikation weitergeleitet werden. Aus diesem Grund muss an das Arduino Board ein Bluetooth-Modul angebracht werden, das Daten senden und empfangen kann. Das Empfangen von Daten ist notwendig, um die Messung zu Starten, wohingegen das Senden für die Übermittlung der Sensordaten benötigt wird. Heutige Smartphones verfügen meistens immer über eine Bluetooth-Schnittstelle, aus welchem Grund Bluetooth gut für die Übertragung geeignet ist. Eine weitere Möglichkeit wäre die Übertragung über WiFi gewesen. Das Arduino-Board wurde mit einem HC05-Bluetooth-Modul erweitert, welches Daten senden und empfangen kann. Dieses ist in Abbildung ? zu sehen.
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=6cm]{Bilder/hc05.jpg}
+	\includegraphics[width=7cm]{Bilder/hc05.jpg}
 	\caption[HC-05-Bluetooth-Modul für Arduino]{HC-05-Bluetooth-Modul für Arduino\footnotemark}
 \end{figure}%
 \newline
 Die Beschreibung der Entwicklungsarbeiten wird in zwei Teile aufgespalten. Der erste Teil ist der Quellcode des Arduinos, der zweite Teil die Entwicklung des Emotionstest in der emoTrix-App. \newline
 In Listing ? ist der Quellcode des Arduinos abgebildet. In Zeile 1 wird die SofwareSerial-Bibliothek eingebunden, die eine Verwendung der Pins des Arduinos für verschiedene Module ermöglicht. In Zeile 2 wird dem Arduino mitgeteilt, dass auf den Pins 10 und 11 ein Bluetooth-Modul angeschlossen ist und eine Konstante (GSR) festgelegt, die auf den Anschluss A0 des Grove Shields verweist, an dem der GSR Sensor angeschlossen ist. \newline
-Generell besteht der Programmcode des Arduinos immer aus zwei Bestandteilen: einem Setup-Block und einem Loop-Block. Der Setup-Block wird einmalig beim Einschalten des Arduinos ausgeführt. Danach wird der Loop-Block solange wiederholt, bis der Arduino ausgeschalten wird. \newpage
+Generell besteht der Programmcode des Arduinos immer aus zwei Bestandteilen: einem Setup-Block und einem Loop-Block. Der Setup-Block wird einmalig beim Einschalten des Arduinos ausgeführt. Danach wird der Loop-Block solange wiederholt, bis der Arduino ausgeschalten wird. \newline \newline 
 
 \begin{lstlisting}[caption={Quellcode des Arduinos},style=Arduino]
 #include <SoftwareSerial.h>
@@ -56,7 +56,46 @@ void loop(){
 In Zeile 7 innerhalb des Setup-Blocks wird die Geschwindigkeit der seriellen Datenübertragung der Ports des Arduinos, die mit dem Bluetooth-Modul verbunden sind. Hierbei wird die Geschwindigkeit auf 9600 Bits pro Sekunde gesetzt.\footcite[Vgl.][]{Ard18b} Dies entspricht der üblich verwendeten Geschwindigkeit und hat in Tests sehr gut funktioniert. \newline
 Der Loop-Block beginnt in Zeile 11 mit dem Auslesen der Daten, die über das Bluetooth-Modul empfangen werden. Die Variable \textit{BTSTring} wird mit diesen Daten beschrieben. Die App muss zum Starten der App den String \textit{S} (für Start) per Bluetooth übertragen. Ist dies der Fall, wird die Variable \textit{measuring} auf true gesetzt. Mit dem String \textit{F} (für Finished) kann die App dem Arduino das Stopsignal für die Messung geben. Demenstprechend wird \textit{measuring} auf false gesetzt. Dies ist in den Zeilen 15 bis 17 umgesetzt. \newline
 In Zeile 18 wird über die \textit{measuring}-Variable überprüft, ob gemessen werden soll. Wenn ja, wird eine Variable für die Summe von 10 Messdaten initialisiert. Anschließend werden in Abstand von 5 Millisekunden 10 Messungen durchgeführt. In Zeile 21 wird die eigentliche Messung des Sensors durchgeführt. Der hier verwendete GSR-Sensor liefert die aktuell gemessene Stromspannung an der Haut als Integer-Wert zurück. Alle 10 Messungen werden nach und nach aufaddiert. Dies geschieht in der for-Schleife in den Zeilen 20 bis 23. Anschließend wird die Summe durch 10 geteilt, sodass man den Durchschnitt aller 10 Werte erhält. Dieses Verfahren wird durchgeführt, da die Messdaten des Sensors Schwankungen aufweisen, die dadurch eliminiert werden können. In Zeile 25 wird schließlich der Messwert auf den Port des Bluetooth-Moduls geschickt und damit versendet. Als Trennzeichen zum nächsten Wert wird ein Semikolon angehängt. \newline
-Wenn die Messung gestartet wurde, erhält die mobile Applikation  also alle 50 Millisekunden vom Arduino per Bluetooth einen Integer-Wert, der der Stromspannung auf der Haut des Nutzer entspricht. \newline
+Wenn die Messung gestartet wurde, erhält die mobile Applikation  also alle 50 Millisekunden vom Arduino per Bluetooth einen Integer-Wert, der der Stromspannung auf der Haut des Nutzer entspricht. \newpage
+\begin{lstlisting}[caption={JS Code}, language=JavaScript]
+this.bluetoothSerial.connect(address).subscribe((data) => {
+	found.status = "connected";
+	console.log("Connection successful: " + data)
+} ,(error) => {
+	found.status = "disconnected";
+	console.log(error);
+});
 
+this.bluetoothSerial.subscribe(";").subscribe(
+	function (data){
+		self.value = data.substring(0,data.length - 1);
+		if(self.time%10 == 0){
+			self.addData(self.lineChart,self.time, self.value);
+			if(self.time != 0){
+				var data: any = {value: self.value, oldValue: self.oldValue};
+				self.GsrSensor.onSensorData(data);
+			}  
+			self.oldValue = self.value;
+		}
+		self.time++;
+	}, function (error){
+		console.log(error);
+});
+
+startMeasuring(){
+	this.bluetoothSerial.write('S').then((data: any) => { })
+	.catch((e) => {
+		console.log(e);
+	});;
+}
+
+stopMeasuring(){
+	this.bluetoothSerial.write('F').then((data: any) => {})
+	.catch((e) => {
+		console.log(e);
+	});
+}
+\end{lstlisting}
+\textbf{TODO} Beschreiben des Codes
 \subsection{Auswertung der Testergebnisse}
 \subsection{Benutzeroberfläche der App}
