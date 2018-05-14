@@ -21,6 +21,8 @@ import { MediaCapture } from '@ionic-native/media-capture';
 import { GSRSensor } from '../providers/sensors/GSRSensor';
 import { DecisionPage } from '../pages/decision/decision';
 
+import { HTTP } from '@ionic-native/http';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -54,6 +56,7 @@ import { DecisionPage } from '../pages/decision/decision';
     Camera,
     MediaCapture,
     GSRSensor,
+    HTTP,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
