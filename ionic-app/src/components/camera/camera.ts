@@ -1,5 +1,5 @@
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture';
 
@@ -18,6 +18,7 @@ export class CameraComponent {
   latestPicture: String;
   latestVideo: String;
   @Input() pictureMode: boolean;
+  @Output() sourceChanged: EventEmitter<String> = new EventEmitter<String>();
 
   cameraOptions: CameraOptions = {
     quality: 100,
@@ -54,6 +55,7 @@ export class CameraComponent {
       this.camera.getPicture(this.cameraOptions).then((data: String) => {
         console.log("received image data");
         this.latestPicture = 'data:image/jpeg;base64,' + data;
+        this.sourceChanged.emit(this.latestPicture); 
       }, 
       (err: CaptureError) => {
         console.log("Error");
@@ -65,6 +67,7 @@ export class CameraComponent {
         console.log("receiving video data");
         console.log("")
         this.latestVideo = data[0].fullPath;
+        this.sourceChanged.emit(this.latestVideo);
       },
       (err: CaptureError) => {
         console.log("Error");

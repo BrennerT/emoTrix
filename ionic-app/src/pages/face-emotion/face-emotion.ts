@@ -24,4 +24,9 @@ export class FaceEmotionPage {
     console.log('ionViewDidLoad FaceEmotionPage');
   }
 
+  onSourceChanged(source: String) {
+    console.log("source changed wtf");
+    console.log(source);
+  }
+
 }

@@ -14,5 +14,5 @@
 
 
 <ion-content padding>
-  <camera [pictureMode]="true"></camera>
+  <camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
 </ion-content>
