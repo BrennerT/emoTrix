@@ -1,16 +1,22 @@
 \section{Theoretische Grundlagen}
-\subsection{Biometrie}
+\subsection{Biometrie und Biometrische Merkmale}
 \subsectionauthor{Torben Brenner}
-Bei der Biometrie handelt es sich um eine Wissenschaft, welche sich mit der Vermessung von biologischen Merkmalen beschäftigt.\newline
-Die Ergebnisse dieser Messungen können dann dazu verwendet werden, Individuen zu beschreiben und zu identifizieren. Dieser Bereich 
-der Biometrie wird auch als \textit{biometrische Erkennungsverfahren} beschrieben. Eine andere Facette der Biometrie, die \textit{biometrische Statistik},
-beschäftigt sich mit der Auswertung der erfassten Daten um diese zur Analyse zu nutzen.\newline
-Mit der biometrischen Statistik, werden wir uns in dieser Studienarbeit beschäftigen, um die Merkmale, die mittels 
-Smartphone erfasst werden, auszuwerten und damit Rückschlüsse auf die Emotionen eines Menschen zu ermöglichen.
-\textbf{TODO: Schreibe hier über biometrische Charaktersitika: Einmaligkeit, Konsistenz, Messbarkeit, Universalität}
+Bei der Biometrie handelt es sich um die Wissenschaft, die sich mit der Vermessung von biologischen Merkmalen beschäftigt \footcite[Vgl.][]{Sea18}. Dabei werden insbesondere in der Informationstechnologie Technologien zur Messung und Analyse von körperlichen Merkmalen untersucht.\newline
+Diese Merkmale werden auch als biometrische Merkmale bezeichnet. Dabei wird unterschieden zwischen den verhaltensbasierten und den physiologischen Merkmalen(Vgl. \cite{Sas06}). Erstere zeichnen sich dadurch aus, dass eine Person aktiv eine Handlung ausführen muss um das Merkmal zu zeigen, während dem die physiologischen Merkmale dauerhaft von einer Person getragen werden. Ein Beispiel für verhaltensbasierte Merkmale ist die Gangart eines Menschen, die sogar zur Authentifizierung verwendet werden kann (Vgl. \cite{Cla09}). Ein bekanntes physiologisches Merkmal ist der Fingerabdruck einer Person.\newline
+Ein häufiger Einsatzzweck der Biometrie ist die Authentifizierung eines Nutzers gegenüber einem System. Da sich nicht alle Merkmale für eine solche Identifikation eignen, müssen verschiedene Faktoren bei der Auswahl der Merkmale betrachtet werden. \cite{Akj04} nennt zum Beispiel folgende Faktoren: 
+\begin{itemize}
+	\item \textbf{Universalität}: Jeder Mensch sollte dieses Merkmal besitzen.
+	\item \textbf{Unterscheidbarkeit}: Das Merkmal soll sich so stark wie möglich zwischen zwei Personen unterscheiden.
+	\item \textbf{Permanenz}: Das Merkmal sollte sich über die Zeit betrachtet nicht oder nur in geringem Maße ändern.
+	\item \textbf{Erfassbarkeit}: Das Merkmal sollte möglichst einfach dauerhaft erfasst werden können.
+	\item \textbf{Performanz}: Beschäftigt sich mit der Frage mit welchem Zeitaufwand und mit welcher Geschwindigkeit ein Merkmal gemessen werden kann. 
+	\item \textbf{Akzeptanz}: Beschäftigt sich mit der Frage in wie weit Nutzer mit der Messung eines Merkmals einverstanden sind. 
+	\item \textbf{Umgehbarkeit}: Beschäftigt sich mit der Frage, in wie weit ein Nutzer dem System vortäuschen kann das er ein anderer Nutzer ist.
+\end{itemize}
+Die ersten vier Faktoren beschäftigen sich im Allgemeinen mit der Eignung eines Merkmals für die Authentifizierung, während sich die letzten Faktoren mit der Eignung eines Biometrischen Systems für eine Aufgabe beschäftigen. Da sich unsere Fragestellung aber nicht auf die Authentifizierung eines Nutzers gegenüber eines Informationstechnischen Systems bezieht, sondern sich mit der Auswertung der erfassten Daten für die Erkennung von Emotionen beschäftigt, ist der Faktor der \textit{Unterscheidbarkeit} zu vernachlässigen. Die restlichen Faktoren werden aber später für die einzelnen biometrischen Merkmale untersucht wobei sich die Faktoren \textit{Performanz, Akzeptanz und Umgehbarkeit} auf die Messung mit Smartphones beziehen.
 \subsection{Umgang mit biometrischen Daten}
 \subsectionauthor{Torben Brenner}
-Eine Problematik, mit der wir uns in dieser Arbeit beschäftigen müssen, ist der Umstand das biometrische Daten nicht immer einen direkten Schluss auf einen Emotion zulassen. So lässt ein hochfrequenter Puls keinen direkten Schluss auf die Emotion zu die ein Individuum gerade empfindet. Er kann maximal ein Indiz für verschiedene Emotionen sein, z. Bsp. Wut oder Angst. Um mit diesem Umstand umzugehen benötigen wir zwei neue Begriffe die im folgenden genauer erläutert werden. 
+Eine Problematik, mit der wir uns in dieser Arbeit beschäftigen müssen, ist der Umstand das biometrische Daten nicht immer einen direkten Schluss auf einen Emotion zulassen. So lässt ein hochfrequenter Puls keinen direkten Schluss auf die Emotion zu, die ein Individuum gerade empfindet. Er kann maximal ein Indiz für verschiedene Emotionen sein, z. Bsp. Wut oder Angst. Um mit diesem Umstand umzugehen benötigen wir zwei neue Begriffe die im folgenden genauer erläutert werden. 
 \subsubsection{Indiz}
 Ein Indiz ist im allgemeinen Sprachgebrauch ein Anzeichen für einen Umstand, an dem sich ein Zustand oder eine Entwicklung absehen lässt\footcite[Vgl.][]{Dud18}. In unserer Arbeit, sehen wir Daten die wir von den Sensoren bekommen, als Indizien an. Ein Indiz macht es wahrscheinlicher bzw. unwahrscheinlicher das ein Individuum eine bestimmte Emotion verspürt. 
 \subsubsection{Kausalität}
