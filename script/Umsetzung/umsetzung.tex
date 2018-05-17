@@ -54,17 +54,28 @@ void loop(){
 }
 \end{lstlisting}
 In Zeile 7 innerhalb des Setup-Blocks wird die Geschwindigkeit der seriellen Datenübertragung der Ports des Arduinos, die mit dem Bluetooth-Modul verbunden sind. Hierbei wird die Geschwindigkeit auf 9600 Bits pro Sekunde gesetzt.\footcite[Vgl.][]{Ard18b} Dies entspricht der üblich verwendeten Geschwindigkeit und hat in Tests sehr gut funktioniert. \newline
-Der Loop-Block beginnt in Zeile 11 mit dem Auslesen der Daten, die über das Bluetooth-Modul empfangen werden. Die Variable \textit{BTSTring} wird mit diesen Daten beschrieben. Die App muss zum Starten der App den String \textit{S} (für Start) per Bluetooth übertragen. Ist dies der Fall, wird die Variable \textit{measuring} auf true gesetzt. Mit dem String \textit{F} (für Finished) kann die App dem Arduino das Stopsignal für die Messung geben. Demenstprechend wird \textit{measuring} auf false gesetzt. Dies ist in den Zeilen 15 bis 17 umgesetzt. \newline
-In Zeile 18 wird über die \textit{measuring}-Variable überprüft, ob gemessen werden soll. Wenn ja, wird eine Variable für die Summe von 10 Messdaten initialisiert. Anschließend werden in Abstand von 5 Millisekunden 10 Messungen durchgeführt. In Zeile 21 wird die eigentliche Messung des Sensors durchgeführt. Der hier verwendete GSR-Sensor liefert die aktuell gemessene Stromspannung an der Haut als Integer-Wert zurück. Alle 10 Messungen werden nach und nach aufaddiert. Dies geschieht in der for-Schleife in den Zeilen 20 bis 23. Anschließend wird die Summe durch 10 geteilt, sodass man den Durchschnitt aller 10 Werte erhält. Dieses Verfahren wird durchgeführt, da die Messdaten des Sensors Schwankungen aufweisen, die dadurch eliminiert werden können. In Zeile 25 wird schließlich der Messwert auf den Port des Bluetooth-Moduls geschickt und damit versendet. Als Trennzeichen zum nächsten Wert wird ein Semikolon angehängt. \newline
-Wenn die Messung gestartet wurde, erhält die mobile Applikation  also alle 50 Millisekunden vom Arduino per Bluetooth einen Integer-Wert, der der Stromspannung auf der Haut des Nutzer entspricht. \newpage
+Der Loop-Block beginnt in Zeile 11 mit dem Auslesen der Daten, die über das Bluetooth-Modul empfangen werden. Die Variable \textit{BTString} wird mit diesen Daten beschrieben. Die App muss zum Starten der App den String \textit{S} (für Start) per Bluetooth übertragen. Ist dies der Fall, wird die Variable \textit{measuring} auf true gesetzt. Mit dem String \textit{F} (für Finished) kann die App dem Arduino das Stopsignal für die Messung geben. Demenstprechend wird \textit{measuring} auf false gesetzt. Dies ist in den Zeilen 15 bis 17 umgesetzt. \newline
+In Zeile 18 wird über die \textit{measuring}-Variable überprüft, ob gemessen werden soll. Wenn ja, wird eine Variable für die Summe von 10 Messdaten initialisiert. Anschließend werden in Abstand von 5 Millisekunden 10 Messungen durchgeführt. In Zeile 21 wird die eigentliche Messung des Sensors durchgeführt. Der hier verwendete GSR-Sensor liefert als Output einen Integer-Wert, der die Stromspannung auf dem seriellen Port des Arduinos in Volt entspricht. Dieser Wert hängt von der gemessenen Hautleitfähigkeit ab. Die Umrechnung in den Hautleitfähigkeit geschieht dann in der App und wird im Anschluss noch betrieben. Im Arduino-Code selbst werden die Daten überliefert, die auch der Sensor übermittelt.  Alle 10 Messungen werden nach und nach aufaddiert. Dies geschieht in der for-Schleife in den Zeilen 20 bis 23. Anschließend wird die Summe durch 10 geteilt, sodass man den Durchschnitt aller 10 Werte erhält. Dieses Verfahren wird durchgeführt, da die Messdaten des Sensors Schwankungen aufweisen, die dadurch eliminiert werden können. In Zeile 25 wird schließlich der Messwert auf den Port des Bluetooth-Moduls geschickt und damit versendet. Als Trennzeichen zum nächsten Wert wird ein Semikolon angehängt. \newline
+Wenn die Messung gestartet wurde, erhält die mobile Applikation also alle 50 Millisekunden vom Arduino per Bluetooth einen Integer-Wert übermittelt. \newline
+Die Daten, die der Arduino schickt, müssen innerhalb der App verarbeitet werden. Hierfür wurde eine neue TestPage mit dem Namen GSRPage erstellt. Diese Page dient dazu, sich mit dem Arduino Bluetooth-Modul zu verbinden und die Messung zu starten und zu stoppen. Zusätzlich werden die gemessenen Werte in einem Graphen dargestellt, um zu veranschaulichen, wie sich die Hautleitfähigkeit während der Messung ändert. \newline \newline
+In der gsr.ts-Datei sind alle Funktionen hinterlegt, die alle Methoden für die Umsetzug der genannte Funktionalitäten implementiert. In Listing 2 ist ein Ausschnitt aus der Typescript-Datei mit den wichtigsten Funktionen abgebildet. \newline
+Die Funktion \textit{startMeasuring} implementiert das Starten der Messung. Für die GSRPage wurde das Ionic-Package Bluetooth Serial hinzugefügt, das Bluetooth-Optionen des Smartphones für die App verfügbar macht. Das Package wird hier mit \textit{this.bluetoothSerial} referenziert. Das Pairen und Verbinden des Smartphones mit dem Bluetooth-Modul ist selbsterklärend (über eine \textit{connect}-Methode) und deswegen im Listing nicht aufgeführt. Nachdem die Verbindung eingerichtet wurde, kann die \textit{startMeasuring}-Funktion aufgerufen werden. Dabei wird in Zeile 2 mit \textit{write} ein String an das verbundene Bluetooth-Modul gesendet. Wie bereits beschrieben muss zum Start der String \textit{S} gesendet werden. Falls ein Fehler auftritt, wird dieser in Zeile 4 geloggt. Wenn alles ordnungsgemäß funktioniert, empfängt der Arduino den String und startet anschließend die Messung.\newline
+Die \textit{stopMeasuring}-Funktion funktioniert analog zur \textit{startMeasuring}-Funktion mit dem Unterschied, dass hier der String \textit{F} zum Stoppen der Messung gesendet wird.
+\newpage
 \begin{lstlisting}[caption={JS Code}, language=JavaScript]
-this.bluetoothSerial.connect(address).subscribe((data) => {
-	found.status = "connected";
-	console.log("Connection successful: " + data)
-} ,(error) => {
-	found.status = "disconnected";
-	console.log(error);
-});
+startMeasuring(){
+	this.bluetoothSerial.write('S').then((data: any) => { })
+		.catch((e) => {
+			console.log(e);
+		});;
+}
+
+stopMeasuring(){
+	this.bluetoothSerial.write('F').then((data: any) => {})
+		.catch((e) => {
+			console.log(e);
+		});
+}
 
 this.bluetoothSerial.subscribe(";").subscribe(
 	function (data){
@@ -82,20 +93,8 @@ this.bluetoothSerial.subscribe(";").subscribe(
 		console.log(error);
 });
 
-startMeasuring(){
-	this.bluetoothSerial.write('S').then((data: any) => { })
-	.catch((e) => {
-		console.log(e);
-	});;
-}
-
-stopMeasuring(){
-	this.bluetoothSerial.write('F').then((data: any) => {})
-	.catch((e) => {
-		console.log(e);
-	});
-}
 \end{lstlisting}
-\textbf{TODO} Beschreiben des Codes
+In Zeile 15 ist implementiert, dass das Bluetooth des Smartphones auf einen neu eintreffenden Integer-Wert des Arduinos reagieren kann. Das BluetoothSerial dient dabei als Observable, den die App abonnieren kann. Dies bedeutet, dass die App darauf hingewiesen wird, wenn neue Daten angekommen sind. Mit \textit{subscribe(";")} wird die App jedes Mal informiert, wenn ein Semikolon übertragen wurde. Das Semikolon wurde im Arduino-Code als Trennzeichen eingesetzt und signalisiert, dass ein Integer-Wert abgeschlossen ist. Mit dem nächsten \textit{subscribe} wird bestimmt, was ausgeführt wird, wenn ein Semikolon empfangen wird. Als \textit{data} (Zeile 16) wird immer alles übertragen, was seit dem letzten Ausführen der Funktion übertragen wurde. Es handelt sich also immer um einen Integer-Wert und das Semikolon. In Zeile 17 wird aus diesem Grund das letzte Zeichen der Übertragung abgeschnitten, sodass der \textit{value}-Variable nur der Integer-Wert zugewiesen wird.
+
 \subsection{Auswertung der Testergebnisse}
 \subsection{Benutzeroberfläche der App}

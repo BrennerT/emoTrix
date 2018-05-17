@@ -126,7 +126,7 @@ use this:  \footcite{Til11}
 % Stimme als Emotionsindiz: Erkennung von Erregung (Acoustic Markers)
 use this: \footcite{Pat18}
 Es lässt sich insbesondere die Erregung in der Stimme erkennen --> lässt sich gut zur Unterstützung verwenden 
-\subsection{Hardware zur Erfassung von biometrischen Daten}
+\subsection{Nützliche Hardware}
 \subsubsection{Smartphones}
 \subsubsectionauthor{Torben Brenner}
 % Definition Smartphone
@@ -138,18 +138,20 @@ Der erhöhte Funktionsumfang von Smartphones im Vergleich zu Mobiltelefonen füh
 % Warum Smartphones zur Emotionserkennung? Ermöglichen Tagesanalyse/Verbreitung
 Nun kommen wir zu der Frage warum wir Smartphones verwenden wollen um Emotionen zu erkennen. Zum einen sind Smartphones in der Lage, durch verschiedenen verbaute Sensoren zu sehen, fühlen und zu hören\footcite[Vgl.][S. 1 Abs. 2]{Bie14}. Wie in dem Artikel beschrieben, geben uns die verbauten Sensoren enorme Möglichkeiten mit dem Smartphone die Umwelt wahrzunehmen. Wie leistungsfähig die verschiedenen Komponenten mittlerweile geworden sind, zeigt Apple mit dem IPhone X, welches mithilfe der Kamera und Infarotsensoren, die Veränderungen von Gesichtszügen erkennt und auf sogenannte Animojis überträgt\footcite[Vgl. ][Animoji: So funktioniert es]{Com17}. Ein weiterer Grund aus dem wir die Emotionserkennung mit Smartphones untersuchen wollen ist die Tatsache, dass Smartphonenutzer ihr Gerät häufig rund um die Uhr bei sich tragen. Dies ermöglicht es für verschiedene Anwendungsszenarien eine Überwachung der Emotionen des Nutzers über den Tag hinweg durchzuführen.
 \subsubsection{Sensoren}
-\subsubsectionauthor{Torben Brenner \& Lukas Seemann}
-Sensoren dienen zur Erfassung eines physikalischen Zustandes und der Transformation dieses Zustandes in einen Impuls der verarbeitet werden kann\footcite[Vgl.][]{Web18}. In der Computertechnik, dienen Sensoren häufig dazu, den physikalischen Zustand verständlich für einen Computer zu machen, in dem dieser in einen Datensatz umgewandelt wird. \newline 
-%Ursprünglich aus anderem Kapitel hizugefügt
+\subsubsectionauthor{Torben Brenner}
+Sensoren dienen zur Erfassung eines physikalischen Zustandes und der Transformation dieses Zustandes in einen Impuls der verarbeitet werden kann\footcite[Vgl.][]{Web18}. In der Computertechnik, dienen Sensoren häufig dazu, den physikalischen Zustand verständlich für einen Computer zu machen, in dem dieser in einen Datensatz umgewandelt wird. \newline
+\subsection{Möglichkeiten der Erfassung von biometrischen Daten} 
+\subsubsection{GSR-/EDA-Sensoren}
+\subsubsectionauthor{Lukas Seemann}
 Die bereits in Kapitel 2.4.2 beschriebene elektrodermale Aktivität kann mithilfe von EDA-Sensoren gemessen werden. Diese Art von Sensoren sind üblicherweise nicht in Smartphones eingebaut, weswegen die Hautleitfähigkeit mit externer Hardware gemessen werden muss. \newline
 Die für heute eher unübliche Messungsart der elektrodermalen Aktivität stellt die endosomatische Messung dar. Indem winzige Elektroden in die Haut eingestochen werden, kann die Aktivität der Nerven in der Haut gemessen werden. \footcite[Vgl.][Folie 25]{Sch12} Hierbei handelt es sich jedoch nicht um eine Messung der Hautleitfähigkeit sondern um eine Messung des Hautpotenzials. \newline
-Bei der exosomatischen Messung hingegen wird ein schwacher Strom von ungefähr 0.5 Volt an die Haut angelegt. Die Spannung wird hierbei konstant gehalten, wodurch die Leitfähigkeit der Haut gemessen werden kann. Hierbei gemessen wird entweder in der Einheit Siemens für den elektrischen Leitwert oder in Ohm für den Widerstand. Die Elektroden des Sensor sind meistens aus Silber oder Silberchlorid und werden meist an zwei Stellen der nicht dominanten Hand angebracht. \footcite[Vgl.][Folie 25]{Sch12} Wie in Abbildung ? dargestellt gibt es verschiedenen Möglichkeiten der Handinnenfläche, die gut geeignet sind, (\#1, \#2 oder \#3). \newline 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=12cm]{Bilder/gsr-hand.jpg}
+	\includegraphics[width=11cm]{Bilder/gsr-hand.jpg}
 	\caption[Positionsmöglichkeiten der EDA-Messung]{Positionsmöglichkeiten der EDA-Messung\footnotemark}
 \end{figure}\footcitetext[][Folie 25]{Sch12}
 \newline
+Bei der exosomatischen Messung hingegen wird ein schwacher Strom von ungefähr 0.5 Volt an die Haut angelegt. Die Spannung wird hierbei konstant gehalten, wodurch die Leitfähigkeit der Haut gemessen werden kann. Hierbei gemessen wird entweder in der Einheit Siemens für den elektrischen Leitwert oder in Ohm für den Widerstand. Die Elektroden des Sensor sind meistens aus Silber oder Silberchlorid und werden meist an zwei Stellen der nicht dominanten Hand angebracht. \footcite[Vgl.][Folie 25]{Sch12} Wie in Abbildung ? dargestellt gibt es verschiedenen Möglichkeiten der Handinnenfläche, die gut geeignet sind, (\#1, \#2 oder \#3). \newline 
 Diese Art von Sensoren sind die heutzutage übliche Vorgehensweise bei EDA-Messungen. Häufig sind sie auch unter dem Namen GSR-Sensor\footnote{GSR: Galvanic Skin Response} bekannt und darunter im Internet erhältlich. GSR-Sensoren sind als Modul für den Mikrocontroller Arduino verfügbar.\footcite[beispielsweise:][]{Gro18} Dies stellt eine Möglichkeit dar, einem mobilen Endgerät die Sensordaten zum Beispiel über Bluetooth oder WiFi zur Verfügung zu stellen. In Abbildung ? ist ein GSR-Sensor inklusive der Elektroden für die Fingerinnenseiten, der mit Arduinos kompatibel ist, abgebildet.
 \begin{figure}[h]
 	\centering
@@ -157,3 +159,8 @@ Diese Art von Sensoren sind die heutzutage übliche Vorgehensweise bei EDA-Messu
 	\caption[GSR-Sensor mit Finger-Elektroden]{GSR-Sensor mit Finger-Elektroden\footnotemark}
 \end{figure}%
 \footcitetext{Gro18}
+\subsubsection{Stimmerkennung mit Smartphone-Mikrofon}
+\subsubsection{Gesichtserkennung mit Smartphone-Kamera}
+\subsubsection{Pulsmessung mit Smartphone-Kamera}
+\subsubsection{Pulsmessung mit externen Sensoren}
+\subsubsection{Analyse des Tippverhaltens bei Smartphone-Nutzung}
