@@ -193,4 +193,16 @@ Des Weiteren gibt es noch eine weitere Möglichkeit, wie die Smartphone-Kamera z
 In Abbildung ? ist die Vorgehensweise bei der Pulsbestimmung gezeigt. Zunächst wird das aufgenommene Videomaterial in einzelne Frames unterteilt (siehe \textit{(a)}). Die einzelnen Frames werden dann mithilfe von EVM verstärkt, sodass die durch die Durchblutung veränderte Gesichtfarbe deutlich wird (siehe \textit{(b)}). Rot deutet dabei auf eine hohe Durchblutung hin, wohingegen eine blasse Farbe eine niedrige Durchblutung bedeutet. In \textit{(c)} wird anschließend ein Graph angefertigt, der Ausschnitte des Gesichts im Verlauf der Zeit anzeigt. Bei nicht verstärktem Input sind keine Unterschiede sichtbar. Mit EVM kann jedoch deutlich ausgemacht werden, wie sich die Gesichtsfarbe im Verlauf der Zeit geändert hat. Auf Basis dieses Graphen kann anschließend der Puls bestimmt werden. \footcite[Vgl.][]{MIT15} \newline
 Da Smartphones heutzutage über sehr gute Kameras verfügen, kann die Nutzung von EVM eine gute Möglichkeit zur Pulsbestimmung darstellen.
 \subsubsection{Pulsmessung mit externen Sensoren}
+\subsubsectionauthor{Lukas Seemann}
+Neben der Pulsmessung über die Smartphone-Kamera gibt es auch die Möglichkeit, mit externen Sensoren den Puls zu messen. Hierbei gibt es wie auch bei den GSR-Sensor passende Module, die an einen Arduino-Mikrocontroller angeschlossen werden können. \newline
+In Abbildung ? ist ein häufig verwendeter Puls-Sensor des Unternehmens World Famous Electronics llc. zu sehen, der mit einem Arduino verbunden werden kann. \newline
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=9cm]{Bilder/pulsesensor.jpg}
+	\caption[Puls-Sensor für einen Arduino]{Puls-Sensor für einen Arduino\footnotemark}
+\end{figure}\footcitetext{Wor18a} \newline
+Dieser Sensor kann entweder am Finger oder am Ohr des Probanden angebracht werden. Das Messverfahren basiert hierbei ebenfalls auf der Pulsoxymetrie, es handelt sich also um einen optischen Sensor. Bei Sensor handelt es sich um einen Photoplethysmograph (kurz PPG), der auf dieser Art und Weise häufig für medizinische Untersuchungen eingesetzt wird. \footcite[Vgl. ][]{Wor18b}
+Einen PPG macht aus, dass ein zu untersuchendes Hautareal mit Infrarotlicht ausgesetzt wird und anschließend untersucht wird, wie viel Licht vom Areal absorbiert wurde. \footcite[Vgl. ][S. 38]{Rab06}
+Dies ist auch der Unterschied zur Smartphone-Kamera, bei der nur das Blitzlicht beziehungsweise das Tageslicht zur Messung und kein Infrarotlicht verwendet wird.
+
 \subsubsection{Analyse des Tippverhaltens bei Smartphone-Nutzung}
