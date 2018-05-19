@@ -13,24 +13,6 @@ Im Anschluss an die Auswahl der Erfassungsmöglichkeiten werden diese Möglichke
 Die höchste Priorität hat das Indiz der Hautleitfähigkeit, die mithilfe von GSR- beziehungsweise EDA-Sensoren erfasst werden kann. Diese Art von Sensoren befinden sich nicht in handelsüblichen Smartphones, weshalb man hierzu externe Sensoren mit dem Handy verbinden muss. \newline
 ...
 % Zu diskutieren: Eigentlich wäre Reihenfolge Gesicht, GSR, Stimme, Tippverhalten sinnvoller, da im Theorieteil sich herausstellt das nur mit dem Gesicht ein direkter Schluss auf Emotionen möglich ist. 
-\subsection{Ausgewählte Erfassungsmöglichkeiten biometrischer Daten}
-\subsectionauthor{Torben Brenner}
-In diesem Abschnitt werden unterschiedliche Möglichkeiten vorgestellt, die in \ref{section:Emotionsindizien} vorgestellten Emotionsindizien zu erfassen. Da es nicht immer nur eine Möglichkeit gibt, diese zu erfassen werden hier verschiedene Methoden diskutiert. Pro Emotionsindiz wird dann eine Methode ausgewählt die untersucht werden soll.  
-\subsubsection{Mimik}
-\subsubsectionauthor{Torben Brenner}
-Zur Erfassung der Mimik, benötigt das Smartphone die Fähigkeit ein Gesicht zu erfassen und den Gesichtsausdruck zu erfassen. Hierfür eignet sich  die Kamera des Smartphones. ... \newline % Warum eignet sich die Handykamera?
-\cite{Can01} beschreibt in seiner Arbeit ein Verfahren, um mit Kameras die menschliche Mimik automatisiert zu analysieren. Basierend auf seinen Methoden, kann ein System entwickelt werden, das aus der Mimik eines Menschen dessen Emotionen analysiert. Canzler beschreibt in seiner Arbeit folgende vier Phasen der Analyse\footcite[Vgl. ][S.2-5]{Can01}:
-\begin{itemize}
-	\item[1.] \textbf{Gesichtsdetektion}
-	\item[2.] \textbf{Tracken charakteristischer Punkte}
-	\item[3.] \textbf{Extraktion von Mermalen}%in publikation Mermalen
-	\item[4.] \textbf{Gesichtsanalyse}
-\end{itemize}
-Die vier von Canzler ausgearbeiteten Phasen können bis auf wenige Anpassungen übernommen werden. Die Gesichtsdetektion wird mit Hilfe von verschiedenen Verfahren durchgeführt. Die formorientierten Verfahren suchen nach Kanten und Konturen welche dem menschlichen Gesicht entsprechen und farborientierten Verfahren die nach charakteristischen menschlichen Hautfarben suchen\footcite[Vgl. ][S.2 Z.14ff]{Can01}. In der zweiten Phase wird anhand eines vordefinierten durchschnittlichen Gesichts eine Verfolgung von wichtigen Punkten durchgeführt. % Hier wäre es cool über den susan edge kantendetektor zu 
-Basierend auf den geometrischen Eigenschaften des Gesichts können daraufhin mit Template Matching verschiedene Merkmale, wie z. Bsp. die Blickrichtung und Stirnfaltenbildung, extrahiert werden. In der letzten Phase, der Gesichtsanalyse, werden die vorher ermittelten Merkmale in sogenannte \textit{Action Units} umgesetzt\footcite[Vgl. ][S.4 Z.17-21]{Can01}. Diese wurden im \textit{Facial Action Coding System} definiert. \cite{Kai98} beschreibt das FACS als ...
-% FACS muss beschrieben werden
-% Verbindung von Action Units zu Affect disorders
-% 
 \subsection{Übertragung biometrischer Daten in Indikatorscores}
 \subsectionauthor{Lukas Seemann}
 Die von den Smartphone-internen und externen Sensoren zurückgeliefert Daten müssen in der App einheitlich verarbeitet werden. Die zurückgelieferten Daten sind unterschiedlich und meistens selbst nicht aussagend. Mit dem im Theorieteil erklärten Hintergrundwissen ist es jedoch möglich, die Daten zu interpretieren. \newline 
