@@ -141,17 +141,19 @@ Nun kommen wir zu der Frage warum wir Smartphones verwenden wollen um Emotionen 
 \subsubsectionauthor{Torben Brenner}
 Sensoren dienen zur Erfassung eines physikalischen Zustandes und der Transformation dieses Zustandes in einen Impuls der verarbeitet werden kann\footcite[Vgl.][]{Web18}. In der Computertechnik, dienen Sensoren häufig dazu, den physikalischen Zustand verständlich für einen Computer zu machen, in dem dieser in einen Datensatz umgewandelt wird. \newline
 \subsection{Möglichkeiten der Erfassung von biometrischen Daten} 
+\subsectionauthor{Torben Brenner}
+In diesem Abschnitt werden unterschiedliche Möglichkeiten vorgestellt, die in \ref{section:Emotionsindizien} vorgestellten Emotionsindizien zu erfassen. Da es nicht immer nur eine Möglichkeit gibt, diese zu erfassen, werden hier verschiedene Methoden diskutiert. Pro Emotionsindiz wird dann eine Methode ausgewählt, die untersucht werden soll.  
 \subsubsection{GSR-/EDA-Sensoren}
 \subsubsectionauthor{Lukas Seemann}
 Die bereits in Kapitel 2.4.2 beschriebene elektrodermale Aktivität kann mithilfe von EDA-Sensoren gemessen werden. Diese Art von Sensoren sind üblicherweise nicht in Smartphones eingebaut, weswegen die Hautleitfähigkeit mit externer Hardware gemessen werden muss. \newline
 Die für heute eher unübliche Messungsart der elektrodermalen Aktivität stellt die endosomatische Messung dar. Indem winzige Elektroden in die Haut eingestochen werden, kann die Aktivität der Nerven in der Haut gemessen werden. \footcite[Vgl.][Folie 25]{Sch12} Hierbei handelt es sich jedoch nicht um eine Messung der Hautleitfähigkeit sondern um eine Messung des Hautpotenzials. \newline
+Bei der exosomatischen Messung hingegen wird ein schwacher Strom von ungefähr 0.5 Volt an die Haut angelegt. Die Spannung wird hierbei konstant gehalten, wodurch die Leitfähigkeit der Haut gemessen werden kann. Hierbei gemessen wird entweder in der Einheit Siemens für den elektrischen Leitwert oder in Ohm für den Widerstand. Die Elektroden des Sensor sind meistens aus Silber oder Silberchlorid und werden meist an zwei Stellen der nicht dominanten Hand angebracht. \footcite[Vgl.][Folie 25]{Sch12} Wie in Abbildung ? dargestellt gibt es verschiedenen Möglichkeiten der Handinnenfläche, die gut geeignet sind, (\#1, \#2 oder \#3). \newline 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=11cm]{Bilder/gsr-hand.jpg}
+	\includegraphics[width=10cm]{Bilder/gsr-hand.jpg}
 	\caption[Positionsmöglichkeiten der EDA-Messung]{Positionsmöglichkeiten der EDA-Messung\footnotemark}
 \end{figure}\footcitetext[][Folie 25]{Sch12}
 \newline
-Bei der exosomatischen Messung hingegen wird ein schwacher Strom von ungefähr 0.5 Volt an die Haut angelegt. Die Spannung wird hierbei konstant gehalten, wodurch die Leitfähigkeit der Haut gemessen werden kann. Hierbei gemessen wird entweder in der Einheit Siemens für den elektrischen Leitwert oder in Ohm für den Widerstand. Die Elektroden des Sensor sind meistens aus Silber oder Silberchlorid und werden meist an zwei Stellen der nicht dominanten Hand angebracht. \footcite[Vgl.][Folie 25]{Sch12} Wie in Abbildung ? dargestellt gibt es verschiedenen Möglichkeiten der Handinnenfläche, die gut geeignet sind, (\#1, \#2 oder \#3). \newline 
 Diese Art von Sensoren sind die heutzutage übliche Vorgehensweise bei EDA-Messungen. Häufig sind sie auch unter dem Namen GSR-Sensor\footnote{GSR: Galvanic Skin Response} bekannt und darunter im Internet erhältlich. GSR-Sensoren sind als Modul für den Mikrocontroller Arduino verfügbar.\footcite[beispielsweise:][]{Gro18} Dies stellt eine Möglichkeit dar, einem mobilen Endgerät die Sensordaten zum Beispiel über Bluetooth oder WiFi zur Verfügung zu stellen. In Abbildung ? ist ein GSR-Sensor inklusive der Elektroden für die Fingerinnenseiten, der mit Arduinos kompatibel ist, abgebildet.
 \begin{figure}[h]
 	\centering
@@ -161,6 +163,34 @@ Diese Art von Sensoren sind die heutzutage übliche Vorgehensweise bei EDA-Messu
 \footcitetext{Gro18}
 \subsubsection{Stimmerkennung mit Smartphone-Mikrofon}
 \subsubsection{Gesichtserkennung mit Smartphone-Kamera}
+\subsubsectionauthor{Torben Brenner}
+Zur Erfassung der Mimik, benötigt das Smartphone die Fähigkeit ein Gesicht zu erfassen und den Gesichtsausdruck zu erfassen. Hierfür eignet sich  die Kamera des Smartphones. ... \newline % Warum eignet sich die Handykamera?
+\cite{Can01} beschreibt in seiner Arbeit ein Verfahren, um mit Kameras die menschliche Mimik automatisiert zu analysieren. Basierend auf seinen Methoden, kann ein System entwickelt werden, das aus der Mimik eines Menschen dessen Emotionen analysiert. Canzler beschreibt in seiner Arbeit folgende vier Phasen der Analyse\footcite[Vgl. ][S.2-5]{Can01}:
+\begin{itemize}
+	\item[1.] \textbf{Gesichtsdetektion}
+	\item[2.] \textbf{Tracken charakteristischer Punkte}
+	\item[3.] \textbf{Extraktion von Mermalen}%in publikation Mermalen
+	\item[4.] \textbf{Gesichtsanalyse}
+\end{itemize}
+Die vier von Canzler ausgearbeiteten Phasen können bis auf wenige Anpassungen übernommen werden. Die Gesichtsdetektion wird mit Hilfe von verschiedenen Verfahren durchgeführt. Die formorientierten Verfahren suchen nach Kanten und Konturen welche dem menschlichen Gesicht entsprechen und farborientierten Verfahren die nach charakteristischen menschlichen Hautfarben suchen\footcite[Vgl. ][S.2 Z.14ff]{Can01}. In der zweiten Phase wird anhand eines vordefinierten durchschnittlichen Gesichts eine Verfolgung von wichtigen Punkten durchgeführt. % Hier wäre es cool über den susan edge kantendetektor zu 
+Basierend auf den geometrischen Eigenschaften des Gesichts können daraufhin mit Template Matching verschiedene Merkmale, wie z. Bsp. die Blickrichtung und Stirnfaltenbildung, extrahiert werden. In der letzten Phase, der Gesichtsanalyse, werden die vorher ermittelten Merkmale in sogenannte \textit{Action Units} umgesetzt\footcite[Vgl. ][S.4 Z.17-21]{Can01}. Diese wurden im \textit{Facial Action Coding System} definiert. \cite{Kai98} beschreibt das FACS als ...
+% FACS muss beschrieben werden
+% Verbindung von Action Units zu Affect disorders
+% 
 \subsubsection{Pulsmessung mit Smartphone-Kamera}
+\subsubsectionauthor{Lukas Seemann}
+In den App-Stores werden heutzutage mehrere Apps angeboten, die angeben, eine Pulsmessung ohne zusätzliche Geräte zu ermöglichen. \footcite[Vorstellung von Pulsmessungs-Apps auf dem Markt: Vgl.][]{Pet17} Diese Apps nutzen lediglich die im Smartphone integrierte Kamera. Das Ergebnis wird deutlich genauer, wenn das Smartphone außerdem über ein LED-Blitzlicht verfügt.\footcite[Vgl.][]{Gil14} \newline
+Die Vorgehensweise bei dieser Art der Pulsmessung ist nicht komplex. Der Smartphone-Nutzer muss dazu lediglich die oberste Fingerkuppe eines beliebigen Fingers auf die Kamera und falls vorhanden auch auf das Blitzlicht des Smartphones legen. Ist kein Blitzlicht vorhanden, ist es auch möglich, die Messung bei gutem Tageslicht durchzuführen.\footcite[Vgl.][]{Gil14} Dies kann jedoch Auswirkungen auf die Genauigkeit des Ergebnisses haben. Über ein gewissen Zeitraum, der meistens im Sekunden- oder niedrigen Minutenbereich liegt, werden anschließend die Helligkeitsschwankungen in der Fingerkuppe des Nutzer aufgezeichnet.\footcite[Vgl.][]{Pre16} Diese Helligkeitschwankungen werden durch den Puls des Benutzer ausgelöst, da der Finger bei hoher Durchblutung nicht so lichtdurchlässig ist, wie bei niedriger Durchblutung. Aus diesen dokumentierten Schwankungen berechnen die Apps mithilfe von signalanalytischen Methoden den Puls des Benutzers. \footcite[Vgl.][]{Pre16} \newline
+Diese Methoden sind bereits teilweise laut App-Hersteller-Angaben medizinisch anerkannt\footcite[Vgl.][]{Pre16} und liefern unter guten Bedingung dieselben Ergebnisse, die auch herkömmliche Blutdruckmessgeräte ermittlen würden.\footcite[Vgl.][]{Hen17}
+Dieses Verfahren der Pulsmessung basiert auf der Pulsoxymetrie. Das Ziel der Pulsoxymetrie ist es, mithilfe von Lichtquellen die Sauerstoffsättigung und die Pulswelle des Probanden zu messen. \footcite[Vgl. ][S. 74]{Deu09} Als Messorte eignen sich hierfür die Ohren, Zehen oder die Finger, was bei der Smartphone-Messung ausgenutzt wurde. \newline 
+\glqq \textit{Bei der Pulsoxymetrie werden von einer Lichtquelle 2 unterschiedliche Wellenlängen (im infraroten und roten Bereich) ausgesendet, die nach dem Durchleuchten des Gewebes (z.B. am Finger) von einem Sensor aufgefangen werden.}\grqq{ \footcite[][S. 74]{Deu09} Neben der hierbei durchgeführten Messung der Sauerstoffsättigung kann durch die Absorption des Lichts durch die Pulswelle über die insgesamt aufgefangene Lichtmenge eine Aussage über die Pulswelle des Probanden abgeleitet werden. \footcite[Vgl. ][S. 74]{Deu09} Obwohl die meisten Smartphones keine verschiedenen Lichtwellenlängen verwenden, sind bereits die Messungen mit dem Blitzlicht des Smartphones für den Puls sehr aussagekräftig. Die unterschiedlichen Lichtwellenlängen sind vor allem für die Sauerstoffsätigung notwendig, deren Messung die meisten Apps nicht anbieten. \newline \newline
+Des Weiteren gibt es noch eine weitere Möglichkeit, wie die Smartphone-Kamera zur Pulsbestimmung genutzt werden kann. Mithilfe der Eulerschen Videoverstärkung (\textit{Eulerian Video Magnification}, kurz EVM), die am Massachusetts Institute of Technology (MIT) von einer Gruppe von Informatikern entwickelt wurde, können kleinste Bewegungen in Videomaterial verdeutlicht werden. \footcite[Vgl. ][]{Dam12} Mit einer Videoaufnahme des Gesichts eines Probanden kann so der Puls mit einer hohen Genauigkeit bestimmt werden. Durch die pulsierende Blutzirkulation ändert sich die Gesichtfarbe einer Person ungefähr einmal pro Sekunde. Dies ist mit bloßem Auge nicht sichtbar, kann jedoch mit Hilfe von EVM verstärkt und somit deutlich sichtbar gemacht werden. Mithilfe dieser Farbtonschwankungen kann der Puls sogar in Echtzeit bestimmt werden. \footcite[Vgl. ][]{Dam12} \newline
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=16cm]{Bilder/evm.jpg}
+	\caption[Eulersche Videoverstärkung zur Pulsbestimmung]{Positionsmöglichkeiten der EDA-Messung\footnotemark}
+\end{figure}\footcitetext{MIT15} \newline
+In Abbildung ? ist die Vorgehensweise bei der Pulsbestimmung gezeigt. Zunächst wird das aufgenommene Videomaterial in einzelne Frames unterteilt (siehe \textit{(a)}). Die einzelnen Frames werden dann mithilfe von EVM verstärkt, sodass die durch die Durchblutung veränderte Gesichtfarbe deutlich wird (siehe \textit{(b)}). Rot deutet dabei auf eine hohe Durchblutung hin, wohingegen eine blasse Farbe eine niedrige Durchblutung bedeutet. In \textit{(c)} wird anschließend ein Graph angefertigt, der Ausschnitte des Gesichts im Verlauf der Zeit anzeigt. Bei nicht verstärktem Input sind keine Unterschiede sichtbar. Mit EVM kann jedoch deutlich ausgemacht werden, wie sich die Gesichtsfarbe im Verlauf der Zeit geändert hat. Auf Basis dieses Graphen kann anschließend der Puls bestimmt werden. \footcite[Vgl.][]{MIT15} \newline
+Da Smartphones heutzutage über sehr gute Kameras verfügen, kann die Nutzung von EVM eine gute Möglichkeit zur Pulsbestimmung darstellen.
 \subsubsection{Pulsmessung mit externen Sensoren}
 \subsubsection{Analyse des Tippverhaltens bei Smartphone-Nutzung}
