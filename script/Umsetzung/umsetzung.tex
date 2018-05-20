@@ -97,4 +97,10 @@ this.bluetoothSerial.subscribe(";").subscribe(
 In Zeile 15 ist implementiert, dass das Bluetooth des Smartphones auf einen neu eintreffenden Integer-Wert des Arduinos reagieren kann. Das BluetoothSerial dient dabei als Observable, den die App abonnieren kann. Dies bedeutet, dass die App darauf hingewiesen wird, wenn neue Daten angekommen sind. Mit \textit{subscribe(";")} wird die App jedes Mal informiert, wenn ein Semikolon übertragen wurde. Das Semikolon wurde im Arduino-Code als Trennzeichen eingesetzt und signalisiert, dass ein Integer-Wert abgeschlossen ist. Mit dem nächsten \textit{subscribe} wird bestimmt, was ausgeführt wird, wenn ein Semikolon empfangen wird. Als \textit{data} (Zeile 16) wird immer alles übertragen, was seit dem letzten Ausführen der Funktion übertragen wurde. Es handelt sich also immer um einen Integer-Wert und das Semikolon. In Zeile 17 wird aus diesem Grund das letzte Zeichen der Übertragung abgeschnitten, sodass der \textit{value}-Variable nur der Integer-Wert zugewiesen wird.
 
 \subsection{Auswertung der Testergebnisse}
+\subsubsection{Beschreibung der implementierten Kausalitätsregeln}
+\subsubsection{Implementierung des Deciders}
 \subsection{Benutzeroberfläche der App}
+\subsubsection{HomePage}
+\subsubsection{GSRPage}
+\subsubsection{CameraPage}
+\subsubsection{DecisionPage}
