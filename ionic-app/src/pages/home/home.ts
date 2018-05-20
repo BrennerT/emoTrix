@@ -1,3 +1,4 @@
+import { VoicePage } from './../voice/voice';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
@@ -16,7 +17,7 @@ import { DecisionPage } from '../decision/decision';
 })
 export class HomePage {
 
-  status: {keyboard: boolean , gsr: boolean, puls: boolean};
+  status: {keyboard: boolean , gsr: boolean, puls: boolean, voice: boolean};
   tests: Array<{name: String, component: any, done: boolean, icon: String}>;
   
 
@@ -25,7 +26,7 @@ export class HomePage {
             console.log("Status exists");
             this.status = data;
           } else {
-            this.status = {keyboard: false, gsr: false, puls: false};
+            this.status = {keyboard: false, gsr: false, puls: false, voice: false};
             this.storage.set("testStatus",this.status);
           }
 
@@ -33,7 +34,8 @@ export class HomePage {
             {name: "Keyboard Scanner", component: KeyboardScannerPage, done: this.status.keyboard, icon: "phone-portrait"},
             {name: "Test", component: HomePage,  done: false, icon: "pizza"},
             {name: "GSR", component: GsrPage,  done: this.status.gsr, icon: "flash"},
-            {name: "Puls", component: PulsPage,  done: this.status.puls , icon: "heart"}
+            {name: "Puls", component: PulsPage,  done: this.status.puls , icon: "heart"},
+            {name: "Voice", component: VoicePage, done: this.status.voice, icon: "microphone"}
           ];
 
         }

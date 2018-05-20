@@ -1,3 +1,4 @@
+import { VoicePage } from './../pages/voice/voice';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -26,7 +27,8 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'KeyboardScanner', component: KeyboardScannerPage},
       { title: 'GSR', component: GsrPage},
-      { title: 'Puls', component: PulsPage}
+      { title: 'Puls', component: PulsPage},
+      { title: 'Voice', component: VoicePage}
     ];
 
   }

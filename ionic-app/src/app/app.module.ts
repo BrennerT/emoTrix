@@ -1,3 +1,4 @@
+import { VoicePage } from './../pages/voice/voice';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -27,7 +28,8 @@ import { DecisionPage } from '../pages/decision/decision';
     KeyboardScannerPage,
     GsrPage,
     PulsPage,
-    DecisionPage
+    DecisionPage,
+    VoicePage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { DecisionPage } from '../pages/decision/decision';
     KeyboardScannerPage,
     GsrPage,
     PulsPage, 
-    DecisionPage
+    DecisionPage,
+    VoicePage
   ],
   providers: [
     StatusBar,
