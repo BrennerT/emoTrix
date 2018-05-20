@@ -24,7 +24,8 @@ export class CameraComponent {
     quality: 100,
     destinationType: this.camera.DestinationType.DATA_URL,
     mediaType: this.camera.MediaType.PICTURE,
-    encodingType: this.camera.EncodingType.JPEG
+    encodingType: this.camera.EncodingType.JPEG,
+    cameraDirection: this.camera.Direction.BACK
   }
 
   /**
@@ -55,6 +56,7 @@ export class CameraComponent {
       this.camera.getPicture(this.cameraOptions).then((data: String) => {
         console.log("received image data");
         this.latestPicture = 'data:image/jpeg;base64,' + data;
+        // this.latestPicture = data;
         this.sourceChanged.emit(this.latestPicture); 
       }, 
       (err: CaptureError) => {
