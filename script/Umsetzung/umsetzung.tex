@@ -43,6 +43,49 @@ Auf dem folgenden Bild ist die Auswertungsseite zu sehen.
 	\caption[Mockup - Auswertung]{Mockup - Auswertung}
 \end{figure}%
 Die Seite enthält sowohl eine Legende, die angibt welche Farbe welche Emotion repräsentiert, als auch ein Auswertungsergebnis in Form eines Kreisdiagramms. Unter dem Diagramm soll der Nutzer einen Text angezeigt bekommen, welche Emotion aktuell überwiegt.
+\subsection{Umsetzung der Backendlogik}
+\subsectionauthor{Torben Brenner}
+Wie im Konzept beschrieben besteht das Backend der Anwendung aus den Klassen \textit{Decider, CausalityRule} und der Abstrakten Klasse \textit{Sensor}. Im folgenden wird die Umsetzung der einzelnen Klassen beschrieben.\newline
+Die Klasse \textit{Sensor} wurde als Abstrakte Klasse umgesetzt. Dies ermöglicht es dem Entwickler, für jeden Test eine Klasse zu implementieren die von der Architektur verstanden wird und in der er die im Test ermittelten Daten auswerten kann. Die Implementation der \textit{Sensor} Klasse sieht folgendermaßen aus: 
+\begin{lstlisting}[caption={abstrakte Klasse Sensor},language=JavaScript]
+export abstract class Sensor{
+
+	constructor(public decider: Decider){};
+
+	// this forces the specific sensor evaluators to implement this method
+	abstract mapper(data: any): IndicatorScore[]; 
+
+	onSensorData(data: any) {
+		let indicatorScores = this.mapper(data)
+		this.decider.addIndicatorScores(indicatorScores);
+	}
+
+}
+\end{lstlisting}
+Der Konstruktor der Klasse empfängt eine Instanz der Klasse \textit{Decider}, die wie im Konzept beschrieben ein Singleton ist. Die Funktion \textit{onSensorData} wird von den Subklassen aufgerufen, sobald Daten empfangen wurden und stellt die Logik der Sensor Klasse dar. Zuerst wird bei Empfang der Daten, das von erbenden Klassen definierte \textit{Mapping} auf die Daten ausgeführt. Danach werden die Daten dem \textit{Decider} hinzugefügt, welcher diese dann im späteren Verlauf verarbeiten kann(Vgl. \ref{img:Ablauf Erstellung Indicatorscores}). Durch das Schlüsselwort \textit{abstract} wird bei der Funktion \textit{mapper} gekennzeichnet, dass dieser von den erbenden Klassen implementiert werden soll. Die Abstrakte Klasse definiert in diesem Fall nur, dass der Mapper aus den Daten des Sensors eine Liste von \textit{IndicatorScores} erzeugen muss. Ein \textit{IndicatorScores} besteht dabei aus einem \textit{indicator} und einem \textit{score}. Der Score ist als nummerischer Wert definiert und für die Indicator wurde ein eigener Typ definiert. Dieser Typ ermöglicht es, eine einfache Prüfung der Werte gegenüber dem Typ String und bestimmten Werten durchzuführen. Erlaubte Werte für den Typ Indicator sind zum Beispiel: \textit{"stress"} oder \textit{"angryIndicator"}.\newline
+Wie im Konzept beschrieben, verwaltet die Klasse \textit{Decider} alle \textit{IndicatorScores}. Um sicherzustellen, dass die Daten nach Zeitpunkt sortiert gespeichert werden, ermittelt die Methode \textit{addIndicatorScores} erst einen Zeitpunkt und speichert danach die Daten in einer List von Objekten, welche den Zeitpunkt und die dazu gehörige Liste von \textit{IndicatorScores} enthalten. Dadurch können Sensoren die \textit{IndicatorScores} einfach auf diese Liste pushen, ohne Gefahr zu laufen sich gegenseitig zu überschreiben.\newline
+Um die Auswertung der Daten zu ermöglichen, greift die Klasse \textit{Decider} außerdem auf eine Liste von Kausalitätsregeln zu. Diese können mit der Klasse \textit{CausalityRule} definiert werden.
+Der Konstruktor dieser Klasse nimmt zwei Parameter entgegen. Der Parameter \textit{condition} repräsentiert eine Bedingung, welche eintreten muss sodass die Kausalitätsregel angewandt wird. Die Bedingung wurde innerhalb der Anwendung durch einen Typ umgesetzt. Der Typ prüft dabei auf eine Funktion, die entweder einen oder zwei \textit{indicator} als Parameter entgegennimmt, und als Rückgabewert wahr oder falsch zurückgibt. 
+\begin{lstlisting}[caption={Typ condition}, language=JavaScript]
+	type Condition = (indicatorA: IndicatorScore, indicatorB?: IndicatorScore) => boolean;
+\end{lstlisting}
+Das bedeutet, dass die Bedingung vom Entwickler frei über die \textit{IndicatorScores} definiert werden kann. Der zweite Parameter der Anwendung repräsentiert die Auswirkungen der Kausalitätsregel beim eintreffen der Bedingung. Um diesen Parameter zu definieren wurde ebenfalls ein neuer Typ angelegt. Dieser prüft auf Funktionen, die eine Liste von \textit{EmotionScores} entgegen nehmen und eine solche auch wieder zurückgeben. Das bedeutet, dass in Funktionen dieser Art irgendeine Manipulation der \textit{EmotionScores} stattfinden muss. Der Parameter der Kausalitätsregel ist eine Liste solcher Funktionen. Mit diesen beiden Funktionen kann nun in der Klasse \textit{CausalityRule} eine neue Funktion definiert werden, die prüft ob eine Bedingung eingetroffen ist und in diesem Fall, alle Auswirkungen der Regel ausführt. 
+\begin{lstlisting}[caption={execute Funktion der Klasse CausalityRule},language=JavaScript]
+
+public execute(data : Array<EmotionScore>, indicatorScores: IndicatorScore[]) {
+	indicatorScores.forEach((indicatorScore) =>{
+		if(this.condition(indicatorScore)){
+			this.effects.forEach((effect) => {
+				data = effect(data);
+			})           
+		}});
+		return data;
+	}
+}
+
+\end{lstlisting}
+Diese Funktion kann nun von der Klasse \textit{Decider} ausgeführt werden.
+\textbf{Hier wird in Kürze weitergeschrieben}
 \subsection{Datenerfassung in Form von Emotionstests}
 \subsubsection{GSR-Test}
 \subsubsectionauthor{Lukas Seemann}
