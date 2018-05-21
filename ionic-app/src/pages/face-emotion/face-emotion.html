@@ -8,10 +8,12 @@
 
   <ion-navbar>
     <ion-title>face-emotion</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
   </ion-navbar>
 
 </ion-header>
-
 
 <ion-content padding>
   <camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
