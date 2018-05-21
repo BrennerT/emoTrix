@@ -22,7 +22,7 @@ describe("CausalityRule", () => {
             
             const dataMock = [{emotion: <emotion>"angry", score: 0.5}];
             var expected = [{emotion: <emotion>"angry", score: 1}];
-            var indicatorScores = [{indicator: <indicator>"stress", score: 1}];
+            var indicatorScores = [{indicator: <indicator>"activation", score: 1}];
 
             var result = target.execute(dataMock, indicatorScores);            
             expect(result).toEqual(expected)

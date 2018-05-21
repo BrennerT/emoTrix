@@ -23,28 +23,28 @@ export class Decider {
     public decide(){
         console.log("Deciding ...");
         //Iterieren über jeden angegebenen Zeitpunkt und Emotion dazu schätzen
-        var checked: Array<Date> = [];
+        let start = this.findRange().start;
+        let end = this.findRange().end;
         console.log("Size of Array: " + this.data.length);
-        this.data.forEach(element => {
-            if (!(checked.indexOf(element.timestamp) > -1)){
-                console.log("Deciding for " + element.timestamp + " ...");
-                this.assumeEmotion(element.timestamp);
-                checked.push(element.timestamp);
-            } 
-        });
+        for(var i:Date = start; i<end; i.setSeconds(i.getSeconds() + 10)){
+                var j: Date = i;
+                j.setSeconds(j.getSeconds() + 9);
+                console.log("i: " + i + ", j: " + j);
+                this.assumeEmotion(i, j);
+        } 
     }
 
 
-    private assumeEmotion(timestamp: Date){
+    private assumeEmotion(start: Date, end: Date){
         //Finden der hinterlegten Indicator zu einer Timestamp
-        var currentIndicators: Array<IndicatorScore> = this.data.find(e => e.timestamp == timestamp).indicatorScores
+        var currentIndicators: Array<IndicatorScore> = this.data.find(e => e.timestamp >= start && e.timestamp >= end).indicatorScores
         console.log("Found scores")
         //Ausführen der Kausalitätsregeln auf die aktuellen Indicator; Zurückgeben eines EmotionScoreArrays
         var emotionScores: Array<EmotionScore> = this.executeCausalityRules(currentIndicators);
         //Hinzufügen des EmotionscoreArrays zur ResultData mit gegebener Timestamp
-        console.log("Timestamp: " + timestamp + ", Score: ");
+        console.log("Start Timestamp: " + start + ", Score: ");
         emotionScores.forEach((score)=> console.log(score.emotion +": " + score.score));
-        this.resultData.push({ timestamp: timestamp, emotionScores: emotionScores })
+        this.resultData.push({ timestamp: start, emotionScores: emotionScores })
     }
 
     private executeCausalityRules(indicatorScores: Array<IndicatorScore>){ 
@@ -52,7 +52,7 @@ export class Decider {
         var emotionScores: EmotionScore[] = [];
         //Initiales Anlegen der EmotionScores mit Score 0; iteriert über alle im Enum angegebenen Emotionen
         emotions.forEach(emotion => {
-            var emotionScore : EmotionScore = {emotion, score: 0};
+            var emotionScore : EmotionScore = {emotion, score: 1};
             emotionScores.push(emotionScore);
         });
         console.log("Size of CRarray: " + this.causalityRules.length);
@@ -69,13 +69,11 @@ export class Decider {
         return date;
     }
 
-    public findFirstTimestamp(arg: String){
+    public findRange(){
         var dates = this.data.map(function(x) { return new Date(x.timestamp); })
         var latest = new Date(Math.max.apply(null,dates));
         var earliest = new Date(Math.min.apply(null,dates));
-        if(arg === "min") {return earliest;}
-        if(arg === "max") {return latest;}
-        return;
+        return{ start: earliest, end: latest };
     }
 
     public generateGraph(result){

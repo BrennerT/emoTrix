@@ -157,14 +157,17 @@ export class GsrPage {
     this.bluetoothSerial.subscribe(";").subscribe(
       function (data){
         self.value = data.substring(0,data.length - 1);
-        if(self.time%10 == 0){
-          self.addData(self.lineChart,self.time, self.value);
+        self.value = ((1024+2*self.value)*10000)/(512-self.value);
+        if(self.time%5 == 0){
           if(self.time != 0){
             var data: any = {value: self.value, oldValue: self.oldValue};
             self.GsrSensor.onSensorData(data);
-          }  
-          self.oldValue = self.value;
+          }
+        } 
+        if(self.time%10 == 0){
+          self.addData(self.lineChart,self.time, self.value); 
         }
+        self.oldValue = self.value;
         self.time++;
         self.cdr.detectChanges();
         

@@ -37,7 +37,7 @@ describe("Decider", () => {
 
             const rule = new CausalityRule(
                 (indicatorScore : IndicatorScore) => {
-                    return indicatorScore.indicator == <indicator>"stress" && indicatorScore.score >= 0.5;
+                    return indicatorScore.indicator == <indicator>"activation" && indicatorScore.score >= 0.5;
                 }, [(data: EmotionScore[]) => {
                     var angry = data.find((element)=>{return element.emotion == <emotion>"angry"});
                     angry.score = angry.score + 20;
@@ -48,7 +48,7 @@ describe("Decider", () => {
             target.causalityRules.push(rule);
             target.getTimeStamp = () => mockNow;
             target.data = [
-                {timestamp: mockNow, indicatorScores: [{indicator: <indicator>"stress", score: 0.5}]}
+                {timestamp: mockNow, indicatorScores: [{indicator: <indicator>"activation", score: 0.5}]}
             ];
 
             target.decide();
