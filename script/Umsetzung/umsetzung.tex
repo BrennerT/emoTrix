@@ -77,7 +77,7 @@ public execute(data : Array<EmotionScore>, indicatorScores: IndicatorScore[]) {
 		if(this.condition(indicatorScore)){
 			this.effects.forEach((effect) => {
 				data = effect(data);
-			})           
+			})
 		}});
 		return data;
 	}
