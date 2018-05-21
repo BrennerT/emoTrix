@@ -1,13 +1,13 @@
 import { EmotionScore, emotions } from './../providers/classes/EmotionScore';
-import { IndicatorScore, indicator, indicators } from './../providers/classes/IndicatorScore';
+import { IndicatorScore, indicator} from './../providers/classes/IndicatorScore';
 export namespace Create {
 
-    export function randomIndicatorScore() : IndicatorScore {
+    /*export function randomIndicatorScore() : IndicatorScore {
         return {
             indicator : indicators[Math.floor(Math.random()* 10) %indicators.length],
             score: Math.random()
         }
-    }
+    }*/
 
     export function randomEmotionScore() : EmotionScore {
         return {

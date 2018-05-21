@@ -3,7 +3,7 @@ import { EmotionScore } from './EmotionScore';
 import { IndicatorScore } from './IndicatorScore';
 
 export type Condition = (indicatorA: IndicatorScore, indicatorB?: IndicatorScore) => boolean;
-export type ScoreTransformation = (emotionScores: EmotionScore[]) => EmotionScore[];
+export type ScoreTransformation = (emotionScores: EmotionScore[], indicatorScores: IndicatorScore[]) => EmotionScore[];
 
 export class CausalityRule {
 
@@ -16,7 +16,7 @@ export class CausalityRule {
         indicatorScores.forEach((indicatorScore) =>{
             if(this.condition(indicatorScore)){
                 this.effects.forEach((effect) => {
-                   data = effect(data);
+                   data = effect(data, indicatorScores);
                })           
         }});
         return data;

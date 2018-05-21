@@ -13,9 +13,9 @@
 
 }*/
 
-export type emotion = "happy" | "angry" | "sad" | "suprised";
+export type emotion = "happy" | "angry" | "sad" | "surprised";
 
-export var emotions : emotion[] = ["happy", "angry", "sad", "suprised"];
+export var emotions : emotion[] = ["happy", "angry", "sad", "surprised"];
 
 export interface EmotionScore {
     emotion: emotion;

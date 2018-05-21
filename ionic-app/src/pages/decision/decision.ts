@@ -24,7 +24,7 @@ export class DecisionPage {
             backgroundColor: ["#2ECC40", "#FF4136", "#0074D9", "#FFFF33"]
         }],
         // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: ["happy", "angry", "sad", "suprised"]
+        labels: ["happy", "angry", "sad", "surprised"]
     }})
   }
 
@@ -32,17 +32,17 @@ export class DecisionPage {
     var happy= 0;
     var angry= 0;
     var sad= 0;
-    var suprised= 0;
+    var surprised= 0;
     this.decider.resultData.forEach((entry) =>{
       entry.emotionScores.forEach(element => {
         if(element.emotion == "happy") {happy += element.score}
         if(element.emotion == "angry") {angry += element.score}
         if(element.emotion == "sad") {sad += element.score}
-        if(element.emotion == "suprised") {suprised += element.score}
+        if(element.emotion == "surprised") {surprised += element.score}
       });
     })
 
-    return [happy, angry, sad, suprised];
+    return [happy, angry, sad, surprised];
       
   }
 }

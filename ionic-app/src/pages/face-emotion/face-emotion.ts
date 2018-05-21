@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 
+import { FaceSensor } from './../../providers/sensors/FaceSensor';
 import { CameraComponent } from './../../components/camera/camera';
 import  * as $ from 'jquery';
+import { Chart } from 'chart.js';
 
 /**
  * Generated class for the FaceEmotionPage page.
@@ -17,7 +19,10 @@ import  * as $ from 'jquery';
 })
 export class FaceEmotionPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private loadingController: LoadingController) {
+  @ViewChild('doughnutChart') doughnutChart;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+              private loadingController: LoadingController, private faceSensor: FaceSensor) {
   }
 
   ionViewDidLoad() {
@@ -30,6 +35,7 @@ export class FaceEmotionPage {
    */
   onSourceChanged(source: String) {
     console.log("new source registrated");
+    let self = this;
     let loader = this.loadingController.create({
       content: "Please wait ...",
     })
@@ -51,8 +57,8 @@ export class FaceEmotionPage {
         // Users face can't be recognized
         alert("Place make sure that the face in the picture is vertically aligned")
       }else{
-        // TODO: Implement sensor for the Data!!
-        alert(JSON.stringify(data));
+        let emotions = data[0].faceAttributes.emotion;
+        self.faceSensor.onSensorData(emotions);
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {

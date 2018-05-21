@@ -17,4 +17,7 @@
 
 <ion-content padding>
   <camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
+  <div class="chart-container">
+    <canvas #doughnutChart></canvas>
+  </div>
 </ion-content>

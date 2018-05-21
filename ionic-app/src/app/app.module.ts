@@ -1,3 +1,4 @@
+import { FaceSensor } from './../providers/sensors/FaceSensor';
 import { FaceEmotionPage } from './../pages/face-emotion/face-emotion';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -54,6 +55,7 @@ import { DecisionPage } from '../pages/decision/decision';
     Camera,
     MediaCapture,
     GSRSensor,
+    FaceSensor,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
