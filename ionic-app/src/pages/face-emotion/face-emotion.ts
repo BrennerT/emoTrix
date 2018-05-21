@@ -13,7 +13,6 @@ import *  as oxford from 'project-oxford';
  * on Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-face-emotion',
   templateUrl: 'face-emotion.html',
@@ -29,7 +28,7 @@ export class FaceEmotionPage {
 
   onSourceChanged(source: String) {
     console.log("source changed wtf");
-    console.log(source);
+
     /**
      * Throws TypeError fs.readFileSync not defined
      */
@@ -67,18 +66,15 @@ export class FaceEmotionPage {
         processData: false,
         headers: {
           "Ocp-Apim-Subscription-Key": "9fc2727bd8844e6ea5cc3464067983f8",
-          "returnFaceID": "true",
-          "returnFaceLandmarks": "false",
-            "returnFaceAttributes":
-                "age,gender,headPose,smile,facialHair,glasses,emotion," +
-                "hair,makeup,occlusion,accessories,blur,exposure,noise"
+          "returnFaceAttributes": "age,gender,emotion"
         },
         contentType: 'application/octet-stream',
-        data: this.dataURItoBlob(source)
+        data: this.makeblob(source)
       })
     .done(function(data) {
       // Show formatted JSON on webpage.
-      console.log('data:' + data);
+      console.log('data:');
+      console.log(JSON.stringify(data));
       alert(JSON.stringify(data));
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -145,11 +141,11 @@ export class FaceEmotionPage {
     var rawLength = raw.length;
 
     var uInt8Array = new Uint8Array(rawLength);
-
+    
     for (var i = 0; i < rawLength; ++i) {
         uInt8Array[i] = raw.charCodeAt(i);
     }
-
+    
     return new Blob([uInt8Array], { type: contentType });
   }
 
