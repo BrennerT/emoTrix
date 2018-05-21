@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { CameraComponent } from './../../components/camera/camera';
 import  * as $ from 'jquery';
@@ -17,7 +17,7 @@ import  * as $ from 'jquery';
 })
 export class FaceEmotionPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private loadingController: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -30,7 +30,10 @@ export class FaceEmotionPage {
    */
   onSourceChanged(source: String) {
     console.log("new source registrated");
-
+    let loader = this.loadingController.create({
+      content: "Please wait ...",
+    })
+    loader.present();
     $.ajax({
       url: 'https://westeurope.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
       type: 'POST',
@@ -43,7 +46,8 @@ export class FaceEmotionPage {
     })
     .done(function(data) {
       // Show formatted JSON on webpage.
-      if(data == []){
+      loader.dismiss();
+      if(JSON.stringify(data) == '[]'){
         // Users face can't be recognized
         alert("Place make sure that the face in the picture is vertically aligned")
       }else{
@@ -53,6 +57,7 @@ export class FaceEmotionPage {
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
       // Display error message.
+      loader.dismiss();
       console.log('error');
       var errorString = (errorThrown === "") ?
         "Error. " : errorThrown + " (" + jqXHR.status + "): ";

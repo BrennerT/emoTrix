@@ -24,11 +24,10 @@ export class CameraComponent {
     quality: 100,
     destinationType: this.camera.DestinationType.DATA_URL,
     mediaType: this.camera.MediaType.PICTURE,
-    encodingType: this.camera.EncodingType.JPEG,
-    cameraDirection: this.camera.Direction.BACK
+    encodingType: this.camera.EncodingType.JPEG
   }
 
-  /**
+  /*
    * Component used to implement camera use in a page
    * @param pictureMode 
    * @param mediaCapture 
