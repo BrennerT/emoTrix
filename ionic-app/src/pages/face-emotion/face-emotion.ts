@@ -32,7 +32,7 @@ export class FaceEmotionPage {
     console.log("new source registrated");
 
     $.ajax({
-      url: 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
+      url: 'https://westeurope.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
       type: 'POST',
       processData: false,
       headers: {

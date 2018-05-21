@@ -4,7 +4,6 @@ import { NavController } from 'ionic-angular';
 import { KeyboardScannerPage } from './../keyboard-scanner/keyboard-scanner';
 import { Decider } from '../../providers/decider';
 import { GsrPage } from '../gsr/gsr';
-import { PulsPage } from './../puls/puls';
 import { Page } from 'ionic-angular/navigation/nav-util';
 import { Storage} from'@ionic/storage';
 import { DecisionPage } from '../decision/decision';
@@ -16,7 +15,7 @@ import { FaceEmotionPage } from './../face-emotion/face-emotion';
 })
 export class HomePage {
 
-  status: {keyboard: boolean , gsr: boolean, puls: boolean, face: boolean};
+  status: {keyboard: boolean , gsr: boolean, face: boolean};
   tests: Array<{name: String, component: any, done: boolean, icon: String}>;
   
 
@@ -25,18 +24,15 @@ export class HomePage {
             console.log("Status exists");
             this.status = data;
           } else {
-            this.status = {keyboard: false, gsr: false, puls: false, face: false};
+            this.status = {keyboard: false, gsr: false, face: false};
             this.storage.set("testStatus",this.status);
           }
 
           this.tests = [
-            {name: "Keyboard Scanner", component: KeyboardScannerPage, done: this.status.keyboard, icon: "phone-portrait"},
-            {name: "Test", component: HomePage,  done: false, icon: "pizza"},
             {name: "GSR", component: GsrPage,  done: this.status.gsr, icon: "flash"},
-            {name: "Puls", component: PulsPage,  done: this.status.puls , icon: "heart"},
-            {name: "Face", component: FaceEmotionPage, done: this.status.face, icon: "happy"}
+            {name: "Face", component: FaceEmotionPage, done: this.status.face, icon: "happy"},
+            {name: "Keyboard Scanner", component: KeyboardScannerPage, done: this.status.keyboard, icon: "phone-portrait"},
           ];
-
         }
       )
     
