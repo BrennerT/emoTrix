@@ -1,6 +1,7 @@
 \section{Theoretische Grundlagen}
 \subsection{Biometrie und biometrische Merkmale}
 \subsectionauthor{Torben Brenner}
+\label{section:Biometrie}
 Bei der Biometrie handelt es sich um die Wissenschaft, die sich mit der Vermessung von biologischen Merkmalen beschäftigt \footcite[Vgl.][]{Sea18}. Dabei werden insbesondere in der Informationstechnologie Technologien zur Messung und Analyse von körperlichen Merkmalen untersucht.\newline
 Diese Merkmale werden auch als biometrische Merkmale bezeichnet. Dabei wird unterschieden zwischen den verhaltensbasierten und den physiologischen Merkmalen\footcite[Vgl. ][]{Sas06}. Erstere zeichnen sich dadurch aus, dass eine Person aktiv eine Handlung ausführen muss um das Merkmal zu zeigen, während dem die physiologischen Merkmale dauerhaft von einer Person getragen werden. Ein Beispiel für verhaltensbasierte Merkmale ist die Gangart eines Menschen, die sogar zur Authentifizierung verwendet werden kann\footcite[Vgl. ][]{Cla09}. Ein bekanntes physiologisches Merkmal ist der Fingerabdruck einer Person.\newline
 Ein häufiger Einsatzzweck der Biometrie ist die Authentifizierung eines Nutzers gegenüber einem System. Da sich nicht alle Merkmale für eine solche Identifikation eignen, müssen verschiedene Faktoren bei der Auswahl der Merkmale betrachtet werden. \cite{Akj04} nennt zum Beispiel folgende Faktoren: 
@@ -116,8 +117,19 @@ Die Ergebnisse der Studie zeigen, dass Menschen aus der Mimik einen Schluss auf 
 Besitzer eines Smartphones verwenden dieses für die verschiedensten Lebensaufgaben. Neben der Hauptaufgabe, dem telefonieren, wird das Smartphone sowohl zum Nachrichten schreiben als auch für das Bilder machen verwendet. Dabei lassen sich theoretisch Daten wie die Tippgeschwindigkeit erfassen, oder aber auch mit Einwilligung des Nutzers der Text versendeter Nachrichten analysieren.
 \subsubsection{Gangart}
 % Was ist die Gangart
-% Auszeichnung als biometrisches Merkmal
-% Emotionsindiz?
+Wie bereits im Abschnitt Biometrie und biometrische Merkmale(siehe S.\pageref{section:Biometrie}) erläutert, ist auch die Gangart eines Menschen ein biometrisches Merkmal. Die Gangerkennung setzt dabei darauf, ``dass jeder Mensch eine relativ spezifische Gangart besitzt, an der er unter Zuhilfenahme anthroprometrischer Maße wie Beinlänge und Bein Form nahezu eindeutig erkannt werden kann''\footcite[siehe ][Abschnitt Allgemein Abs.2 Z.2]{Bio18}. So entstehen beim gehen verschiedene sich wiederholende Muster, die sich mit Hilfe von Sensoren erkennen lassen. So existieren mehrere Merkmale, die sich dazu eignen den menschlichen Gang zuerkennen, hier sei z. Bsp. die Schrittweite oder die Schrittzeit genannt.\newline
+Verschiedene wissenschaftliche Quellen treffen die Aussage, dass sich Emotionen auch auf die Bewegung einer Person auswirken können. So stellen Walk \& Homan in ihrer Arbeit folgende Theorie auf.
+\begin{quote}
+	``Although emotion may be expressed in the face, it can also be expressed in the voice and in body movement. People jump with joy or cringe with fear.''\footcite[siehe ][S.437 Z.20-23]{Wal84}
+\end{quote}
+In ihrer Arbeit haben sie ein Experiment mit 24 Studenten durchgeführt, denen sie Videosequenzen vorgespielt haben in denen zwei verschiedene Schauspielerinnen, verschiedene Körperliche und Emotionale Zustände dargestellt haben. Die Studenten hatten in der ersten Phase des Experiments, die Aufgabe, die gesehenen Videosequenzen zu beschreiben. In der zweiten Phase, in der den Studenten die Aufnahme erneut gezeigt wurde, hatten diese die Aufgabe einzuschätzen wie viele verschiedene Personen sie in dem Video gesehen haben und welches Geschlecht diese haben\footcite[Vgl. ][S.437+438 Method]{Wal84}. Als ein Ergebnis dieses Experiments stellten die Authoren in einer Tabelle(siehe Abbildung) ihre Ergebnisse mit denen von Ekman\footcite{Ekm92} in Vergleich. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=16cm]{Bilder/Gangerkennung-Emotion-Vgl.png}
+	\caption[Event Study Compared with Studies of Facial Expression of Motion(Values in Percentages)]{Event Study Compared with Studies of Facial Expression of Motion(Values in Percentages)\footnotemark}
+\end{figure}\footcitetext[siehe. ][Tabelle 1 S.438]{Wal84}
+In der Grafik ist deutlich zu sehen, dass die Teilnehmer der Studie von Walk \& Homan beim ersten sehen der Videos Probleme hatten, die Emotionen zu erkennen. Einzig die Emotion \textit{Wut} wurde von einem Großteil der Teilnehmer erkannt. Beim zweiten Ansehen des Videos, konnten die Probanden aber deutlich besser die verschiedenen Emotionen erkennen. In diesem Fall war es für die sechs untersuchten Emotionen immer mindestens 70\% möglich die dargestellte Emotion zu erkennen. Im Vergleich mit der Studie von Ekman sind diese Ergebnisse schon deutlich Konkurrenzfähiger. Dennoch scheinen die Probanden anhand der Untersuchungsergebnisse, eher anhand des Gesichtsausdrucks, als den Bewegungen eines Menschen dessen Emotionen erkennen zu können. Dennoch ist hier anzumerken, dass sich die Teilnehmer Anzahl der beiden Studien deutlich unterscheidet und bei dem Experiment von Ekman eine gemischte Personen Gruppe genutzt wurde, während dem Walk \& Homan ausschließlich Studenten und Studentinnen untersuchten.\newline
+Dennoch zeigt das oben vorgestellte Experiment das eine Emotionserkennung anhand des Gangs möglich ist und deshalb wird diese Als Emotionsindiz aufgenommen.
 \subsubsection{Stimme}
 \subsubsectionauthor{Torben Brenner}
 % Was ist die Stimme?
