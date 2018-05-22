@@ -6,7 +6,7 @@ Hier wird ein Konzept mit Mock Ups und Architektur entstehen
 Im Anschluss an die Auswahl der Erfassungsmöglichkeiten werden diese Möglichkeiten nun priorisiert. In der folgenden Tabelle (Tabelle 1) ist die Priosierung abgebildet. \newline
 \begin{table}[h]
 	\centering
-	\includegraphics[width=15cm]{Bilder/prio.png}
+	\includegraphics[width=16cm]{Bilder/prio.png}
 	\caption[Priorisierung der Erfassungsmöglichkeiten]{Priorisierung der Erfassungsmöglichkeiten}
 \end{table}%
 \newline In der ersten Spalte ist die Priorität dargestellt. Je niedriger die Zahl ist, desto höher ist die Erfassungsmöglichkeit priorisiert. Die Möglichkeiten werden in der Reihenfolge der hier dargestellten Priorisierung thematisiert und letzten Endes in den Prototyp der mobilen Applikation integriert, um Daten zu erfassen. Je nachdem wie viel Zeit die einzelnen Features benötigen, können mehr und mehr Möglichkeiten der Datenerfassung in die App eingebaut werden, wenn sie noch im Zeitrahmen der Studienarbeit umsetzbar sind. Bei den einzelnen Möglichkeiten werden das Indiz, anhand dessen Rückschlüsse auf eine Emotion gemacht werden kann, und ein Sensor, der Daten zum Indiz für die App erfassen soll, aufgelistet. In der letzen Spalte ist festgehalten, ob der benötigte Sensor in den meisten aktuellen Smartphones bereits enthalten ist oder nicht. \newline
@@ -19,7 +19,7 @@ Auf Platz 5 und 6 folgt die Pulsmessung. Da die meisten Erkenntnisse, die mit de
 Auf den letzten Platz liegt die Messung der Gangart. Obwohl es sich hierbei auch eine Messung biometrischer Daten handelt, können hieraus nur sehr wenige Anzeichen für Emotionen herausgelesen werden. Von allen beschriebenen Methoden liefert diese Möglichkeit den geringsten Nutzwert für die Zwecke der mobilen Applikation. Aus diesem Grund hat die Implementierung dieser Messung die geringste Priorität. \newline
 % Zu diskutieren: Eigentlich wäre Reihenfolge Gesicht, GSR, Stimme, Tippverhalten sinnvoller, da im Theorieteil sich herausstellt das nur mit dem Gesicht ein direkter Schluss auf Emotionen möglich ist. 
 \subsection{Übertragung biometrischer Daten in Indikatorscores}
-\subsectionauthor{Lukas Seemann}
+\subsectionauthorlong{Lukas Seemann}
 Die von den Smartphone-internen und externen Sensoren zurückgeliefert Daten müssen in der App einheitlich verarbeitet werden. Die zurückgelieferten Daten sind unterschiedlich und meistens selbst nicht aussagend. Mit dem im Theorieteil erklärten Hintergrundwissen ist es jedoch möglich, die Daten zu interpretieren. \newline 
 Im Umfeld der App soll diese Interpretation mithilfe von Indikatoren geschehen. Ein Indikator ist in diesem Kontext ein Anzeichen, das für die Emotionsbestimmung herangezogen werden kann. Es existieren einerseits Indikatoren, die sich nur für die Bestimmung einer Emotion eignen, und andererseits auch Indikatoren, die für mehrere Emotionen ausschlaggebend sind. Folgende Indikatoren sind für die Umsetzung geplant: 
 \begin{itemize}[noitemsep, topsep=0pt]
@@ -38,7 +38,7 @@ Bei einer Auswertung werden die einzelnen Indikatoren mit Scores von null bis ei
 	\caption[Ablauf der Erstellung von Indikatorscores]{Ablauf der Erstellung von Indikatorscores}
 \end{figure}%
 \subsection{Auswertung der Indikatorscores zur Emotionsbestimmung}
-\subsectionauthor{Lukas Seemann}
+\subsectionauthorlong{Lukas Seemann}
 Aus den angesammelten Indikatorscores muss nun entschieden werden, welche Emotion am wahrscheinlichsten beim Benutzer der App vorliegt. Diese Auswertung der Indikatorscores zu konkreten Emotionen lässt sich in zwei Bestandteile aufteilen: die Menge der Kausalitätsregeln und den Entscheidungsalgorithmus. Als Ergebnis wird pro Emotion ein Emotionscore erwartet, der angibt, inwiefern die Emotion beim User zum getesteten Zeitpunkt vorliegt.
 \subsubsection{Kausalitätsregeln}
 \subsubsectionauthor{Lukas Seemann}
@@ -95,6 +95,7 @@ Die execute-Funktion der CausalityRule führt alle hinterlegten ScoreTransformat
 Um die Decider-Klasse weiter zu verstehen, muss zunächst der Typ Emotionscore erklärt werden. Dieser ist ähnlich wie der IndicatorScore aufgebaut. Zunächst wird eine Emotion angegeben, die dem Typ Emotion entsprechen muss. Der String muss dementsprechend mit den definierten Emotionen (happy, sad, angry, suprised) übereinstimmen. Anschließend folgt eine Nummer, die den Score angibt.\newline \newline
 Die Decider hat ein resultData-Array, das mehrere Emotionscores enthält und die Timestamp der IndicatorScores, aus denen die Emotionscores erzeugt wurden. Dieses Array wird mithilfe der decide-Funktion gefüllt. Wenn die decide-Funktion ausgeführt wird, wird anschließend für alle im data-Array vorhandenen Timestamps die assumeEmotion()-Funktion ausgeführt. Als Parameter erhält diese Methode eine Timestamp und filtert alle IndicatorScores aus dem data-Array zu diesem Zeitpunkt. Für alle auf diese Weise gefilterten Indicatorscores wird anschließend die executeCausalityRules()-Funktion ausgeführt. Diese Funktion wiederum iteriert über alle vorhandenen CausalityRules und führt diese auf Basis der IndicatorScores aus. So erhält man am Ende Emotionscores. Diese erhalten die Timestamp, die bei assumeEmotion() mitgegeben wurde und werden in das resultData-Array gespeichert. Hat man die assumeEmotion-Funktion für alle Timestamps ausgeführt, ist das result-Array komplett gefüllt und die Emotionsbestimmung abgeschlossen.
 \subsubsection{Frontend}
+\subsubsectionauthor{Lukas Seemann}
 Nachdem bereits das Backend beschrieben wurde, wird nun das Frontend der App thematisiert. Unter dem Frontend werden die Screens der App verstanden, die der User bei Nutzung der App aufrufen kann. Diese Screens werden bei Ionic Pages genannt und bestehen meist aus folgenden Bestandteilen: 
 \begin{itemize}[noitemsep, topsep=0pt]
 	\item Eine Typescript-Datei (.ts), 
