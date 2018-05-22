@@ -5,7 +5,7 @@ import { IndicatorScore, indicator } from "./classes/IndicatorScore";
 
 export var gsr1: CausalityRule = new CausalityRule(
     (indicatorScore: IndicatorScore) => {
-        return indicatorScore.indicator == <indicator>"stress" && indicatorScore.score == 1;
+        return indicatorScore.indicator == <indicator>"activation" && indicatorScore.score == 1;
     },
     [
         (data: EmotionScore[], indicatorScore: IndicatorScore[]) => {
@@ -23,7 +23,7 @@ export var gsr1: CausalityRule = new CausalityRule(
 
 export var gsr2: CausalityRule = new CausalityRule(
     (indicatorScore: IndicatorScore) => {
-        return indicatorScore.indicator == <indicator>"stress" && indicatorScore.score == 0;
+        return indicatorScore.indicator == <indicator>"activation" && indicatorScore.score == 0;
     },
     [
         (data: EmotionScore[], indicatorScore: IndicatorScore[]) => {
@@ -46,7 +46,7 @@ let face1: CausalityRule = new CausalityRule(
         (data: EmotionScore[], indicatorScores :IndicatorScore[]) => {
             let angry = data.find((emotionScore) => {return emotionScore.emotion == <emotion>"angry"});
             let angryIndicator = indicatorScores.find((indicatorScore) => {return indicatorScore.indicator == <indicator>"angryIndicator"});
-            angry.score = angry.score + 100 * angryIndicator.score;
+            angry.score = angry.score + (100 * angryIndicator.score);
             return data;
         }
     ]
@@ -59,7 +59,7 @@ let face2: CausalityRule = new CausalityRule(
         (data: EmotionScore[], indicatorScores :IndicatorScore[]) => {
             let happy = data.find((emotionScore) => {return emotionScore.emotion == <emotion>"happy"});
             let happyIndicator = indicatorScores.find((indicatorScore) => {return indicatorScore.indicator == <indicator>"happyIndicator"});
-            happy.score = happy.score + 100 * happyIndicator.score;
+            happy.score = happy.score + (100 * happyIndicator.score);
             return data;
         }
     ]
@@ -72,7 +72,7 @@ let face3: CausalityRule = new CausalityRule(
         (data: EmotionScore[], indicatorScores :IndicatorScore[]) => {
             let sad = data.find((emotionScore) => {return emotionScore.emotion == <emotion>"sad"});
             let sadIndicator = indicatorScores.find((indicatorScore) => {return indicatorScore.indicator == <indicator>"sadIndicator"});
-            sad.score = sad.score + 100 * sadIndicator.score;
+            sad.score = sad.score + (100* sadIndicator.score);
             return data;
         }
     ]
@@ -85,7 +85,7 @@ let face4: CausalityRule = new CausalityRule(
         (data: EmotionScore[], indicatorScores :IndicatorScore[]) => {
             let surprise = data.find((emotionScore) => {return emotionScore.emotion == <emotion>"surprised"});
             let surpriseIndicator = indicatorScores.find((indicatorScore) => {return indicatorScore.indicator == <indicator>"surpriseIndicator"});
-            surprise.score = surprise.score + 100 * surpriseIndicator.score;
+            surprise.score = surprise.score + (100 * surpriseIndicator.score);
             return data;
         }
     ]

@@ -1,8 +1,8 @@
-export type indicator = "stress" | "angryIndicator" | "happyIndicator"
+export type indicator = "activation" | "angryIndicator" | "happyIndicator"
                         | "sadIndicator" | "surpriseIndicator" | "contemptIndicator"
                         | "disgustIndicator" | "fearIndicator";
 
-//export var indicators : indicator[] = ["stress", "angryIndicator", 
+//export var indicators : indicator[] = ["activation", "angryIndicator", 
 //                                       "happyIndicator", "sadIndicator", "supriseIndicator"];
 
 export interface IndicatorScore{

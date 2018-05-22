@@ -12,10 +12,10 @@ describe("Sensor", () => {
                         if(data >= 300) {
                             return [{indicator: <indicator>"relaxed", score: 50}]
                         }else{
-                            return [{indicator: <indicator>"stress", score: 50}]
+                            return [{indicator: <indicator>"activation", score: 50}]
                         }
                     }
-                    return [{indicator: <indicator>"stress", score: 0}]
+                    return [{indicator: <indicator>"activation", score: 0}]
                 }
             };
 

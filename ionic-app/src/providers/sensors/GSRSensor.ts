@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SensorEvaluator } from '../classes/Sensor';
-import { IndicatorScore } from '../classes/IndicatorScore';
+import { IndicatorScore, indicator } from '../classes/IndicatorScore';
 
 @Injectable()
 export class GSRSensor extends SensorEvaluator{
@@ -9,12 +9,12 @@ export class GSRSensor extends SensorEvaluator{
         let newIndicatorScore: IndicatorScore;
         console.log("GSR Mapper called: "+ data.value + " "+ data.oldValue);
         if(data.value > data.oldValue){
-            newIndicatorScore = {indicator: "stress", score: 0};
+            newIndicatorScore = {indicator: "activation", score: 0};
         } else if (data.value < data.oldValue){
-            newIndicatorScore = {indicator: "stress", score: 1};
+            newIndicatorScore = {indicator: "activation", score: 1};
         } else { 
-            newIndicatorScore = {indicator: "stress", score: 0.5};
-        }     
+            newIndicatorScore = {indicator: "activation", score: 0.5};
+        }
         return [newIndicatorScore];
     }
 }
