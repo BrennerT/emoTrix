@@ -4,11 +4,9 @@ page-decision {
     h3{
         margin-bottom: 25px;
     }
+    ion-list-header{
+        text-align: left;
+    }
 
-    .chart-container {
-        position: relative;
-        margin: auto;
-        height: 60vh !important;
-      }
 
 }

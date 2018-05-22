@@ -7,14 +7,14 @@ import { CRarray } from './causalityRulesArray';
 @Injectable()
 export class Decider {
 
-    data: Array<{timestamp: Date, indicatorScores: IndicatorScore[]}> = [];
-    resultData: Array<{timestamp: Date, emotionScores: EmotionScore[]}> = [];
+    data: Array<{timestamp: number, indicatorScores: IndicatorScore[]}> = [];
+    resultData: Array<{timestamp: number, emotionScores: EmotionScore[]}> = [];
     causalityRules: Array<CausalityRule> = CRarray;
 
 
     public addIndicatorScores(indicatorScores: Array<IndicatorScore>){
         //aktuellen Zeitpunkt ermitteln
-        var timestamp: Date = this.getTimeStamp();
+        var timestamp: number = this.getTimeStamp();
         console.log("Added the following to IndicatorScoresArray: " + "{" +  timestamp+ ", indicators: " + indicatorScores[0].indicator +  " "+ indicatorScores[0].score+"}");
         //empfangene Daten zu Data hinzufügen
         this.data.push({ timestamp, indicatorScores: indicatorScores });
@@ -23,21 +23,20 @@ export class Decider {
     public decide(){
         console.log("Deciding ...");
         //Iterieren über jeden angegebenen Zeitpunkt und Emotion dazu schätzen
-        let start = this.findRange().start;
-        let end = this.findRange().end;
+        let start: number = this.findRange().start;
+        let end: number = this.findRange().end;
         console.log("Size of Array: " + this.data.length);
-        for(var i:Date = start; i<end; i.setSeconds(i.getSeconds() + 10)){
-                var j: Date = i;
-                j.setSeconds(j.getSeconds() + 9);
+        for(var i:number = start; i<=end; i= i+ 10000){
+                var j: number = i + 9999;
                 console.log("i: " + i + ", j: " + j);
                 this.assumeEmotion(i, j);
         } 
     }
 
 
-    private assumeEmotion(start: Date, end: Date){
+    private assumeEmotion(start: number, end: number){
         //Finden der hinterlegten Indicator zu einer Timestamp
-        var currentIndicators: Array<IndicatorScore> = this.data.find(e => e.timestamp >= start && e.timestamp >= end).indicatorScores
+        let currentIndicators = this.data.filter(e => e.timestamp >= start && e.timestamp <= end)
         console.log("Found scores")
         //Ausführen der Kausalitätsregeln auf die aktuellen Indicator; Zurückgeben eines EmotionScoreArrays
         var emotionScores: Array<EmotionScore> = this.executeCausalityRules(currentIndicators);
@@ -47,18 +46,20 @@ export class Decider {
         this.resultData.push({ timestamp: start, emotionScores: emotionScores })
     }
 
-    private executeCausalityRules(indicatorScores: Array<IndicatorScore>){ 
+    private executeCausalityRules(data: Array<{timestamp: number, indicatorScores: IndicatorScore[]}>){ 
         console.log("Executing Causality Rules")   
         var emotionScores: EmotionScore[] = [];
         //Initiales Anlegen der EmotionScores mit Score 0; iteriert über alle im Enum angegebenen Emotionen
         emotions.forEach(emotion => {
-            var emotionScore : EmotionScore = {emotion, score: 1};
+            var emotionScore : EmotionScore = {emotion, score: 0};
             emotionScores.push(emotionScore);
         });
         console.log("Size of CRarray: " + this.causalityRules.length);
+        data.forEach((e) =>  { 
         this.causalityRules.forEach((causalityRule) => {
-            emotionScores = causalityRule.execute(emotionScores, indicatorScores)  
-        })
+            emotionScores = causalityRule.execute(emotionScores, e.indicatorScores)  ;
+        }) }
+        )
         
         return emotionScores;
 
@@ -66,13 +67,13 @@ export class Decider {
 
     public getTimeStamp = () => {
         var date: Date = new Date();
-        return date;
+        return date.getTime();
     }
 
     public findRange(){
-        var dates = this.data.map(function(x) { return new Date(x.timestamp); })
-        var latest = new Date(Math.max.apply(null,dates));
-        var earliest = new Date(Math.min.apply(null,dates));
+        var dates = this.data.map(function(x) { return x.timestamp; })
+        var latest = Math.max.apply(null,dates);
+        var earliest = Math.min.apply(null,dates);
         return{ start: earliest, end: latest };
     }
 

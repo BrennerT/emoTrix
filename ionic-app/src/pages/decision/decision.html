@@ -12,4 +12,16 @@
   <div class="chart-container">
     <canvas #doughnutChart ></canvas>
   </div>
+<ion-list padding>
+  <ion-list-header>
+    Zeitpunkt
+    <ion-badge item-end>{{date}}</ion-badge>
+  </ion-list-header>
+  <ion-item>
+    <ion-range [(ngModel)]="time" snaps="true" step="10000" [min]="min" [max]="max" color="primary" (ionChange)="onChange()">
+      <ion-icon range-left small name="stopwatch"></ion-icon>
+      <ion-icon range-right name="stopwatch"></ion-icon>
+    </ion-range>
+  </ion-item>
+</ion-list>
 </ion-content>
