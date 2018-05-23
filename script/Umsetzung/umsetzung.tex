@@ -1,48 +1,5 @@
 \section{Umsetzung des Prototypen emoTrix}
 In diesem Abschnitt wird die Umsetzung des Prototyps beschrieben. Dabei werden neben dem Programmcode auch aufgetretene Probleme beschrieben.
-\subsection{MockUps}
-\subsectionauthor{Torben Brenner}
-Bevor wir mit der Arbeit an dem Prototypen begonnen haben, diskutierten wir zuerst das Design der einzelnen Komponenten der Anwendung. Wir einigten uns darauf, dass die Übersicht über alle Teile des Prototypen auf der Hauptseite des Startbildschirms sein soll (siehe \ref{img:Mockup-Home}).
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=10cm]{Bilder/Mockup-Home.png}
-	\label{img:Mockup-Home}
-	\caption[Mockup - Homescreen(links) und Menü(rechts)]{Mockup - Homescreen(links) und Menü(rechts)}
-\end{figure}%
-Wie auf der Grafik zu sehen ist, sind für die fertige Anwendung 5 verschiedene Arten von Tests vorgesehen. Die dazugehörigen Anwendungsabschnitte sollen von der Startseite, durch anklicken des Testnamens aufgerufen werden können und dann ausgeführt werden können. Durch das Berühren des Auswertungsknopfes soll es möglich sein, eine Analyse der verschiedenen Testergebnisse durchzuführen. Diese gibt dann als Ergebnis eine Übersicht heraus, welche Emotionen wie wahrscheinlich sind. Eine Übersicht der bereits durchgeführten Auswertungen soll über das Menü (siehe \ref{img:Mockup-Home} rechts) erreichbar sein. In der Anleitung(ebenfalls über das Menü erreichbar) sollen sich Beschreibungen zur Durchführung der einzelnen Tests befinden.\newline
-Im folgenden sollen neben den einzelnen Test Seiten auch die Auswertungsseite genauer beschrieben werden.
-\subsubsection{Hautleitfähigkeit}
-\subsubsectionauthor{Torben Brenner}
-\textbf{Todo:}
-\subsubsection{Tippverhalten}
-\subsubsectionauthor{Torben Brenner}
-Beim Test des Tippverhaltens, ist es angedacht das der Nutzer eine Zeit angibt in der die Anwendung seine Tastatureingaben beobachten darf. Diese Zeit soll in Minuten angegeben werden und läuft intern als Timer ab während der Nutzer im Vordergrund mit anderen Anwendungen, wie z. Bsp. dem Internet Browser oder unterschiedlichen Messenger Applikationen agiert. Dies benötigt ausdrücklich die Erlaubnis, da es ansonsten möglich wäre Passwörter und sonstiges mit zu lesen. 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=10cm]{Bilder/Mockup-Tippverhalten.png}
-	\label{img:Mockup-Tippverhalten}
-	\caption[Mockup - Tippverhalten Test starten(links) und Test ergebnis(rechts)]{Mockup - Tippverhalten Test starten(links) und Test ergebnis(rechts)}
-\end{figure}%
-Auf der Ergebnisseite soll dem Nutzer dann die Möglichkeit geboten werden, sich die Erfassten Tastatureingaben anzeigen zu lassen. Hierfür wäre z. Bsp. ein Zeitstrahl eine gute Lösung, da Alle eingaben untereinander vermutlich zu viel Text sind und das Ergebnis unübersichtlich werden lassen würden. 
-\subsubsection{Gesichtserkennung}
-\subsubsectionauthor{Torben Brenner}
-Bei der Gesichtserkennung wird der Nutzer von der Anwendung dazu aufgefordert, die Kamera zu starten und daraufhin ein Bild mit dieser zu machen. Die Anwendung analysiert dann das Bild mithilfe der im Konzept beschriebenen Methoden. Auf der Ergebnisseite wird dem Nutzer daraufhin das Bild zusammen mit einer Auflistung der Ermittelten Wahrscheinlichkeiten für die Unterschiedlichen Emotionen ausgegeben.
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=4cm]{Bilder/Mockup-Gesichtserkennung.png}
-	\label{img:Mockup-Gesichtserkennung}
-	\caption[Mockup - Gesichtserkennung Ergebnisseite]{Mockup - Gesichtserkennung Ergebnisseite}
-\end{figure} \newpage
-\subsubsection{Auswertung}
-\subsubsectionauthor{Torben Brenner}
-Auf dem folgenden Bild ist die Auswertungsseite zu sehen. 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=4cm]{Bilder/Mockup-Auswertung.png}
-	\label{img:Mockup-Auswertung}
-	\caption[Mockup - Auswertung]{Mockup - Auswertung}
-\end{figure} \newline
-Die Seite enthält sowohl eine Legende, die angibt welche Farbe welche Emotion repräsentiert, als auch ein Auswertungsergebnis in Form eines Kreisdiagramms. Unter dem Diagramm soll der Nutzer einen Text angezeigt bekommen, welche Emotion aktuell überwiegt.
 \subsection{Umsetzung der Backendlogik}
 \subsectionauthor{Torben Brenner}
 Wie im Konzept beschrieben besteht das Backend der Anwendung aus den Klassen \textit{Decider, CausalityRule} und der Abstrakten Klasse \textit{Sensor}. Im folgenden wird die Umsetzung der einzelnen Klassen beschrieben.\newline

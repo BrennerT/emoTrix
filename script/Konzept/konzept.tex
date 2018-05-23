@@ -117,3 +117,65 @@ Ein weiterer Vorteil ist, dass die Auswertung der IndicatorScores zu Emotionscor
 Des Weiteren hat die Aufteilung in IndicatorScores und Emotionscores den Vorteil, dass im gesamten Backend eine einheitliche Datengrundlage vorliegt. Da verschiedene Sensoren ganz unterschiedliche Daten zurückliefern, müssen diese vereinheitlicht werden. Dies wurde mithilfe der IndicatorScores und der EmotionScores umgesetzt. Alle Sensoren, die in Zukunft hinzugefügt werden, müssen sich an die Datenstruktur dieser Scores anpassen. Dies wird durch die Mapper und Kausalitätsregeln sichergestellt. \newline
 \newline
 Ein Nachteil der Architektur ist, dass eine Anpassung der IndicatorScores und der Emotionscores Änderungen an vielen Stellen hervorrufen würde. Will man beispielsweise einen neuen Indikator \textit{disgustIndicator} und eine neue Emotion \textit{disgust} hinzufügen, müssen zunächst alle Funktionen des Deciders angepasst werden, damit diese neue Emotion aufgenommen werden kann. Des Weiteren müssen gegebenenfalls viele vorhandenen Mapper und Kausalitätsregeln angepasst werden, da diese den neuen Indikator beziehungsweise die neue Emotion nicht berücksichtigt haben.
+\subsection{MockUps}
+\subsectionauthor{Torben Brenner}
+Bevor wir mit der Arbeit an dem Prototypen begonnen haben, diskutierten wir zuerst das Design der einzelnen Komponenten der Anwendung. Wir einigten uns darauf, dass die Übersicht über alle Teile des Prototypen auf der Hauptseite des Startbildschirms sein soll (siehe \ref{img:Mockup-Home}).
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{Bilder/Mockup-Home.png}
+	\label{img:Mockup-Home}
+	\caption[Mockup - Homescreen(links) und Menü(rechts)]{Mockup - Homescreen(links) und Menü(rechts)}
+\end{figure}%
+Wie auf der Grafik zu sehen ist, sind für die fertige Anwendung 5 verschiedene Arten von Tests vorgesehen. Die dazugehörigen Anwendungsabschnitte sollen von der Startseite, durch anklicken des Testnamens aufgerufen werden können und dann ausgeführt werden können. Durch das Berühren des Auswertungsknopfes soll es möglich sein, eine Analyse der verschiedenen Testergebnisse durchzuführen. Diese gibt dann als Ergebnis eine Übersicht heraus, welche Emotionen wie wahrscheinlich sind. Eine Übersicht der bereits durchgeführten Auswertungen soll über das Menü (siehe \ref{img:Mockup-Home} rechts) erreichbar sein. In der Anleitung(ebenfalls über das Menü erreichbar) sollen sich Beschreibungen zur Durchführung der einzelnen Tests befinden.\newline
+Im folgenden soll neben den einzelnen Test Seiten, auch die Auswertungsseite genauer beschrieben werden.
+\subsubsection{Hautleitfähigkeit}
+\subsubsectionauthor{Torben Brenner}
+Der Test der Hautleitfähigkeit benötigt die Verbindung mit dem Arduino Microcontroller. Deshalb muss dem Nutzer die Möglichkeit geboten werden, sich mit diesem über die Software möglichst einfach zu verbinden. Hierzu ist eine Seite für die Verbindung vorgesehen\footnote{zu sehen auf der Abbildung Mockup - Arduino verbinden}. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{Bilder/Mockup-Arduino-Connection.png}
+	\label{img:Mockup-Arduino-Connection}
+	\caption[Mockup - Arduino verbinden(links nicht verbunden, rechts verbunden)]{Mockup - Arduino verbinden(links nicht verbunden, rechts verbunden)}
+\end{figure}%
+Auf dieser Seite hat der Nutzer die Möglichkeit, nach verfügbaren Geräten zu suchen. Da der Arduino mittels Bluetooth verbunden wird, werden in der Liste der verfügbaren Geräte auch andere Bluetoothgeräte angezeigt. Bei der Auswahl eines Gerätes wird versucht eine Verbindung mit diesem aufzubauen. Ist dieser Versuch erfolgreich, wird der Name des Gerätes zusammen mit einem Hacken dargestellt. Beim öffnen der Seite ist es ebenfalls möglich, dass der Name des Arduino bereits angezeigt wird. In diesem Fall soll es möglich sein, den Namen zu berühren um eine Verbindung aufzubauen. Gelingt diese wird ebenfalls ein Hacken hinter den Namen gesetzt.\newline
+Wo die Verbindung mit dem genau durchgeführt wird, ist noch nicht festgelegt. Denkbar wäre zum einen eine Settingsseite von der aus diese Einstellung erreichbar wäre, zum anderen ist es auch möglich, dass diese Seite angezeigt wird sobald der Test aufgerufen wird.\newline
+Der Test ist folgendermaßen aufgebaut. Der Nutzer schließt sich extern an den Hautleitfähigkeitssensor an. Hier sollte die Anleitung genauere Details enthalten wie das zu bewerkstelligen ist. Wenn der Nutzer an den Hautleitfähigkeitssensor angeschlossen ist und mit dem Arduino verbunden ist, kann der Test gestartet werden. Die Messungen beginnen nach dem drücken des Startknopfes. Danach sendet der Sensor über Bluetooth die Daten, welche in Form eines Graphen auf der Oberfläche dargestellt werden\footnote{siehe Abbildung \textit{Mockup - Hautleitfähigkeit Test} auf S.\pageref{img:Mockup-GSR}}. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{Bilder/Mockup-GSR.png}
+	\label{img:Mockup-GSR}
+	\caption[Mockup - Hautleitfähigkeit Test starten(links) und Test Ergebnis(rechts)]{Mockup - Hautleitfähigkeit Test starten(links) und Test Ergebnis(rechts)}
+\end{figure}%
+Auf der Seite direkt werden keine Auswertungen der Emotionen dargestellt, sondern nur die Daten des Sensors. Durch betätigen des Stopknopfes, soll die Messung gestopt werden. Mit dem Knopf ``DELETE GRAPH'' wird der gezeichnete Graph zurückgesetzt, aber nicht die bisher erfassten Daten.
+\subsubsection{Tippverhalten}
+\subsubsectionauthor{Torben Brenner}
+Beim Test des Tippverhaltens, ist es angedacht das der Nutzer mit einem ChatBot kommuniziert und die Anwendung im Hintergrund bei Nutzereingaben das Tippverhalten überprüft. In wie fern die Kommunikation mit dem ChatBot abläuft ist noch nicht ganz klar. Es wäre zum denkbar, dass der ChatBot einfach nur einen Dienst zu Verfügung stellt und somit wenig Interaktion bietet. Interessant wäre auch dass vorbereiten eines bestimmten Gesprächs in dem der Nutzer auch von dem ChatBot provoziert werden könnte.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{Bilder/Mockup-Tippverhalten.png}
+	\label{img:Mockup-Tippverhalten}
+	\caption[Mockup - Tippverhalten Test starten(links) und Test ergebnis(rechts)]{Mockup - Tippverhalten Test starten(links) und Test ergebnis(rechts)}
+\end{figure}% 
+Die Oberfläche für die Interaktion mit dem ChatBot soll einem normalen Chat ähneln, d.h. Nachrichten des ChatBots und Antworten des Nutzers werden angezeigt. Der Nutzer bekommt außerdem eine Bildschirmtatstatur angezeigt, auf der er seine Antworten eingeben kann.\newline
+Ein Alternative zu diesem Testszenario war, dass der Nutzer einen Zeitraum angibt in dem die App seine Eingaben überwachen darf. Dieser Fall ist aber nicht umsetzbar, da die Betriebssystem natürlich verhindern wollen, dass Passwörter des Nutzers mit gelesen werden können.
+Deshalb soll das erste Szenario umgesetzt werden.
+\subsubsection{Gesichtserkennung}
+\subsubsectionauthor{Torben Brenner}
+Bei der Gesichtserkennung wird der Nutzer von der Anwendung dazu aufgefordert, die Kamera zu starten und daraufhin ein Bild mit dieser zu machen. Die Anwendung soll dem Nutzer daraufhin die Aufnahme anzeigen und es ihm ermöglichen das er eine neue Aufnahme machen kann. Wenn der Nutzer eine Aufnahme hat die er analysieren lassen möchte, soll die Anwendung mit Hilfe eines ``Send Picture'' Knopfes die Möglichkeit bieten, dass Bild analysieren zu lassen.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{Bilder/Mockup-Gesichtserkennung.png}
+	\label{img:Mockup-Gesichtserkennung}
+	\caption[Mockup - Gesichtserkennung vor Senden des Bilds(links) und Testergebnis(rechts)]{Mockup - Gesichtserkennung vor Senden des Bilds(links) und Testergebnis(rechts)}
+\end{figure}
+Während der Analyse soll dem Nutzer durch einen Ladebalken signalisiert werden, dass die Daten gerade verarbeitet werden. Auf der Ergebnisseite soll neben dem analysierten Bild das Ergebnis angezeigt werden und außerdem die Möglichkeit bestehen ein neues Bild zu machen oder das gleiche Bild erneut zu analysieren.
+\subsubsection{Auswertung}
+\subsubsectionauthor{Torben Brenner}
+Durch betätigen des Auswertungkopfes auf der Startseite der Anwendung, sollen die bisher erfassten Daten analysiert werden. Das Ergebnis dieser Analyse soll dem Nutzer auf der Auswertungsseite dargestellt werden. Diese besteht aus einem Kreisdiagramm und einem Zeitstrahl.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{Bilder/Mockup-Auswertung.png}
+	\label{img:Mockup-Auswertung}
+	\caption[Mockup - Auswertung]{Mockup - Auswertung}
+\end{figure} \newline
+Die Farben des Kreisdiagramms werden durch eine Legende erklärt, d.h. sie werden den einzelnen Emotionen zugeordnet. Durch berühren einer Farbe soll der Nutzer den konkreten Wert für die Emotion angezeigt bekommen. Unter dem Kreisdiagramm soll außerdem ein Zeitstrahl angezeigt werden. Da es später möglich sein soll, Daten im Hintergrund zu erfassen ist es deutlich sinnvoller, die erfassten Daten nicht alle auf einmal zusammen zu rechnen, sondern den Nutzer einen Bestimmten Zeitpunkt auswählen zu lassen. Mit Hilfe des Zeitstrahls soll der Nutzer diese Möglichkeit geboten bekommen.
