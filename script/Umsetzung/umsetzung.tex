@@ -88,7 +88,6 @@ private executeCausalityRules(data: Array<{timestamp: number, indicatorScores: I
 }
 \end{lstlisting}
 \subsection{Datenerfassung in Form von Emotionstests}
-\subsubsection{Face-Test}
 \subsubsection{GSR-Test}
 \subsubsectionauthor{Lukas Seemann}
 Die Erfassungsmöglichkeit mit der höchsten Priorität war die Messung der Hautleitfähigkeit mithilfe von EDA- beziehungsweise GSR-Sensoren. Da dies nicht mit im Smartphone enthaltenen Sensoren möglich war, wurde zusätzlich ein Arduino-Mikrocontroller benötigt, um die Messung durchzuführen. Zunächst wird die Entwicklung auf dem Arduino-Board mit allen zusätzlichen Modulen beschrieben. Im Anschluss daran wird thematisiert, wie das Arduino-Board mit der App verbunden wurde. \newline
@@ -187,6 +186,19 @@ In Zeile 3 folgt die Umwandlung des Integer-Wert, der der Stromspannung auf dem 
 Da alle 50 Millisekunden ein Wert übertragen wird, wird kein neuer Timer benötigt. Dieser wurde anfangs mit dem Wert 0 initialisiert und in Zeile 14 nach jedem neuen Wert um 1 erhöht. Da ein Wert und damit eine Verabeitung alle 50ms für die App einen sehr hohen Workload bedeutet würde, wird nur jeder fünfte übertragene Wert betrachtet. Dies ist in Zeil 4 mit einer if-Bedingung umgesetzt. In Zeile 6 werden immer zwei aufeinander folgende Ohm-Werte zusammengefasst und anschließend in Zeile 7 die onSensorData-Methode mit diesen Daten aufgerufen. Zwei Werte sind für den Mapper trivialerweise genug, um zu schauen ob der Wert gestiegen oder gesunken ist. Da am Anfang nur der erste Wert vorhanden ist, wird dieser Fall in Zeile 5 abgefangen. Das Setzen des alten Werts (\textit{oldValue}) geschieht in Zeile 9. \newline
 In Zeile 11 bis 13 wird implementiert, das außerdem jeder zwanzigste Wert in einem Graphen auf der GUI eingetragen wird. Einer häufigere Darstellung ist ebenfalls nicht sehr vorteilhaft für die Benutzung der App, da dies sehr rechenlastig ist. Der Trend des Graphen ändert sich außerdem nicht wesentlich, wenn nicht alle Datenpunkte eingetragen werden. \newline
 In Zeile 15 bis 17 wird letzlich noch das Error-Handling implementiert.
+\subsubsection{Face-Test}
+\subsubsectionauthor{Torben Brenner}
+Eine der am höchsten priorisierten Erfassungsmöglichkeiten für Emotionen, war die Messung der Emotionen anhand der Mimik des Menschen mithilfe der Smartphonekamera. Wie im Mockup\footnote{siehe \ref{section:Mockup-Gesichtserkennung} S.\pageref{section:Mockup-Gesichtserkennung}} beschrieben soll der Nutzer zuerst ein Bild machen können und sich dieses anzeigen lassen können, bevor es ausgewertet werden soll. Wenn das Bild zur Analyse freigeben wird, soll dem Nutzer ein Ladebildschirm angezeigt werden. Die Analyse selbst wird nicht auf dem Smartphone durchgeführt, sondern mit Hilfe der Gesichtserkennungsschnittstelle von Microsoft\footcite[siehe ][]{Mic18}.\newline
+Zu Beginn der Entwicklung wurde eine Komponente entwickelt, welche das Schießen eines Fotos ermöglicht. Ionic-Komponenten bestehen aus einem HTML-Template, einer SCSS Datei und einem TypeScript Script. Diese Aufteilung in drei Dateien ermöglicht eine Trennung von grafischer Darstellung und der Logik. Die grafische Darstellung der Komponente besteht aus einem Bild, dass nur angezeigt wird wenn mit der Komponente auch ein Bild gemacht wurde, und einem \textit{Ionic-Button}, welcher das Fotografieren auslöst. Interessanter ist die Logik der Komponente, die daraus besteht abhängig von der der Auswahl des Entwicklers entweder ein Bild zu machen oder eine Videoaufnahme zu starten. Dies wird mit der Übergabe eines Input Parameters ermöglicht.
+\begin{lstlisting}[caption={Input und Output der Kamera Komponente}, language=JavaScript]
+	@Input() pictureMode: boolean;
+	@Output() sourceChanged: EventEmitter<String> = new EventEmitter<String>();
+\end{lstlisting}
+Da die Komponente aber auch die Bilder, die mit ihr gemacht wurden, herausgeben soll wird ein \textit{Output} definiert. Dieser wird mit Hilfe eines EventEmitters realisiert, der ein Event auslöst auf das andere Teile der Anwendung, die eine Kamera Komponente implementieren reagieren können. Das Event gibt hierbei einen String aus, der in diesem Test dem Base64 codierten Bild entspricht. Im folgenden zusehen ist die Einbindung der Kamera Komponente in den Face-Test.
+\begin{lstlisting}[caption={Einbindung Kamera Komponente}, language=HTML]
+	<camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
+\end{lstlisting}
+Das Fotografieren wird in Ionic mit Hilfe einer \textit{native} Komponente umgesetzt. Diese Komponente erlaubt den plattformunabhängigen Zugriff auf die Kamera\footcite{Ion18}. Dazu wird in der App direkt eine Weiterleitung an die ausgewählte Kamera App des Nutzers durchgeführt. Nachdem der Nutzer mit dieser ein Bild gemacht hat, kann entweder der Speicherort oder das Bild selbst zurückgegeben werden. Der zurückgegebene Wert wird dann von der Kamera Komponente per \textit{EventEmitter} ausgegeben.\newline 
 \subsection{Auswertung der Testergebnisse}
 \subsubsection{Beschreibung der implementierten Kausalitätsregeln}
 \subsubsection{Implementierung des Deciders}
