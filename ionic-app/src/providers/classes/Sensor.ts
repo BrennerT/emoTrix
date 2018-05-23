@@ -1,11 +1,20 @@
 import { IndicatorScore } from './IndicatorScore';
 import { Decider } from '../decider';
 import { Injectable } from '@angular/core';
+import { Observer } from 'rxjs/Observer';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export abstract class SensorEvaluator{
 
-    constructor(public decider: Decider){};
+    observable: Observable<string>;
+    sensorObserver: Observer<string>;
+
+    constructor(public decider: Decider){
+        this.observable = Observable.create(observer => {
+            this.sensorObserver = observer;
+        });
+    };
 
     // this forces the specific sensor evaluators to implement this method
     abstract mapper(data: any): IndicatorScore[]; 
