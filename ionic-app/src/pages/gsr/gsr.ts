@@ -5,6 +5,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import { GSRSensor } from '../../providers/sensors/GSRSensor';
 import { Storage } from '@ionic/storage';
+import { ISubscription } from "rxjs/Subscription";
 @Component({
   selector: 'page-gsr',
   templateUrl: 'gsr.html',
@@ -15,20 +16,17 @@ export class GsrPage {
   @ViewChild('lineCanvas') lineCanvas;
 
   value: any;
-  oldValue: number;
   unpairedDevices: any;
   pairedDevices: any;
   gettingDevices: Boolean;
   lineChart: any;
-  time: any;
+  found: String;
+  subscription: ISubscription;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, 
               private bluetoothSerial: BluetoothSerial, private cdr: ChangeDetectorRef, public GsrSensor: GSRSensor,
               public storage: Storage ){
     this.value= 1;
-    this.oldValue = 1;
-    bluetoothSerial.enable();
-    this.time = 0;
   }
 
   ionViewDidLoad() {
@@ -38,7 +36,7 @@ export class GsrPage {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-          labels: [],
+          labels:this.GsrSensor.graphDataLabels,
           datasets: [
               {
                   label: "Hautleitfähigkeit",
@@ -59,7 +57,7 @@ export class GsrPage {
                   pointHoverBorderWidth: 2,
                   pointRadius: 1,
                   pointHitRadius: 10,
-                  data: [],
+                  data: this.GsrSensor.graphData,
                   spanGaps: false,
               }
           ]
@@ -67,6 +65,31 @@ export class GsrPage {
       options: {
           maintainAspectRatio: false
       }
+    });
+    this.storage.get("pairedDevices").then(data=> {if(data){
+      this.pairedDevices = data;
+      this.found = this.GsrSensor.connected;
+      if(this.found != "") {this.subscribeToSensor(this.found)};
+    }
+    })
+
+  }
+
+  subscribeToSensor(address: any){
+    var found = this.pairedDevices.find(function(element){
+      return element.device.address === address;
+    });
+    this.subscription=this.GsrSensor.observable.subscribe(data => {
+      if(data == "Connection successful"){
+        found.status = "connected";
+      }
+      if(data == "Connection lost"){
+        found.status = "disconnected";
+      }
+      if(data == "Update Graph"){
+        this.updateChart();
+      }
+      this.cdr.detectChanges();
     });
   }
 
@@ -78,18 +101,16 @@ export class GsrPage {
           hc05s.push({status: "disconnected", device: element});
           console.log(element);
         };
-        this.pairedDevices = hc05s;
-      })
-    },
-    (err) => {
-      console.log(err);
-    });
+        this.pairedDevices= hc05s;
+        this.storage.set("pairedDevices", this.pairedDevices);
+      }
+    )})
+
   }
 
   /* Slide 1 - Find, Connect, Disconnect */
   startScanning() {
     this.unpairedDevices = null;
-
     this.gettingDevices = true;
     this.bluetoothSerial.discoverUnpaired().then((success) => {
         
@@ -108,7 +129,7 @@ export class GsrPage {
       });
   }
 
-  fail = (error) => alert("Error: " + error);
+
 
   selectDevice(address: any) {
     var self = this;
@@ -141,58 +162,10 @@ export class GsrPage {
     var found = this.pairedDevices.find(function(element) {
       return element.device.address === address;
     });
-
-
-    this.bluetoothSerial.connect(address).subscribe((data) => {
-      found.status = "connected";
-      this.cdr.detectChanges();
-      console.log("Connection successful: " + data)
-    }
-      ,(error) => {
-        found.status = "disconnected";
-        this.cdr.detectChanges();
-        console.log(error);
-      });
-      
-    this.bluetoothSerial.subscribe(";").subscribe(
-      function (data){
-        self.value = data.substring(0,data.length - 1);
-        self.value = ((1024+2*self.value)*10000)/(512-self.value);
-        if(self.time%5 == 0){
-          if(self.time != 0){
-            var data: any = {value: self.value, oldValue: self.oldValue};
-            self.GsrSensor.onSensorData(data);
-          }
-          self.oldValue = self.value;
-        } 
-        if(self.time%20 == 0){
-          self.addData(self.lineChart,self.time, self.value); 
-        }
-        self.time++;
-        self.cdr.detectChanges();
-        
-    }, function (error){
-        console.log(error);
-    });
-
-    
+    this.subscribeToSensor(this.GsrSensor.connect(address));
   }
 
-  addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-    });
-    chart.update();
-}
 
-  removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-    });
-    chart.update();
-}
 
   disconnect() {
     var self = this;
@@ -210,15 +183,7 @@ export class GsrPage {
         {
           text: 'Disconnect',
           handler: () => {
-            this.bluetoothSerial.disconnect().then(
-              (data) => {
-                var found = self.pairedDevices.find(function(element) {
-                  return element.status === "connected";
-                });
-                found.status = "disconnected";
-                console.log("Sucessfully disconnected: "+ found.device.address + " "+ data);
-              },
-              this.fail);    
+              self.GsrSensor.disconnect();
           }
         }
       ]
@@ -227,27 +192,27 @@ export class GsrPage {
   }
 
   startMeasuring(){
-    this.bluetoothSerial.write('S').then((data: any) => {
-      })
-      .catch((e) => {
-      console.log(e);
-      });;
+   this.GsrSensor.startMeasuring();
   }
 
   stopMeasuring(){
-    this.bluetoothSerial.write('F').then((data: any) => {
-    })
-    .catch((e) => {
-    console.log(e);
-    });
+    this.GsrSensor.stopMeasuring();
     this.setStatus(true);
   }
+
+  updateChart() {
+    this.lineChart.data.labels = this.GsrSensor.graphDataLabels;
+    this.lineChart.data.datasets.forEach((dataset) => {
+        dataset.data = this.GsrSensor.graphData;
+    });
+    this.lineChart.update();
+}
 
   resetGraph(){
     this.lineChart.data.labels = [];
     this.lineChart.data.datasets[0].data= [];
-    this.time = 0;
     this.lineChart.update();
+    this.GsrSensor.resetGraph();
     this.setStatus(false);
   }
 
@@ -260,34 +225,10 @@ export class GsrPage {
     });
   }
 
-  /* Slide 4 */
-  util(){
-    this.bluetoothSerial.isEnabled().then(function (res) {
-      console.log("isEnabled() : " + res);
-    });
-    this.bluetoothSerial.isConnected().then(function (res) {
-      console.log("isConnected() : " + res);
-    });
+
+  ionViewWillLeave() {
+    this.cdr.detach();
+    this.subscription.unsubscribe();
   }
 
-  showSettings(){
-    this.bluetoothSerial.showBluetoothSettings();
-  }
-
-  listThings(){
-    this.bluetoothSerial.list().then(function (data) {
-      console.log(data);
-    })
-  }
-
-  writeThingsExample(){
-
-    // Write a string
-    this.bluetoothSerial.write('hello world').then(function (res) {
-      console.log(res);
-    }, function (res) {
-      console.log(res);
-    });
-
-  }
 }

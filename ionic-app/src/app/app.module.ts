@@ -21,6 +21,7 @@ import { Camera } from '@ionic-native/camera';
 import { MediaCapture } from '@ionic-native/media-capture';
 import { GSRSensor } from '../providers/sensors/GSRSensor';
 import { DecisionPage } from '../pages/decision/decision';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { DecisionPage } from '../pages/decision/decision';
     MediaCapture,
     GSRSensor,
     FaceSensor,
+    BluetoothSerial,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
