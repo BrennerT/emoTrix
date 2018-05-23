@@ -1,9 +1,10 @@
 \section{Umsetzung des Prototypen emoTrix}
 In diesem Abschnitt wird die Umsetzung des Prototyps beschrieben. Dabei werden neben dem Programmcode auch aufgetretene Probleme beschrieben.
 \subsection{Umsetzung der Backendlogik}
-\subsectionauthor{Torben Brenner}
+\subsubsection{Sensor-Klasse}
+\subsubsectionauthor{Torben Brenner}
 Wie im Konzept beschrieben besteht das Backend der Anwendung aus den Klassen \textit{Decider, CausalityRule} und der Abstrakten Klasse \textit{Sensor}. Im folgenden wird die Umsetzung der einzelnen Klassen beschrieben.\newline
-Die Klasse \textit{Sensor} wurde als Abstrakte Klasse umgesetzt. Dies ermöglicht es dem Entwickler, für jeden Test eine Klasse zu implementieren die von der Architektur verstanden wird und in der er die im Test ermittelten Daten auswerten kann. Die Implementation der \textit{Sensor} Klasse sieht folgendermaßen aus: 
+Die Klasse \textit{Sensor} wurde als Abstrakte Klasse umgesetzt. Dies ermöglicht es dem Entwickler, für jeden Test eine Klasse zu implementieren die von der Architektur verstanden wird und in der er die im Test ermittelten Daten auswerten kann. Die Implementation der \textit{Sensor} Klasse sieht folgendermaßen aus: \newline
 \begin{lstlisting}[caption={abstrakte Klasse Sensor},language=JavaScript]
 export abstract class Sensor{
 
@@ -20,13 +21,15 @@ export abstract class Sensor{
 }
 \end{lstlisting}
 Der Konstruktor der Klasse empfängt eine Instanz der Klasse \textit{Decider}, die wie im Konzept beschrieben ein Singleton ist. Die Funktion \textit{onSensorData} wird von den Subklassen aufgerufen, sobald Daten empfangen wurden und stellt die Logik der Sensor Klasse dar. Zuerst wird bei Empfang der Daten, das von erbenden Klassen definierte \textit{Mapping} auf die Daten ausgeführt. Danach werden die Daten dem \textit{Decider} hinzugefügt, welcher diese dann im späteren Verlauf verarbeiten kann(Vgl. \ref{img:Ablauf Erstellung Indicatorscores}). Durch das Schlüsselwort \textit{abstract} wird bei der Funktion \textit{mapper} gekennzeichnet, dass dieser von den erbenden Klassen implementiert werden soll. Die Abstrakte Klasse definiert in diesem Fall nur, dass der Mapper aus den Daten des Sensors eine Liste von \textit{IndicatorScores} erzeugen muss. Ein \textit{IndicatorScores} besteht dabei aus einem \textit{indicator} und einem \textit{score}. Der Score ist als nummerischer Wert definiert und für die Indicator wurde ein eigener Typ definiert. Dieser Typ ermöglicht es, eine einfache Prüfung der Werte gegenüber dem Typ String und bestimmten Werten durchzuführen. Erlaubte Werte für den Typ Indicator sind zum Beispiel: \textit{"stress"} oder \textit{"angryIndicator"}.\newline
-Wie im Konzept beschrieben, verwaltet die Klasse \textit{Decider} alle \textit{IndicatorScores}. Um sicherzustellen, dass die Daten nach Zeitpunkt sortiert gespeichert werden, ermittelt die Methode \textit{addIndicatorScores} erst einen Zeitpunkt und speichert danach die Daten in einer List von Objekten, welche den Zeitpunkt und die dazu gehörige Liste von \textit{IndicatorScores} enthalten. Dadurch können Sensoren die \textit{IndicatorScores} einfach auf diese Liste pushen, ohne Gefahr zu laufen sich gegenseitig zu überschreiben.\newline
+Wie im Konzept beschrieben, verwaltet die Klasse \textit{Decider} alle \textit{IndicatorScores}. Um sicherzustellen, dass die Daten nach Zeitpunkt sortiert gespeichert werden, ermittelt die Methode \textit{addIndicatorScores} erst einen Zeitpunkt und speichert danach die Daten in einer List von Objekten, welche den Zeitpunkt und die dazu gehörige Liste von \textit{IndicatorScores} enthalten. Dadurch können Sensoren die \textit{IndicatorScores} einfach auf diese Liste pushen, ohne Gefahr zu laufen sich gegenseitig zu überschreiben.
+\subsubsection{CausalityRule-Klasse}
+\subsubsectionauthor{Torben Brenner}
 Um die Auswertung der Daten zu ermöglichen, greift die Klasse \textit{Decider} außerdem auf eine Liste von Kausalitätsregeln zu. Diese können mit der Klasse \textit{CausalityRule} definiert werden.
-Der Konstruktor dieser Klasse nimmt zwei Parameter entgegen. Der Parameter \textit{condition} repräsentiert eine Bedingung, welche eintreten muss sodass die Kausalitätsregel angewandt wird. Die Bedingung wurde innerhalb der Anwendung durch einen Typ umgesetzt. Der Typ prüft dabei auf eine Funktion, die entweder einen oder zwei \textit{indicator} als Parameter entgegennimmt, und als Rückgabewert wahr oder falsch zurückgibt. 
+Der Konstruktor dieser Klasse nimmt zwei Parameter entgegen. Der Parameter \textit{condition} repräsentiert eine Bedingung, welche eintreten muss sodass die Kausalitätsregel angewandt wird. Die Bedingung wurde innerhalb der Anwendung durch einen Typ umgesetzt. Der Typ prüft dabei auf eine Funktion, die entweder einen oder zwei \textit{indicator} als Parameter entgegennimmt, und als Rückgabewert wahr oder falsch zurückgibt.  \newline
 \begin{lstlisting}[caption={Typ condition}, language=JavaScript]
 	type Condition = (indicatorA: IndicatorScore, indicatorB?: IndicatorScore) => boolean;
 \end{lstlisting}
-Das bedeutet, dass die Bedingung vom Entwickler frei über die \textit{IndicatorScores} definiert werden kann. Der zweite Parameter der Anwendung repräsentiert die Auswirkungen der Kausalitätsregel beim eintreffen der Bedingung. Um diesen Parameter zu definieren wurde ebenfalls ein neuer Typ angelegt. Dieser prüft auf Funktionen, die eine Liste von \textit{EmotionScores} entgegen nehmen und eine solche auch wieder zurückgeben. Das bedeutet, dass in Funktionen dieser Art irgendeine Manipulation der \textit{EmotionScores} stattfinden muss. Der Parameter der Kausalitätsregel ist eine Liste solcher Funktionen. Mit diesen beiden Funktionen kann nun in der Klasse \textit{CausalityRule} eine neue Funktion definiert werden, die prüft ob eine Bedingung eingetroffen ist und in diesem Fall, alle Auswirkungen der Regel ausführt. 
+Das bedeutet, dass die Bedingung vom Entwickler frei über die \textit{IndicatorScores} definiert werden kann. Der zweite Parameter der Anwendung repräsentiert die Auswirkungen der Kausalitätsregel beim eintreffen der Bedingung. Um diesen Parameter zu definieren wurde ebenfalls ein neuer Typ angelegt. Dieser prüft auf Funktionen, die eine Liste von \textit{EmotionScores} entgegen nehmen und eine solche auch wieder zurückgeben. Das bedeutet, dass in Funktionen dieser Art irgendeine Manipulation der \textit{EmotionScores} stattfinden muss. Der Parameter der Kausalitätsregel ist eine Liste solcher Funktionen. Mit diesen beiden Funktionen kann nun in der Klasse \textit{CausalityRule} eine neue Funktion definiert werden, die prüft ob eine Bedingung eingetroffen ist und in diesem Fall, alle Auswirkungen der Regel ausführt. \newline
 \begin{lstlisting}[caption={execute Funktion der Klasse CausalityRule},language=JavaScript]
 
 public execute(data : Array<EmotionScore>, indicatorScores: IndicatorScore[]) {
@@ -42,8 +45,10 @@ public execute(data : Array<EmotionScore>, indicatorScores: IndicatorScore[]) {
 
 \end{lstlisting}
 Diese Funktion kann nun von der Klasse \textit{Decider} ausgeführt werden.
-\newline \newline
-Im folgenden Abschnitt wird die Implementierung der wichtigsten Funktionen der \textit{Decider} Klasse aufgezeigt und beschrieben. \newpage
+
+\subsubsection{Decider-Klasse}
+\subsubsectionauthor{Lukas Seemann}
+Im folgenden Abschnitt wird die Implementierung der wichtigsten Funktionen der \textit{Decider} Klasse aufgezeigt und beschrieben. \newline
 \begin{lstlisting}[caption={Atrribute der Decider-Klasse}, language=JavaScript]
 @Injectable()
 export class Decider {
@@ -55,6 +60,9 @@ causalityRules: Array<CausalityRule> = CRarray;
 	...
 }
 \end{lstlisting}
+In Listing ? sind die Attribute der \textit{Decider}-Klasse, wie sie auch schon in der Architektur eingeführt worden abgebildet. Das Array \textit{data} in Zeile 4 enthält IndicatorScores mit dem Zeitpunkt in Millisekunden, an dem diese Scores hinzugefügt wurden. Das Hinzufügen ist über die Mapper der einzelnen Sensoren geschehen, die die addIndicatorScore-Funktion des Deciders aufrufen.\newline
+In Zeile 5 wird das \textit{resultData}-Array initialisiert. Anhand der vorhandenen IndicatorScores im \textit{data}-Array werden mithilfe der Kausalitätsregeln für alle 10 Sekunden in EmotionScores umgewandelt. Wie dies umgesetzt ist, ist in der decide-Funktion zu sehen. \newline
+In Zeile 6 wird das Array der \textit{CausalityRules} über eine Konstante \textit{CRArray} initialisiert. Dieses konstante Array wird in Kapitel 4.3.2 genauer beschrieben. \newline \newline
 \begin{lstlisting}[caption={decide-Funktion der Decider-Klasse}, language=JavaScript]
 public decide(){
 	let start: number = this.findRange().start;
@@ -65,13 +73,17 @@ public decide(){
 	} 
 }
 \end{lstlisting}
+Die decide-Funktion ist in Listing 5 abgebildet. Mithilfe der internen findRange-Funktionen werden in den Zeilen 2 und 3 die minimale beziehungsweise maximale \textit{timestamp} des \textit{data}-Array bestimmt. So hat man der ersten und letzten Zeitpunkt (in Millisekunden) gefunden, zu dem IndicatorScores durch die einzelnen Test hinzugefügt wurden. \newline
+Mithilfe einer for-Schleife (Zeile 4) wird anschließend in 10 Sekunden-Schritten über den durch \textit{start} und \textit{end} festgelegten Bereich iteriert. Dabei wird in der for-Schleife in Zeile eine Hilfsvariable \textit{j} eingeführt, die mit dem Iterator \textit{i} plus 9999 Millisekunden initialisiert wird. Mithilfe von \textit{i} und \textit{j} wird also in jedem Iterationschritt ein Intervall von 10 Sekunden festgelegt. Auf dieses Intervall wird in Zeile 6 die assumeEmotion-Funktion angewendet. \newline
 \begin{lstlisting}[caption={assumeEmotion-Funktion der Decider-Klasse}, language=JavaScript]
 private assumeEmotion(start: number, end: number){
-	let currentIndicators = this.data.filter(e => e.timestamp >= start && e.timestamp <= end)
+	let currentIndicators = this.data.filter(e => e.timestamp >= start &&   e.timestamp <= end)
 	var emotionScores: Array<EmotionScore> = this.executeCausalityRules(currentIndicators);
 	this.resultData.push({ timestamp: start, emotionScores: emotionScores});
 }
 \end{lstlisting}
+Listing 6 zeigt den Aufbau der assumeEmotion-Funktion, die einen \textit{start} und ein \textit{end} als Parameter erhält. Anhand dieser Zahlen wird anfangs in Zeile 2 das \textit{data}-Array gefiltert. Hierbei werden alle Einträge in eine Variable \textit{currentIndicators} geschrieben, die mit ihrer \textit{timestamp} zwischen \textit{start} und \textit{end} liegen. \newline
+In Zeile 3 wird dann eine neue Variable \textit{emotionScores} intialisiert, die als Wert das Ergebnis der executeCausalityRules-Funktion angewandt auf die \textit{currentIndicators} erhält. Die Implementierung dieser Funktion, die EmotionScores zurückliefert, ist in Listing 7 zu sehen. In Zeile 4 von Listing 6 werden dann diese Emotionscores mit der \textit{start}-Timestamp zum \textit{resultData}-Array hinzugefügt. \newline 
 \begin{lstlisting}[caption={executeCausalityRules-Funktion der Decider-Klasse}, language=JavaScript]
 private executeCausalityRules(data: Array<{timestamp: number, indicatorScores: IndicatorScore[]}>){   
 	var emotionScores: EmotionScore[] = [];
@@ -87,6 +99,8 @@ private executeCausalityRules(data: Array<{timestamp: number, indicatorScores: I
 	return emotionScores;
 }
 \end{lstlisting}
+Die executeCausalityRules-Funktion erhält als Input ein Array von \textit{timestamp}-\textit{IndicatorScores}-Kombinationen. Zunächst wird in Zeile 2 ein leeres EmotionScore-Array initialisiert. In den Zeilen 3 bis 6 wird dieses dann befüllt, indem für jede vorhandene Emotion (angry, happy, sad, suprised) ein Score von 0 angelegt wird. So erhält man EmotionScores, wobei jede Emotion mit 0 bewertet ist. \newline
+Im Anschluss daran wird in Zeile 7 über jeden vorhandenen Eintrag des Input itereriert. Für jeden Eintrag, der aus \textit{timestamp} und \textit{indicatorScores} besteht, wird dann jede im konstansten CausalityRules-Array enthaltene Kausalitätsregel ausgeführt (Zeile 8 bis 10). Durch jede ausgeführte Kausalitätregel werdne die ursprünglich initialisierten EmotionScores modifiziert. Dies wird für alle Einträge im Input der Methode wiederholt. Am Ende werden die final modifizierten EmotionScores zurückgegeben (Zeile 12). 
 \subsection{Datenerfassung in Form von Emotionstests}
 \subsubsection{GSR-Test}
 \subsubsectionauthor{Lukas Seemann}
@@ -189,19 +203,17 @@ In Zeile 15 bis 17 wird letzlich noch das Error-Handling implementiert.
 \subsubsection{Face-Test}
 \subsubsectionauthor{Torben Brenner}
 Eine der am höchsten priorisierten Erfassungsmöglichkeiten für Emotionen, war die Messung der Emotionen anhand der Mimik des Menschen mithilfe der Smartphonekamera. Wie im Mockup\footnote{siehe \ref{section:Mockup-Gesichtserkennung} S.\pageref{section:Mockup-Gesichtserkennung}} beschrieben soll der Nutzer zuerst ein Bild machen können und sich dieses anzeigen lassen können, bevor es ausgewertet werden soll. Wenn das Bild zur Analyse freigeben wird, soll dem Nutzer ein Ladebildschirm angezeigt werden. Die Analyse selbst wird nicht auf dem Smartphone durchgeführt, sondern mit Hilfe der Gesichtserkennungsschnittstelle von Microsoft\footcite[siehe ][]{Mic18}.\newline
-Zu Beginn der Entwicklung wurde eine Komponente entwickelt, welche das Schießen eines Fotos ermöglicht. Ionic-Komponenten bestehen aus einem HTML-Template, einer SCSS Datei und einem TypeScript Script. Diese Aufteilung in drei Dateien ermöglicht eine Trennung von grafischer Darstellung und der Logik. Die grafische Darstellung der Komponente besteht aus einem Bild, dass nur angezeigt wird wenn mit der Komponente auch ein Bild gemacht wurde, und einem \textit{Ionic-Button}, welcher das Fotografieren auslöst. Interessanter ist die Logik der Komponente, die daraus besteht abhängig von der der Auswahl des Entwicklers entweder ein Bild zu machen oder eine Videoaufnahme zu starten. Dies wird mit der Übergabe eines Input Parameters ermöglicht.
+Zu Beginn der Entwicklung wurde eine Komponente entwickelt, welche das Schießen eines Fotos ermöglicht. Ionic-Komponenten bestehen aus einem HTML-Template, einer SCSS Datei und einem TypeScript Script. Diese Aufteilung in drei Dateien ermöglicht eine Trennung von grafischer Darstellung und der Logik. Die grafische Darstellung der Komponente besteht aus einem Bild, dass nur angezeigt wird wenn mit der Komponente auch ein Bild gemacht wurde, und einem \textit{Ionic-Button}, welcher das Fotografieren auslöst. Interessanter ist die Logik der Komponente, die daraus besteht abhängig von der der Auswahl des Entwicklers entweder ein Bild zu machen oder eine Videoaufnahme zu starten. Dies wird mit der Übergabe eines Input Parameters ermöglicht. \newline
 \begin{lstlisting}[caption={Input und Output der Kamera Komponente}, language=JavaScript]
 	@Input() pictureMode: boolean;
 	@Output() sourceChanged: EventEmitter<String> = new EventEmitter<String>();
 \end{lstlisting}
-Da die Komponente aber auch die Bilder, die mit ihr gemacht wurden, herausgeben soll wird ein \textit{Output} definiert. Dieser wird mit Hilfe eines EventEmitters realisiert, der ein Event auslöst auf das andere Teile der Anwendung, die eine Kamera Komponente implementieren reagieren können. Das Event gibt hierbei einen String aus, der in diesem Test dem Base64 codierten Bild entspricht. Im folgenden zusehen ist die Einbindung der Kamera Komponente in den Face-Test.
+Da die Komponente aber auch die Bilder, die mit ihr gemacht wurden, herausgeben soll wird ein \textit{Output} definiert. Dieser wird mit Hilfe eines EventEmitters realisiert, der ein Event auslöst auf das andere Teile der Anwendung, die eine Kamera Komponente implementieren reagieren können. Das Event gibt hierbei einen String aus, der in diesem Test dem Base64 codierten Bild entspricht. Im folgenden zusehen ist die Einbindung der Kamera Komponente in den Face-Test. \newline
 \begin{lstlisting}[caption={Einbindung Kamera Komponente}, language=HTML]
 	<camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
 \end{lstlisting}
 Das Fotografieren wird in Ionic mit Hilfe einer \textit{native} Komponente umgesetzt. Diese Komponente erlaubt den plattformunabhängigen Zugriff auf die Kamera\footcite{Ion18}. Dazu wird in der App direkt eine Weiterleitung an die ausgewählte Kamera App des Nutzers durchgeführt. Nachdem der Nutzer mit dieser ein Bild gemacht hat, kann entweder der Speicherort oder das Bild selbst zurückgegeben werden. Der zurückgegebene Wert wird dann von der Kamera Komponente per \textit{EventEmitter} ausgegeben.\newline 
-\subsection{Auswertung der Testergebnisse}
-\subsubsection{Beschreibung der implementierten Kausalitätsregeln}
-\subsubsection{Implementierung des Deciders}
+\subsection{Beschreibung der implementierten Kausalitätsregeln}
 \subsection{Benutzeroberfläche der App}
 \subsectionauthor{Lukas Seemann}
 In diesem Kapitel wird die Benutzeroberfläche der mobilen Applikation beschrieben. Das Kapitel soll auch als Benutzungsanleitung für die einzelnen Funktionen der App dienen.
