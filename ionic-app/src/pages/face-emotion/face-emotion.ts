@@ -19,6 +19,7 @@ import { Chart } from 'chart.js';
 })
 export class FaceEmotionPage {
 
+  base64: String;
   @ViewChild('doughnutChart') doughnutChart;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
@@ -35,6 +36,10 @@ export class FaceEmotionPage {
    */
   onSourceChanged(source: String) {
     console.log("new source registrated");
+    this.base64 = source;
+  }
+
+  sendPicture(){
     let self = this;
     let loader = this.loadingController.create({
       content: "Please wait ...",
@@ -48,7 +53,7 @@ export class FaceEmotionPage {
         "Ocp-Apim-Subscription-Key": "0013b227bb26420c8f4184379701b02d",
       },
       contentType: 'application/octet-stream',
-      data: this.makeblob(source)
+      data: this.makeblob(this.base64)
     })
     .done(function(data) {
       // Show formatted JSON on webpage.

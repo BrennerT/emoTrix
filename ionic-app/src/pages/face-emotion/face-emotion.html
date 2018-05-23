@@ -16,8 +16,8 @@
 </ion-header>
 
 <ion-content padding>
+  <p>The face in the picture should be up here</p>
+  <ion-icon name="arrow-down"></ion-icon>
   <camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
-  <div class="chart-container">
-    <canvas #doughnutChart></canvas>
-  </div>
+  <button ion-button (click)="sendPicture()">Send Picture</button>
 </ion-content>
