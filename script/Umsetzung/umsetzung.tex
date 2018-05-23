@@ -85,7 +85,51 @@ public execute(data : Array<EmotionScore>, indicatorScores: IndicatorScore[]) {
 
 \end{lstlisting}
 Diese Funktion kann nun von der Klasse \textit{Decider} ausgeführt werden.
-\textbf{Hier wird in Kürze weitergeschrieben}
+\newline \newline
+Im folgenden Abschnitt wird die Implementierung der wichtigsten Funktionen der \textit{Decider} Klasse aufgezeigt und beschrieben. \newpage
+\begin{lstlisting}[caption={Atrribute der Decider-Klasse}, language=JavaScript]
+@Injectable()
+export class Decider {
+
+data: Array<{timestamp: number, indicatorScores: IndicatorScore[]}> = [];
+resultData: Array<{timestamp: number, emotionScores: EmotionScore[]}> = [];
+causalityRules: Array<CausalityRule> = CRarray;
+
+	...
+}
+\end{lstlisting}
+\begin{lstlisting}[caption={decide-Funktion der Decider-Klasse}, language=JavaScript]
+public decide(){
+	let start: number = this.findRange().start;
+	let end: number = this.findRange().end;
+	for(var i:number = start; i<=end; i= i+ 10000){
+		var j: number = i + 9999;
+		this.assumeEmotion(i, j);
+	} 
+}
+\end{lstlisting}
+\begin{lstlisting}[caption={assumeEmotion-Funktion der Decider-Klasse}, language=JavaScript]
+private assumeEmotion(start: number, end: number){
+	let currentIndicators = this.data.filter(e => e.timestamp >= start && e.timestamp <= end)
+	var emotionScores: Array<EmotionScore> = this.executeCausalityRules(currentIndicators);
+	this.resultData.push({ timestamp: start, emotionScores: emotionScores});
+}
+\end{lstlisting}
+\begin{lstlisting}[caption={executeCausalityRules-Funktion der Decider-Klasse}, language=JavaScript]
+private executeCausalityRules(data: Array<{timestamp: number, indicatorScores: IndicatorScore[]}>){   
+	var emotionScores: EmotionScore[] = [];
+	emotions.forEach(emotion => {
+		var emotionScore : EmotionScore = {emotion, score: 0};
+		emotionScores.push(emotionScore);
+	});
+	data.forEach((e) =>  { 
+		this.causalityRules.forEach((causalityRule) => {
+			emotionScores = causalityRule.execute(emotionScores, e.indicatorScores)  ;
+		})}
+	)
+	return emotionScores;
+}
+\end{lstlisting}
 \subsection{Datenerfassung in Form von Emotionstests}
 \subsubsection{Face-Test}
 \subsubsection{GSR-Test}
@@ -109,7 +153,7 @@ Mit diesen Komponenten werden die vom Sensor zurückgelieferten Daten an den Ard
 Die Beschreibung der Entwicklungsarbeiten wird in zwei Teile aufgespalten. Der erste Teil ist der Quellcode des Arduinos, der zweite Teil die Entwicklung des Emotionstest in der emoTrix-App. \newline
 In Listing ? ist der Quellcode des Arduinos abgebildet. In Zeile 1 wird die SofwareSerial-Bibliothek eingebunden, die eine Verwendung der Pins des Arduinos für verschiedene Module ermöglicht. In Zeile 2 wird dem Arduino mitgeteilt, dass auf den Pins 10 und 11 ein Bluetooth-Modul angeschlossen ist und eine Konstante (GSR) festgelegt, die auf den Anschluss A0 des Grove Shields verweist, an dem der GSR Sensor angeschlossen ist. \newline
 Generell besteht der Programmcode des Arduinos immer aus zwei Bestandteilen: einem Setup-Block und einem Loop-Block. Der Setup-Block wird einmalig beim Einschalten des Arduinos ausgeführt. Danach wird der Loop-Block solange wiederholt, bis der Arduino ausgeschalten wird. \newline
-In Zeile 7 innerhalb des Setup-Blocks wird die Geschwindigkeit der seriellen Datenübertragung der Ports des Arduinos, die mit dem Bluetooth-Modul verbunden sind. Hierbei wird die Geschwindigkeit auf 9600 Bits pro Sekunde gesetzt.\footcite[Vgl.][]{Ard18b} Dies entspricht der üblich verwendeten Geschwindigkeit und hat in Tests sehr gut funktioniert. \newpage
+In Zeile 7 innerhalb des Setup-Blocks wird die Geschwindigkeit der seriellen Datenübertragung der Ports des Arduinos, die mit dem Bluetooth-Modul verbunden sind. Hierbei wird die Geschwindigkeit auf 9600 Bits pro Sekunde gesetzt.\footcite[Vgl.][]{Ard18b} Dies entspricht der üblich verwendeten Geschwindigkeit und hat in Tests sehr gut funktioniert. \newline
 \begin{lstlisting}[caption={Quellcode des Arduinos},style=Arduino]
 #include <SoftwareSerial.h>
 SoftwareSerial BTserial (10, 11); const int GSR=A0;
