@@ -287,9 +287,34 @@ Wenn aber alles ohne Fehler abgelaufen ist, erhalten wir vom Microsoft Server ei
 \end{lstlisting}
 Aus diesem Objekt interessiert uns der Datensatz \textit{emotion}. Diesen kann man mittels JavaScript einfach auslesen. Eine Problematik die derzeit nicht im Face-Test behandelt wird, ist die Verarbeitung von mehreren Gesichtern in einem Bild. In diesem Fall würde ein weiteres Objekt mit einer anderen \textit{faceId} zurückgegeben werden. Für die Zukunft wäre es denkbar die \textit{faceId} in der Ausgabe zu kontrollieren und den Nutzer zur Identifikation ein erstes Bild machen zu lassen in dem die \textit{faceId} ermittelt wird. Dies wäre zum Beispiel in den Settings möglich. Problematisch an diesem Ansatz ist aber, dass die \textit{faceId} nur temporär ist und nach 24 Stunden abläuft. Also müsste der Nutzer nach einem Tag Inaktivität diese neu setzen.\newline
 Zum Abschluss des Face-Tests fehlt nur noch die Implementierung der \textit{mapper} Funktion im \textit{FaceSensor}. Diese ist relativ einfach, da der Funktion einfach das \textit{emotion} Objekt aus der HTTP Antwort weitergegeben werden kann. Dort werden die Werte dann in \textit{IndicatorScores} übertragen, was in diesem Fall trivial ist, da Sie bereits Prozente darstellen und somit einfach übernommen werden können. Das senden der Daten an den Decider wird durch die Funktion \textit{onSensorData} der Klasse \textit{Sensor}, von der der \textit{FaceSensor} erbt, bereits übernommen, womit die Implementation abgeschlossen ist.   
-\subsection{Auswertung der Testergebnisse}
-\subsubsection{Beschreibung der implementierten Kausalitätsregeln}
-\subsubsection{Implementierung des Deciders}
+\subsection{Beschreibung der implementierten Kausalitätsregeln}
+\subsubsectionauthor{Torben Brenner}
+Alle von uns implementierten Kausalitätsregeln befinden sich aus Übersichtsgründen in der Datei \textit{CausalityRulesArray.ts}. Hier werden zum aktuellen Zeitpunkt sechs verschiedene Kausalitätsregeln implementiert(zwei davon für den GSR-Test und vier für den Face-Test). Diese Regeln werden zusammen in einem Array exportiert, welches von der \textit{Decider} Klasse eingebunden wird. Im folgenden sollen die verschiedenen Regeln genauer erläutert werden.
+\subsubsection{Regeln des GSR-Test}
+\subsubsectionauthor{Lukas Seemann}
+Da der \textit{Activation} Indikator entweder \textit{0, 0.5 oder 1} sein kann, ist es nur notwendig zwei Regeln für diesen zu implementieren. Wenn der \textit{Activation} Indikator einen Wert von 0.5 hat, ist dieser als neutral anzusehen, d.h. die vom GSR-Sensor erfassten Werte zeigen keine Tendenz für den Stress. In diesem Fall finden keine Veränderungen an den \textit{EmotionScores} statt, weshalb hierfür auch keine Kausalitätsregel zu implementieren ist. Anders sieht das bei den Werten \textit{0 und 1} aus. In diesen Fällen zeigt sich eine Tendenz der erfassten Werte für gestresst(1) oder nicht gestresst(0). Deshalb unterscheidet sich die Bedingung der beiden Regeln gerade mal durch die Prüfung auf den bestimmten \textit{score}.
+\begin{lstlisting}[caption={Bedingung der ersten Kausalitätsregel(gestresst)}, language=JavaScript]
+	(indicatorScore: IndicatorScore) => {
+		return indicatorScore.indicator == <indicator>"activation" && indicatorScore.score == 1;
+	}
+\end{lstlisting}
+Auch die Auswirkungen der beiden Regeln sind sich ähnlich. So werden bei Eintritt der ersten Regel zu den \textit{EmotionScores} für die Emotionen \textit{wütend, fröhlich und überrascht} jeweils eins zu dem Score hinzu addiert. Bei eintritt der zweiten Regel wird stattdessen eins subtrahiert. Diese Änderungen wirken zwar sehr klein im Vergleich zu den Änderungen der Kausalitätsregeln des Face-Test, werden sich aber aufgrund der Menge von Daten in einem Zeitraum dennoch bemerkbar machen. So werden in einer Sekunde circa 20 Werte erfasst, während dem der Face-Test deutlich länger für die Durchführung benötigt.
+\subsubsection{Regeln des Face-Test}
+\subsubsectionauthor{Torben Brenner}
+Für den Face-Test wurden vier Kausalitätsregeln definiert. Von diesen vier Regeln ist jeweils eine für einen bestimmten \textit{EmotionScore}. Da bei der Eignung des Gesichts als Emotionsindiz festgestellt wurde, dass dieses äußert aussagekräftig ist werden die durch den Face-Test erfassten Werte sehr stark gewichtet. Die Werte die vom Test ermittelt werden sind Prozentzahlen, die aussagen wie wahrscheinlich eine bestimmte Emotion ist. Deshalb wird bei der Erfassung eines solchen Wertes dieser mit 100 multipliziert und dann auf den jeweiligen \textit{EmotionScore} addiert.
+\begin{lstlisting}[caption={Kausalitätsregel basierend auf Face-Test für Emotion Wut}, language=JavaScript]
+	(indicatorScore: IndicatorScore) => {
+		return indicatorScore.indicator == <indicator>"angryIndicator" && indicatorScore.score != undefined;    
+	},[
+		(data: EmotionScore[], indicatorScores :IndicatorScore[]) => {
+			let angry = data.find((emotionScore) => {return emotionScore.emotion == <emotion>"angry"});
+			let angryIndicator = indicatorScores.find((indicatorScore) => {return indicatorScore.indicator == <indicator>"angryIndicator"});
+			angry.score = angry.score + (100 * angryIndicator.score);
+			return data;
+		}
+	]
+\end{lstlisting}
+Als Bedinung das eine Kausalitätsregel des Face-Test eintritt, ist gewählt das der jeweilige Indikator definiert ist. Diese sind im Normalfall nicht definiert, werden aber bei Erfassung eines Bildes gesetzt. Im Falle der Wut ist der Indikator der sogenannte \textit{angryIndicator}. Bei Eintritt der Bedingung werden die Auswirkungen wie oben beschrieben ausgeführt. Die andern drei Regeln für den Face-Test unterscheiden sich nur durch die Auswahl des \textit{Indicator-} und \textit{EmotionScores}.
 \subsection{Benutzeroberfläche der App}
 \subsectionauthor{Lukas Seemann}
 In diesem Kapitel wird die Benutzeroberfläche der mobilen Applikation beschrieben. Das Kapitel soll auch als Benutzungsanleitung für die einzelnen Funktionen der App dienen.
