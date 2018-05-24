@@ -189,7 +189,7 @@ In Zeile 15 bis 17 wird letzlich noch das Error-Handling implementiert.
 \subsubsection{Face-Test}
 \subsubsectionauthor{Torben Brenner}
 Eine der am höchsten priorisierten Erfassungsmöglichkeiten für Emotionen, war die Messung der Emotionen anhand der Mimik des Menschen mithilfe der Smartphonekamera. Wie im Mockup\footnote{siehe \ref{section:Mockup-Gesichtserkennung} S.\pageref{section:Mockup-Gesichtserkennung}} beschrieben soll der Nutzer zuerst ein Bild machen können und sich dieses anzeigen lassen können, bevor es ausgewertet werden soll. Wenn das Bild zur Analyse freigeben wird, soll dem Nutzer ein Ladebildschirm angezeigt werden. Die Analyse selbst wird nicht auf dem Smartphone durchgeführt, sondern mit Hilfe der Gesichtserkennungsschnittstelle von Microsoft\footcite[siehe ][]{Mic18}.\newline
-Zu Beginn der Entwicklung wurde eine Komponente entwickelt, welche das Schießen eines Fotos ermöglicht. Ionic-Komponenten bestehen aus einem HTML-Template, einer SCSS Datei und einem TypeScript Script. Diese Aufteilung in drei Dateien ermöglicht eine Trennung von grafischer Darstellung und der Logik. Die grafische Darstellung der Komponente besteht aus einem Bild, dass nur angezeigt wird wenn mit der Komponente auch ein Bild gemacht wurde, und einem \textit{Ionic-Button}, welcher das Fotografieren auslöst. Interessanter ist die Logik der Komponente, die daraus besteht abhängig von der der Auswahl des Entwicklers entweder ein Bild zu machen oder eine Videoaufnahme zu starten. Dies wird mit der Übergabe eines Input Parameters ermöglicht.
+Zu Beginn der Entwicklung wurde eine Komponente entwickelt, welche das Schießen eines Fotos ermöglicht. Ionic-Komponenten bestehen aus einem HTML-Template, einer SCSS Datei und einem TypeScript Script. Diese Aufteilung in drei Dateien ermöglicht eine Trennung von grafischer Darstellung und der Logik. Die grafische Darstellung der Komponente besteht aus einem Bild, dass nur angezeigt wird wenn mit der Komponente auch ein Bild gemacht wurde, und einem \textit{Ionic-Button}, der das Fotografieren auslöst. Interessanter ist die Logik der Komponente, die daraus besteht abhängig von der der Auswahl des Entwicklers entweder ein Bild zu machen oder eine Videoaufnahme zu starten. Dies wird mit der Übergabe eines Input Parameters ermöglicht.
 \begin{lstlisting}[caption={Input und Output der Kamera Komponente}, language=JavaScript]
 	@Input() pictureMode: boolean;
 	@Output() sourceChanged: EventEmitter<String> = new EventEmitter<String>();
@@ -198,7 +198,74 @@ Da die Komponente aber auch die Bilder, die mit ihr gemacht wurden, herausgeben 
 \begin{lstlisting}[caption={Einbindung Kamera Komponente}, language=HTML]
 	<camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
 \end{lstlisting}
-Das Fotografieren wird in Ionic mit Hilfe einer \textit{native} Komponente umgesetzt. Diese Komponente erlaubt den plattformunabhängigen Zugriff auf die Kamera\footcite{Ion18}. Dazu wird in der App direkt eine Weiterleitung an die ausgewählte Kamera App des Nutzers durchgeführt. Nachdem der Nutzer mit dieser ein Bild gemacht hat, kann entweder der Speicherort oder das Bild selbst zurückgegeben werden. Der zurückgegebene Wert wird dann von der Kamera Komponente per \textit{EventEmitter} ausgegeben.\newline 
+Das Fotografieren wird in Ionic mit Hilfe einer \textit{native} Komponente umgesetzt. Diese Komponente erlaubt den plattformunabhängigen Zugriff auf die Kamera\footcite{Ion18e}. Dazu wird in der App direkt eine Weiterleitung an die ausgewählte Kamera App des Nutzers durchgeführt. Nachdem der Nutzer mit dieser ein Bild gemacht hat, kann entweder der Speicherort oder das Bild selbst zurückgegeben werden. Der zurückgegebene Wert wird dann von der Kamera Komponente per \textit{EventEmitter} ausgegeben.\newline
+Wie in der Einbindung der Komponente zu sehen ist, wird beim auslösen des Events \textit{sourceChanged} im Face-Test eine Funktion aufgerufen. Dies geschieht mittels \textit{Event Binding}. Die aufgerufene Funktion speichert den empfangenen Source Wert in einer lokalen Variable im Face-Test. Bei Betätigung des \textit{Send Picture Buttons} wird daraufhin die Analyse gestartet. Die Analyse wird von der \textit{FaceSensor} Klasse durchgeführt. Dazu wird vom Face-Test die Funktion \textit{prepareData} aufgerufen, die eine HTTP POST Anfrage an die Microsoft Gesichtserkennungsschnittstelle durchführt. Die Details der Anfrage sind in folgender Codeausschnitt zu sehen:
+\begin{lstlisting}[caption={Aufbau Anfrage an Gesichtserkennungsschnittstelle}, language=JavaScript]
+{
+	url: 'https://westeurope.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
+	type: 'POST',
+	processData: false,
+	headers: {
+		'Ocp-Apim-Subscription-Key': '{Api Key}'
+	},
+	contentType: 'application/octet-stream',
+	data: this.makeblob(base64Data)
+}
+\end{lstlisting}
+Das einzig nennenswerte an dieser Anfrage ist die Übertragung des Base64 codierten Bildes. Diese geschieht nämlich in Form eines Blob(Binary Large Object). Laut \textit{MDN web docs} ist ein Blob eine ``dateiähnliche Menge unveränderlicher Roh-Daten''\footcite[Vgl. ][Abschnitt Übersicht]{Mdn18}. Diese wird nicht nur bei der Übertragung großer Datenmengen verwendet, sondern auch beim Abspeichern größerer Dateien in Datenbanken. Um das Base64 codierte Bild in einen Blob zu übertragen wurde die Hilfsmethode \textit{makeblob} genutzt. Diese wurde nicht von mir selbst entwickelt sondern von Kalpesh Singh\footcite[Vgl. ][Antwort von Kalpesh Singh]{Sin16}. Die Funktion trennt die \textit{ContentType} Informationen von den Roh-Daten und überträgt diese dann in einen neuen Blob. Bei der Base64 Codierung müssen die Roh-Daten erst mit Hilfe der JavaScript Funktion \textit{charCodeAt} in Ganzzahl Werte übertragen werden. Der generierte Blob wird dann im \textit{Body} der HTTP Anfrage mit übertragen.\newline
+Nach dem senden der Request wird auf der Oberfläche der App dem Nutzer mit Hilfe eines \textit{Ionic Loaders}\footcite{Ion18f} signalisiert, dass im Hintergrund gerade eine Verarbeitung der Daten stattfindet. Da die Sensor Klasse ein sogenanntes \textit{Observable} implementiert, können Statusmeldungen zwischen der Face-Test Seite und dem \textit{FaceSensor} ausgetauscht werden. Die Statusmeldungen werden auf Seiten des \textit{FaceSensor} initiert und von der Seite mit Hilfe einer \textit{Callback} Funktion verarbeitet.
+\begin{lstlisting}[caption={Callback Methode auf FaceSensor Observable}, language=JavaScript]
+	this.faceSensor.observable.subscribe(data => {
+		if(data == "Sending data to Microsoft"){
+			this.loader.present();
+		}
+		if(data == "empty result"){
+			this.loader.dismiss();
+			alert("Microsoft Server couldn't recognize your face. Please make sure your face is visible");
+		}
+		if(data.startsWith("result:")){
+			console.log("This is a result");
+			this.loader.dismiss();
+			let emotions = JSON.parse(data.replace("result:", ""));
+			console.log(emotions);
+			this.faceSensor.onSensorData(emotions);
+		}
+		if(data.startsWith("error:")){
+			this.loader.dismiss();
+			let errorString = data.replace("error:", "");
+			alert(errorString);
+		}
+	});
+\end{lstlisting}
+Die Daten des \textit{FaceSensor} werden mit Strings übertragen. Durch das Schlüsselwort ``result'' wird gekennzeichnet, das es sich beim Rest des Strings um Ergebnis Daten handelt, die mit der \textit{JSON.parse} Methode in ein JavaScript Objekt übertragen werden können. Durch ``error'' wird gekennzeichnet, dass ein Fehler aufgetreten ist der ausgegeben werden soll. Dies wird mit Hilfe eines \textit{alert} umgesetzt. Es kann außerdem passieren, dass die Microsoft Gesichtserkennungsschnittstelle kein Gesicht erkennt. Das ist in unseren Testläufen insbesondere dann aufgetreten, wenn das Bild um 90 Grad gedreht war. Für diesen Fall haben wir eine eigene Fehlernachricht eingebaut.\newline
+Wenn aber alles ohne Fehler abgelaufen ist, erhalten wir vom Microsoft Server ein JSON Objekt der Form:
+\begin{lstlisting}[caption={Ergebnis Gesichtserkennungsschnittstelle, Beispiel Microsoft}, language=JavaScript]
+[
+	{
+		"faceId": "579838a9-fb50-4333-8770-32858b2d0fc6",
+		"faceRectangle": {
+			"top": 131,
+			"left": 177,
+			"width": 162,
+			"height": 162
+		},
+		"faceAttributes": {
+			"emotion": {
+				"anger": 0,
+				"contempt": 0,
+				"disgust": 0,
+				"fear": 0,
+				"happiness": 0.001,
+				"neutral": 0.987,
+				"sadness": 0.001,
+				"surprise": 0.01
+			}
+		}
+	}
+]
+\end{lstlisting}
+Aus diesem Objekt interessiert uns der Datensatz \textit{emotion}. Diesen kann man mittels JavaScript einfach auslesen. Eine Problematik die derzeit nicht im Face-Test behandelt wird, ist die Verarbeitung von mehreren Gesichtern in einem Bild. In diesem Fall würde ein weiteres Objekt mit einer anderen \textit{faceId} zurückgegeben werden. Für die Zukunft wäre es denkbar die \textit{faceId} in der Ausgabe zu kontrollieren und den Nutzer zur Identifikation ein erstes Bild machen zu lassen in dem die \textit{faceId} ermittelt wird. Dies wäre zum Beispiel in den Settings möglich. Problematisch an diesem Ansatz ist aber, dass die \textit{faceId} nur temporär ist und nach 24 Stunden abläuft. Also müsste der Nutzer nach einem Tag Inaktivität diese neu setzen.\newline
+Zum Abschluss des Face-Tests fehlt nur noch die Implementierung der \textit{mapper} Funktion im \textit{FaceSensor}. Diese ist relativ einfach, da der Funktion einfach das \textit{emotion} Objekt aus der HTTP Antwort weitergegeben werden kann. Dort werden die Werte dann in \textit{IndicatorScores} übertragen, was in diesem Fall trivial ist, da Sie bereits Prozente darstellen und somit einfach übernommen werden können. Das senden der Daten an den Decider wird durch die Funktion \textit{onSensorData} der Klasse \textit{Sensor}, von der der \textit{FaceSensor} erbt, bereits übernommen, womit die Implementation abgeschlossen ist.   
 \subsection{Auswertung der Testergebnisse}
 \subsubsection{Beschreibung der implementierten Kausalitätsregeln}
 \subsubsection{Implementierung des Deciders}
