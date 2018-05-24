@@ -1,3 +1,4 @@
+import { TutorialPage } from './../pages/tutorial/tutorial';
 import { FaceSensor } from './../providers/sensors/FaceSensor';
 import { FaceEmotionPage } from './../pages/face-emotion/face-emotion';
 import { BrowserModule } from '@angular/platform-browser';
@@ -31,7 +32,8 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
     GsrPage,
     PulsPage,
     DecisionPage,
-    FaceEmotionPage
+    FaceEmotionPage,
+    TutorialPage
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
     GsrPage,
     PulsPage, 
     DecisionPage,
-    FaceEmotionPage
+    FaceEmotionPage,
+    TutorialPage
   ],
   providers: [
     StatusBar,
