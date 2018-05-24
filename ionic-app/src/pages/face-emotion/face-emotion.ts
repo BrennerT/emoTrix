@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { emotions } from './../../providers/classes/EmotionScore';
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
@@ -25,7 +26,8 @@ export class FaceEmotionPage {
   @ViewChild('doughnutChart') doughnutChart;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-              private loadingController: LoadingController, private faceSensor: FaceSensor) {
+              private loadingController: LoadingController, private faceSensor: FaceSensor,
+              private storage: Storage) {
   }
 
   ionViewDidLoad() {
@@ -59,6 +61,7 @@ export class FaceEmotionPage {
         let emotions = JSON.parse(data.replace("result:", ""));
         console.log(emotions);
         this.faceSensor.onSensorData(emotions);
+        this.setTestStatus(true);
       }
       if(data.startsWith("error:")){
         this.loader.dismiss();
@@ -69,4 +72,15 @@ export class FaceEmotionPage {
     this.faceSensor.prepareData(this.base64);
   }
 
+  setTestStatus(newStatus: boolean){
+    this.storage.get("testStatus").then(data => {
+      if(data){
+        let status = data;
+        status.face = newStatus;
+        this.storage.set("testStatus", status);
+      } else {
+        console.log("Can't set test status because no testData is found");
+      }
+    })
+  }
 }
