@@ -314,7 +314,7 @@ Für den Face-Test wurden vier Kausalitätsregeln definiert. Von diesen vier Reg
 		}
 	]
 \end{lstlisting}
-Als Bedingung das eine Kausalitätsregel des Face-Test eintritt, ist gewählt das der jeweilige Indikator definiert ist. Diese sind im Normalfall nicht definiert, werden aber bei Erfassung eines Bildes gesetzt. Im Falle der Wut ist der Indikator der sogenannte \textit{angryIndicator}. Bei Eintritt der Bedingung werden die Auswirkungen wie oben beschrieben ausgeführt. Die andern drei Regeln für den Face-Test unterscheiden sich nur durch die Auswahl des \textit{Indicator-} und \textit{EmotionScores}.
+Als Bedingung das eine Kausalitätsregel des Face-Test eintritt, ist gewählt das der jeweilige Indikator definiert ist. Diese sind im Normalfall nicht definiert, werden aber bei Erfassung eines Bildes gesetzt. Im Falle der Wut ist der Indikator der sogenannte \textit{angryIndicator}. Bei Eintritt der Bedingung werden die Auswirkungen wie oben beschrieben ausgeführt. Die andern drei Regeln für den Face-Test unterscheiden sich nur durch die Auswahl des \textit{Indicator-} und \textit{EmotionScores}. \newline \newline
 \subsection{Benutzeroberfläche der App}
 \subsectionauthor{Lukas Seemann}
 In diesem Kapitel wird die Benutzeroberfläche der mobilen Applikation beschrieben. Das Kapitel soll auch als Benutzungsanleitung für die einzelnen Funktionen der App dienen.
@@ -323,7 +323,41 @@ In diesem Kapitel wird die Benutzeroberfläche der mobilen Applikation beschrieb
 In Abbildung ? ist der StartScreen der App zu sehen. Dieser wird aufgerufen, wenn der User die App öffnet. Hier werden dem User alle Emotionstests aufgelistet, die er durchführen kann. Durch ein Klicken auf das Label oder den Pfeil gelangt der User auf den Screen des jeweiligen Tests. Von den aufgelisteten Tests wurde der Keyboard Scanner nicht umgesetzt. Ein Klicken auf dieses Label führt zu einer Meldung, dass die Seite noch nicht implementiert wurde. \newline
 Führt der User einen Emotionstest erfolgreich durch, verwandelt sich bei der Rückkehr auf die HomePage der Pfeil am Ende des Test in einen Haken. So erhält der User einen Überblick darüber, welche Test er bereits durchgeführt und welche noch offen sind. \newline
 Durch ein Klicken auf den \textit{Auswertung}-Button wird eine Auswertung der Testergebnisse durchgeführt, die zum Zeitpunkt des Klickens im Decider hinterlegt sind. Der User wird anschließend zur DecisionPage navigiert, welche ihm seine Ergebnisse visualisiert. \newline
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=6cm]{Bilder/homepage.png}
+	\caption[GUI der HomePage]{GUI der HomePage}
+\end{figure}%
+\newline
 Über das Klicken der drei Striche in der Toolbar oder ein Swipen nach rechts, wird seitlich ein Menü angezeigt, über welches der User zu weiteren Screens der App gelangen kann. Wie bereits im Mockup beschrieben, gibt es hier die Möglichkeiten auf eine Anleitungsseite, eine Übersicht der durchgeführten Messungen oder eine Einstellungsseite zu gelangen. Aus Zeitgründen konnte hiervon nur die Anleitungsseite umgesetzt werden. Über dieses seitliche Menü kann der User außerdem auch auf jeder beliebigen Seite über die erste Auswahlmöglichkeit (\textit{Home}) zurück zum Startscreen gelangen.
 \subsubsection{GSRPage}
+\subsubsectionauthor{Lukas Seemann}
+Die GSRPage ist im Wesentlichen genau so umgesetzt worden, wie das Mockup den Screen vorgesehen hat. In Abbildung ? sind zwei Beispiele gezeigt, was der User auf der GSRPage sehen kann. \newline
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13.5cm]{Bilder/gsrpage.png}
+	\caption[GUI der HomePage]{GUI der GSRPage}
+\end{figure}%
+\newline
+Die GSRPage besteht aus 2 Slides, zwischen denen per Swipen hin und  her navigiert werden kann. Der erste Slide befasst sich mit dem Verbinden mit dem Bluetooth-Modul des Arduinos. Wie bereits im Mockup beschrieben, kann der User mit dem Button \textit{Scan} nach nicht verbundenen HC-05-Modulen suchen. Alle Ergebnisse werden dann unter \textit{Available Devices} angezeigt. \newline Unter \textit{Paired Devices} werden alle Bluetooth-Module gezeigt mit denen der User sich bereits schon vorher verbunden hat. Durch Klicken auf einen Eintrag in \textit{Paired Devices} oder nach dem \textit{Scan} in \textit{Available Devices} erscheint eine Anzeige, ob der User sich gerne mit dem Modul verbinden möchte. Bestätigt er dies und die Verbindung ist erfolgreich, wird dies durch einen grünen Haken nebem dem Eintrag angezeigt. Damit ist das Verbinden mit dem Bluetooth-Modul abgeschlossen und der Test kann gestartet werden. \newline
+Durch ein Swipen nach rechts gelangt man auf den Screen, um den Test zu starten. Der Benutzer muss nun die Elektroden des GSR-Sensors an die mittleren Fingerkuppen des Zeige- und Mittelfinger der schwachen Hand anbringen. Durch Drücken des \textit{START}-Buttons wird die Messung gestartet. Danach wird der Hautwiderstand des Benutzers in Echtzeit in den Graphen eingetragen, der in der Mitte des Screens zu sehen ist. Wenn der Graph sinkt, bedeutet dies, dass die Hautwiderstand sinkt und somit der User emotional erregt wird. Eine Steigung des Graphen hingegen bedeutet einen gesteigerten Hautwiderstand und somit Entspannung. Hierbei sei nochmals angemerkt, dass der Körper ungefähr 4 Sekunden benötigt, dass die Aktivation sich anhand des Schweißausstoßes feststellen lässt. Ein schnelles Ein- und Ausatmen führt bei den meisten Menschen beispielsweise dazu, dass der Graph nach 4 Sekunden anfängt zu sinken. \newline
+Während die Messung läuft kann der User beliebig weiter durch die App navigieren, da der Sensor weiterhin im Hintergrund Messwerte einsammelt. In dieser Zeit der Messung ist sogar für interessantere Ergebnisse angedacht, dass andere Emotionstest durchgeführt werden. Wenn auf die GSRPage zum Graphen zurückgekehrt wird, findet der User dieser wieder im aktuellen Stand und der Graph wird weiterhin aktualisiert. Durch Klicken auf den \textit{STOP}-Button wird die Messung beendet. Durch diesen Button wird auch der Haken für den GSR Test auf der HomePage gesetzt. Der User kann theoretisch zu jeder Zeit eine neue Messung starten und beenden. Jede Messung wird am Ende in der Auswertung berücksichtigt. \newline
+Durch Klicken des \textit{DELETE GRAPH}-Buttons kann der User außerdem den Graph zurücksetzen. Dies kann aus Übersichtlichkeitsgründen sinnvoll sein, wenn der User gerne den Graphen neu starten lassen möchte. Das Drücken des Buttons ändert allerdings nicht, dass alle gemessenenen Daten an den Decider gesendet werden.
 \subsubsection{CameraPage}
+\subsubsectionauthor{Lukas Seemann}
+Die CameraPage dient dazu, den Emotionstest der Gesichtserkennung auszuführen. Auch diese Page konnte so umgesetzt werden, wie es in den Mockups geplant wurde. Die GUI der CameraPage ist in Abbildung ? gezeigt. \newline
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=13.5cm]{Bilder/camerapage.png}
+	\caption[GUI der HomePage]{GUI der CameraPage}
+\end{figure}%
+\newline
+Mithilfe des \textit{TAKE PICTURE}-Buttons kann der User ein Bild von sich selbst aufnehmen. Beim ersten Benutzen der App wird beim Drücken dieses Buttons ein Hinweis angezeigt, dass der User bestätigen muss, dass die App emoTrix Zugriff auf die Kamera benötigt. Ansonsten wird die Kamera des Smartphone aufgerufen. Anschließend muss ein Bild vom Gesicht des Nutzers aufgenommen, welches im Anschluss von der API analysiert werden soll. Das aufgenommene Bild wird dann, wie rechts abgebildet, auf dem Screen der App eingefügt. Hierbei muss darauf geachtet werden, dass das Gesicht des Users auf dem Bild nach oben zeigt. Ist dies nicht der Fall muss ein neues Bild durch erneutes Drücken des \textit{TAKE PICTURE}-Buttons aufgenommen und das Smartphone entsprechend gedreht werden, dass das Bild in der richtigen Anordnung in der App angezeigt wird. Die API ist ansonsten nicht in der Lage, das Foto zu analysieren. \newline
+Wird das gewünschte Foto in richtiger Anordnung auf dem Screen angezeigt, kann der User mit dem \textit{ANALYSE PICTURE}-Button das Bild an die Microsoft API senden. Anschließend erscheint ein Loading-Anzeige, die anzeigt, dass das Bild übertragen wird. Verschwindet diese Lade-Anzeige ohne Fehlermeldung, wurde das Bild übertragen und das Bild analysiert. Die Ergebnisse sind dann bereits in den Decider eingetragen worden und der Test ist abgeschlossen. Nach einem analysierten Bild wird auch der Teststatus auf der HomePage auf erledigt gesetzt. NAtürlich ist es jedoch möglich und auch gewünscht, dass der User mehrere Bilder analysieren lässt. Dadurch wird die Auswertung am Ende umfangreicher und realitätsgetreuer.
 \subsubsection{DecisionPage}
+\subsubsectionauthor{Lukas Seemann}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=6cm]{Bilder/decisionpage.png}
+	\caption[GUI der HomePage]{GUI der DecisionPage}
+\end{figure}%
