@@ -20,4 +20,9 @@
   <ion-icon name="arrow-down"></ion-icon>
   <camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
   <button ion-button (click)="sendPicture()">Analyse Picture</button>
+  <ion-list>
+    <ion-item *ngFor="let emotion of emotionResults">
+      <span>{{emotion.name}}: {{emotion.value}}</span>
+    </ion-item>
+  </ion-list>
 </ion-content>

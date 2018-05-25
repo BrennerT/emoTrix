@@ -23,6 +23,7 @@ export class FaceEmotionPage {
 
   loader:any;
   base64: String;
+  emotionResults: Array<{name: String, value: number}>;
   @ViewChild('doughnutChart') doughnutChart;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
@@ -61,6 +62,7 @@ export class FaceEmotionPage {
         let emotions = JSON.parse(data.replace("result:", ""));
         console.log(emotions);
         this.faceSensor.onSensorData(emotions);
+        this.fillResults(emotions);
         this.setTestStatus(true);
       }
       if(data.startsWith("error:")){
@@ -82,5 +84,13 @@ export class FaceEmotionPage {
         console.log("Can't set test status because no testData is found");
       }
     })
+  }
+
+  fillResults(emotions: any){
+    this.emotionResults = [];
+    for(let emotion in emotions){
+      this.emotionResults.push({name: emotion, value: emotions[emotion]}); 
+    }
+    console.log(this.emotionResults);
   }
 }
