@@ -1,5 +1,5 @@
 \section{Konzept}
-Hier wird ein Konzept mit Mock Ups und Architektur entstehen
+Das Kapitel beschäftigt sich mit der Konzipierung einer mobilen Applikation, die in der Lage sein soll, biometrische Daten zu erfassen und daraus auf Emotionen zu schließen. Hierbei wird bestimmt, was in der App umgesetzt werden und wie dies implementiert wird. Hierbei wird sowohl das Backend als auch das Frontend konzipiert. Schließlich werden MockUps angefertigt, die eine mögliche Benutzeroberfläche der App beschreiben.
 \subsection{Priorisierung der Erfassungsmöglichkeiten}
 \subsectionauthor{Lukas Seemann}
 Im Anschluss an die Auswahl der Erfassungsmöglichkeiten werden diese Möglichkeiten nun priorisiert. In der folgenden Tabelle (Tabelle 1) ist die Priosierung abgebildet. \newline
@@ -25,8 +25,11 @@ Im Umfeld der App soll diese Interpretation mithilfe von Indikatoren geschehen. 
 	\item activation,
 	\item happyIndicator,
 	\item sadIndicator,
-    \item angryIndicator und
-    \item suprisedIndicator.
+    \item angryIndicator,
+    \item suprisedIndicator,
+    \item contemptIndicator,
+    \item digustIndicator und
+    \item fearIndicator.
 \end{itemize}
 \begin{figure}[h]
 	\centering
@@ -117,7 +120,9 @@ Des Weiteren hat die Aufteilung in IndicatorScores und Emotionscores den Vorteil
 \newline
 Ein Nachteil der Architektur ist, dass eine Anpassung der IndicatorScores und der Emotionscores Änderungen an vielen Stellen hervorrufen würde. Will man beispielsweise einen neuen Indikator \textit{disgustIndicator} und eine neue Emotion \textit{disgust} hinzufügen, müssen zunächst alle Funktionen des Deciders angepasst werden, damit diese neue Emotion aufgenommen werden kann. Des Weiteren müssen gegebenenfalls viele vorhandenen Mapper und Kausalitätsregeln angepasst werden, da diese den neuen Indikator beziehungsweise die neue Emotion nicht berücksichtigt haben.
 \subsection{MockUps}
-\subsectionauthor{Torben Brenner}
+In diesem Abschnitt werden MockUps für die einzelen Screens der App emoTrix vorgestellt. Diese dienen als Vorlage für die Implementierung der GUI in der Umsetzung.
+\subsubsection{Homescreen}
+\subsubsectionauthor{Torben Brenner}
 Bevor wir mit der Arbeit an dem Prototypen begonnen haben, diskutierten wir zuerst das Design der einzelnen Komponenten der Anwendung. Wir einigten uns darauf, dass die Übersicht über alle Teile des Prototypen auf der Hauptseite des Startbildschirms sein soll (siehe \ref{img:Mockup-Home}).
 \begin{figure}[h]
 	\centering
@@ -126,7 +131,7 @@ Bevor wir mit der Arbeit an dem Prototypen begonnen haben, diskutierten wir zuer
 	\caption[Mockup - Homescreen(links) und Menü(rechts)]{Mockup - Homescreen(links) und Menü(rechts)}
 \end{figure}%
 Wie auf der Grafik zu sehen ist, sind für die fertige Anwendung 5 verschiedene Arten von Tests vorgesehen. Die dazugehörigen Anwendungsabschnitte sollen von der Startseite, durch anklicken des Testnamens aufgerufen werden können und dann ausgeführt werden können. Durch das Berühren des Auswertungsknopfes soll es möglich sein, eine Analyse der verschiedenen Testergebnisse durchzuführen. Diese gibt dann als Ergebnis eine Übersicht heraus, welche Emotionen wie wahrscheinlich sind. Eine Übersicht der bereits durchgeführten Auswertungen soll über das Menü (siehe \ref{img:Mockup-Home} rechts) erreichbar sein. In der Anleitung(ebenfalls über das Menü erreichbar) sollen sich Beschreibungen zur Durchführung der einzelnen Tests befinden.\newline
-Im folgenden soll neben den einzelnen Test Seiten, auch die Auswertungsseite genauer beschrieben werden.
+Im folgenden soll neben den einzelnen Test Seiten, auch die Auswertungsseite genauer beschrieben werden.  \newline
 \subsubsection{Hautleitfähigkeit}
 \subsubsectionauthor{Torben Brenner}
 Der Test der Hautleitfähigkeit benötigt die Verbindung mit dem Arduino Microcontroller. Deshalb muss dem Nutzer die Möglichkeit geboten werden, sich mit diesem über die Software möglichst einfach zu verbinden. Hierzu ist eine Seite für die Verbindung vorgesehen\footnote{zu sehen auf der Abbildung Mockup - Arduino verbinden}. 
@@ -157,7 +162,7 @@ Beim Test des Tippverhaltens, ist es angedacht das der Nutzer mit einem ChatBot 
 \end{figure}% 
 Die Oberfläche für die Interaktion mit dem ChatBot soll einem normalen Chat ähneln, d.h. Nachrichten des ChatBots und Antworten des Nutzers werden angezeigt. Der Nutzer bekommt außerdem eine Bildschirmtatstatur angezeigt, auf der er seine Antworten eingeben kann.\newline
 Ein Alternative zu diesem Testszenario war, dass der Nutzer einen Zeitraum angibt in dem die App seine Eingaben überwachen darf. Dieser Fall ist aber nicht umsetzbar, da die Betriebssystem natürlich verhindern wollen, dass Passwörter des Nutzers mit gelesen werden können.
-Deshalb soll das erste Szenario umgesetzt werden.\newline \newline \newline \newline
+Deshalb soll das erste Szenario umgesetzt werden.
 \subsubsection{Gesichtserkennung}
 \subsubsectionauthor{Torben Brenner}
 \label{section:Mockup-Gesichtserkennung}
