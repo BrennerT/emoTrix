@@ -167,7 +167,7 @@ In Zeile 18 wird über die \textit{measuring}-Variable überprüft, ob gemessen 
 Wenn die Messung gestartet wurde, erhält die mobile Applikation also alle 50 Millisekunden vom Arduino per Bluetooth einen Integer-Wert übermittelt. \newline
 Die Daten, die der Arduino schickt, müssen innerhalb der App verarbeitet werden. Hierfür wurde eine neue TestPage mit dem Namen GSRPage erstellt. Diese Page dient dazu, sich mit dem Arduino Bluetooth-Modul zu verbinden und die Messung zu starten und zu stoppen. Zusätzlich werden die gemessenen Werte in einem Graphen dargestellt, um zu veranschaulichen, wie sich die Hautleitfähigkeit während der Messung ändert. \newline \newline
 Die GSRPage implementiert den GSRSensor, der eine Implementierung des Sensor-Interfaces darstellt. In der Klasse GSRSensor sind alle Methoden implentiert, die für die Umsetzug der genannten Funktionalitäten benötigt werden. In Listing 9 ist ein Ausschnitt aus der Typescript-Datei mit den wichtigsten Funktionen abgebildet. \newline \newline \newline
-\begin{lstlisting}[caption={JS Code}, language=JavaScript]
+\begin{lstlisting}[caption={startMeasuring- und stopMeasuring-Funktion}, language=JavaScript]
 startMeasuring(){
 	this.bluetoothSerial.write('S').then((data: any) => { })
 		.catch((e) => {
@@ -187,7 +187,7 @@ Die \textit{stopMeasuring}-Funktion funktioniert analog zur \textit{startMeasuri
 \newline
 In Listing 6 ist implementiert, dass das Bluetooth des Smartphones auf einen neu eintreffenden Integer-Wert des Arduinos reagieren kann. Das BluetoothSerial dient dabei als Observable, den die App abonnieren kann. Dies bedeutet, dass die App darauf hingewiesen wird, wenn neue Daten angekommen sind. Mit \textit{subscribe(";")} wird die App jedes Mal informiert, wenn ein Semikolon übertragen wurde. Das Semikolon wurde im Arduino-Code als Trennzeichen eingesetzt und signalisiert, dass ein Integer-Wert abgeschlossen ist. Mit dem nächsten \textit{subscribe} wird bestimmt, was ausgeführt wird, wenn ein Semikolon empfangen wird. Als \textit{data} (Zeile 1, Ende) wird immer alles übertragen, was seit dem letzten Ausführen der Funktion übertragen wurde. Es handelt sich also immer um einen Integer-Wert und das Semikolon. In Zeile 2 wird aus diesem Grund das letzte Zeichen der Übertragung abgeschnitten, sodass der \textit{value}-Variable nur der Integer-Wert zugewiesen wird.
 In Zeile 3 folgt die Umwandlung des Integer-Wert, der der Stromspannung auf dem seriellen Port entspricht, in den Hautwiderstand. \newline
-\begin{lstlisting}[caption={JS Code}, language=JavaScript]
+\begin{lstlisting}[caption={Verarbeitung der Sensordaten}, language=JavaScript]
 this.bluetoothSerial.subscribe(";").subscribe(function (data){
 		self.value = data.substring(0,data.length - 1);
 		self.value = ((1024+2*self.value)*10000)/(512-self.value);
@@ -208,8 +208,22 @@ this.bluetoothSerial.subscribe(";").subscribe(function (data){
 \end{lstlisting}
 Nach Herstellerangaben kann mit der Formel \textit{(1024+2*x)*10000)/(512-x)} der Hautwiderstand berechnet werden, wobei x der gemessenen Stromspannung entspricht.\footcite[Vgl.][]{Gro18} Warum diese Formel genau so aussieht, hat mit dem internen Aufbau des Sensors zu tun, der aus Analog-Digital-Umsetzern und Verstärker aufgebaut ist. \footcite[Vgl.][1. Forumsantwort]{Com18} Da die genaue Erklärung der Formel sehr komplex ist und den Rahmen der Arbeit sprengen würde, wird die Formel hier nicht weiter thematisiert. Wichtig ist, dass man durch diese Umrechnung man den Hautwiderstand des Benutzers in Ohm erhält. \newline
 Da alle 50 Millisekunden ein Wert übertragen wird, wird kein neuer Timer benötigt. Dieser wurde anfangs mit dem Wert 0 initialisiert und in Zeile 14 nach jedem neuen Wert um 1 erhöht. Da ein Wert und damit eine Verabeitung alle 50ms für die App einen sehr hohen Workload bedeutet würde, wird nur jeder fünfte übertragene Wert betrachtet. Dies ist in Zeil 4 mit einer if-Bedingung umgesetzt. In Zeile 6 werden immer zwei aufeinander folgende Ohm-Werte zusammengefasst und anschließend in Zeile 7 die onSensorData-Methode mit diesen Daten aufgerufen. Zwei Werte sind für den Mapper trivialerweise genug, um zu schauen ob der Wert gestiegen oder gesunken ist. Da am Anfang nur der erste Wert vorhanden ist, wird dieser Fall in Zeile 5 abgefangen. Das Setzen des alten Werts (\textit{oldValue}) geschieht in Zeile 9. \newline
-In Zeile 11 bis 13 wird implementiert, das außerdem jeder zwanzigste Wert in einem Graphen auf der GUI eingetragen wird. Dazu wird die Observer-Funktion des Sensors genutzt und die Information, dass der Graph geupdatet werden muss, an die GSRPage weitergeleitet, die mit \textit{subscribe()} den Sensor abonniert hat. Eine häufigere Darstellung als jeder zwanzigste Wert ist ebenfalls nicht sehr vorteilhaft für die Benutzung der App, da dies sehr rechenlastig ist. Der Trend des Graphen ändert sich außerdem nicht wesentlich, wenn nicht jeder einzelne übertragene Datenpunkt eingetragen wird.
-In Zeile 15 bis 17 wird letzlich noch das Error-Handling implementiert.
+In Zeile 11 bis 13 wird implementiert, das außerdem jeder zwanzigste Wert in einem Graphen auf der GUI eingetragen wird. Dazu wird die Observer-Funktion des Sensors genutzt und die Information, dass der Graph geupdatet werden muss, an die GSRPage weitergeleitet, die mit \textit{subscribe()} den Sensor abonniert hat. Eine häufigere Darstellung als jeder zwanzigste Wert ist ebenfalls nicht sehr vorteilhaft für die Benutzung der App, da dies sehr rechenlastig ist. Der Trend des Graphen ändert sich außerdem nicht wesentlich, wenn nicht jeder einzelne übertragene Datenpunkt eingetragen wird. In Zeile 15 bis 17 wird letzlich noch das Error-Handling implementiert. \newline
+Abschließend muss nun noch die Implementierung des Mappers der GSRSensor-Klasse vorgestellt werden. Dieser ist in Listing ? abgebildet. \newline
+\begin{lstlisting}[caption={Mapper des GSR-Sensors}, language=JavaScript]
+mapper(data: any): IndicatorScore[]{
+	let newIndicatorScore: IndicatorScore;
+	if(data.value > data.oldValue){
+		newIndicatorScore = {indicator: "activation", score: 0};
+	} else if (data.value < data.oldValue){
+		newIndicatorScore = {indicator: "activation", score: 1};
+	} else { 
+		newIndicatorScore = {indicator: "activation", score: 0.5};
+	}
+	return [newIndicatorScore];
+}
+\end{lstlisting}
+Die Funktionsweise des Mappers ist nicht sonderlich komplex. Wie bereits beschrieben, erhält der Mapper per onSensorData-Funktion zwei Werte: den aktuellen Sensorwert (\textit{value}) und den vorherigen Sensorwert (\textit{oldValue}). Je nachdem, wie der Wert sich verändert hat, wird die in Zeile 2 initialisierte Variable \textit{newIndicatorScore} unterschiedlich initialisiert. Wenn der Wert gestiegen ist, dann ist auch der Hautwiderstand gestiegen. Somit ist dies ein Zeichen für Entspannung und kein Anzeichen für Aktivation. Aus diesem Grund wird, wenn die Prüfung in Zeile 3 zutrifft, in Zeile 4 die Variable mit einem IndicatorScore initialisiert, der den Indicator \textit{activation} auf 0 setzt. Ist der Wert gesunken (siehe Prüfung in Zeile 5), so ist auch der Hautwiderstand gesunken, aus welchen Grund hier in Zeile 6 der \textit{activation}-Indicator mit 1 initialisiert wird.  Falls keine der Prüfungen in Zeile 3 und 5 zu, dann ist der Wert gleich geblieben und es gibt kein Anzeichen für oder gegen Aktivation. Aus diesem Grund hat die \textit{activation} in diesem Fall den Score 0.5 (Zeile 8). Der GSR-Sensor beeinflusst nur den \textit{activation}-Indikator und deswegen kann die Variable \textit{newIndicatorScore} alleine in einem Array in Zeile 10 zurückgegeben werden. 
 \subsubsection{Face-Test}
 \subsubsectionauthor{Torben Brenner}
 Eine der am höchsten priorisierten Erfassungsmöglichkeiten für Emotionen, war die Messung der Emotionen anhand der Mimik des Menschen mithilfe der Smartphonekamera. Wie im Mockup\footnote{siehe \ref{section:Mockup-Gesichtserkennung} S.\pageref{section:Mockup-Gesichtserkennung}} beschrieben soll der Nutzer zuerst ein Bild machen können und sich dieses anzeigen lassen können, bevor es ausgewertet werden soll. Wenn das Bild zur Analyse freigeben wird, soll dem Nutzer ein Ladebildschirm angezeigt werden. Die Analyse selbst wird nicht auf dem Smartphone durchgeführt, sondern mit Hilfe der Gesichtserkennungsschnittstelle von Microsoft\footcite[siehe ][]{Mic18}.\newline
@@ -262,7 +276,7 @@ Nach dem senden der Request wird auf der Oberfläche der App dem Nutzer mit Hilf
 	});
 \end{lstlisting}
 Die Daten des \textit{FaceSensor} werden mit Strings übertragen. Durch das Schlüsselwort ``result'' wird gekennzeichnet, das es sich beim Rest des Strings um Ergebnis Daten handelt, die mit der \textit{JSON.parse} Methode in ein JavaScript Objekt übertragen werden können. Durch ``error'' wird gekennzeichnet, dass ein Fehler aufgetreten ist der ausgegeben werden soll. Dies wird mit Hilfe eines \textit{alert} umgesetzt. Es kann außerdem passieren, dass die Microsoft Gesichtserkennungsschnittstelle kein Gesicht erkennt. Das ist in unseren Testläufen insbesondere dann aufgetreten, wenn das Bild um 90 Grad gedreht war. Für diesen Fall haben wir eine eigene Fehlernachricht eingebaut.\newline
-Wenn aber alles ohne Fehler abgelaufen ist, erhalten wir vom Microsoft Server ein JSON Objekt der Form: \newline
+Wenn aber alles ohne Fehler abgelaufen ist, erhalten wir vom Microsoft Server ein JSON Objekt der Form: \newpage
 \begin{lstlisting}[caption={Ergebnis Gesichtserkennungsschnittstelle, Beispiel Microsoft}, language=JavaScript]
 [
 	{
