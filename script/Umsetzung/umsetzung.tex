@@ -169,17 +169,17 @@ Die Daten, die der Arduino schickt, müssen innerhalb der App verarbeitet werden
 Die GSRPage implementiert den GSRSensor, der eine Implementierung des Sensor-Interfaces darstellt. In der Klasse GSRSensor sind alle Methoden implentiert, die für die Umsetzug der genannten Funktionalitäten benötigt werden. In Listing 9 ist ein Ausschnitt aus der Typescript-Datei mit den wichtigsten Funktionen abgebildet. \newline \newline \newline
 \begin{lstlisting}[caption={JS Code}, language=JavaScript]
 startMeasuring(){
-this.bluetoothSerial.write('S').then((data: any) => { })
-.catch((e) => {
-console.log(e);
-});;
+	this.bluetoothSerial.write('S').then((data: any) => { })
+		.catch((e) => {
+			console.log(e);
+		});;
 }
 
 stopMeasuring(){
-this.bluetoothSerial.write('F').then((data: any) => {})
-.catch((e) => {
-console.log(e);
-});
+	this.bluetoothSerial.write('F').then((data: any) => {})
+		.catch((e) => {
+			console.log(e);
+		});
 }
 \end{lstlisting}
 Die Funktion \textit{startMeasuring} implementiert das Starten der Messung. Für die GSRPage wurde das Ionic-Package Bluetooth Serial hinzugefügt, das Bluetooth-Optionen des Smartphones für die App verfügbar macht. Das Package wird hier mit \textit{this.bluetoothSerial} referenziert. Das Pairen und Verbinden des Smartphones mit dem Bluetooth-Modul ist selbsterklärend (über eine \textit{connect}-Methode) und deswegen im Listing nicht aufgeführt. Nachdem die Verbindung eingerichtet wurde, kann die \textit{startMeasuring}-Funktion aufgerufen werden. Dabei wird in Zeile 2 mit \textit{write} ein String an das verbundene Bluetooth-Modul gesendet. Wie bereits beschrieben muss zum Start der String \textit{S} gesendet werden. Falls ein Fehler auftritt, wird dieser in Zeile 4 geloggt. Wenn alles ordnungsgemäß funktioniert, empfängt der Arduino den String und startet anschließend die Messung.\newline
@@ -199,7 +199,7 @@ this.bluetoothSerial.subscribe(";").subscribe(function (data){
 			self.oldValue = self.value;
 		} 
 		if(self.time%20 == 0){
-			self.addData(self.lineChart,self.time, self.value); 
+			self.sensorObserver.next("Update Graph");
 		}
 		self.time++;
 	}, function (error){
@@ -208,7 +208,7 @@ this.bluetoothSerial.subscribe(";").subscribe(function (data){
 \end{lstlisting}
 Nach Herstellerangaben kann mit der Formel \textit{(1024+2*x)*10000)/(512-x)} der Hautwiderstand berechnet werden, wobei x der gemessenen Stromspannung entspricht.\footcite[Vgl.][]{Gro18} Warum diese Formel genau so aussieht, hat mit dem internen Aufbau des Sensors zu tun, der aus Analog-Digital-Umsetzern und Verstärker aufgebaut ist. \footcite[Vgl.][1. Forumsantwort]{Com18} Da die genaue Erklärung der Formel sehr komplex ist und den Rahmen der Arbeit sprengen würde, wird die Formel hier nicht weiter thematisiert. Wichtig ist, dass man durch diese Umrechnung man den Hautwiderstand des Benutzers in Ohm erhält. \newline
 Da alle 50 Millisekunden ein Wert übertragen wird, wird kein neuer Timer benötigt. Dieser wurde anfangs mit dem Wert 0 initialisiert und in Zeile 14 nach jedem neuen Wert um 1 erhöht. Da ein Wert und damit eine Verabeitung alle 50ms für die App einen sehr hohen Workload bedeutet würde, wird nur jeder fünfte übertragene Wert betrachtet. Dies ist in Zeil 4 mit einer if-Bedingung umgesetzt. In Zeile 6 werden immer zwei aufeinander folgende Ohm-Werte zusammengefasst und anschließend in Zeile 7 die onSensorData-Methode mit diesen Daten aufgerufen. Zwei Werte sind für den Mapper trivialerweise genug, um zu schauen ob der Wert gestiegen oder gesunken ist. Da am Anfang nur der erste Wert vorhanden ist, wird dieser Fall in Zeile 5 abgefangen. Das Setzen des alten Werts (\textit{oldValue}) geschieht in Zeile 9. \newline
-In Zeile 11 bis 13 wird implementiert, das außerdem jeder zwanzigste Wert in einem Graphen auf der GUI eingetragen wird. Einer häufigere Darstellung ist ebenfalls nicht sehr vorteilhaft für die Benutzung der App, da dies sehr rechenlastig ist. Der Trend des Graphen ändert sich außerdem nicht wesentlich, wenn nicht alle Datenpunkte eingetragen werden. \newline
+In Zeile 11 bis 13 wird implementiert, das außerdem jeder zwanzigste Wert in einem Graphen auf der GUI eingetragen wird. Dazu wird die Observer-Funktion des Sensors genutzt und die Information, dass der Graph geupdatet werden muss, an die GSRPage weitergeleitet, die mit \textit{subscribe()} den Sensor abonniert hat. Eine häufigere Darstellung als jeder zwanzigste Wert ist ebenfalls nicht sehr vorteilhaft für die Benutzung der App, da dies sehr rechenlastig ist. Der Trend des Graphen ändert sich außerdem nicht wesentlich, wenn nicht jeder einzelne übertragene Datenpunkt eingetragen wird.
 In Zeile 15 bis 17 wird letzlich noch das Error-Handling implementiert.
 \subsubsection{Face-Test}
 \subsubsectionauthor{Torben Brenner}
@@ -218,7 +218,7 @@ Zu Beginn der Entwicklung wurde eine Komponente entwickelt, welche das Schießen
 	@Input() pictureMode: boolean;
 	@Output() sourceChanged: EventEmitter<String> = new EventEmitter<String>();
 \end{lstlisting}
-Da die Komponente aber auch die Bilder, die mit ihr gemacht wurden, herausgeben soll wird ein \textit{Output} definiert. Dieser wird mit Hilfe eines EventEmitters realisiert, der ein Event auslöst auf das andere Teile der Anwendung, die eine Kamera Komponente implementieren reagieren können. Das Event gibt hierbei einen String aus, der in diesem Test dem Base64 codierten Bild entspricht. Im folgenden zusehen ist die Einbindung der Kamera Komponente in den Face-Test. \newline
+Da die Komponente aber auch die Bilder, die mit ihr gemacht wurden, herausgeben soll wird ein \textit{Output} definiert. Dieser wird mit Hilfe eines EventEmitters realisiert, der ein Event auslöst auf das andere Teile der Anwendung, die eine Kamera Komponente implementieren reagieren können. Das Event gibt hierbei einen String aus, der in diesem Test dem Base64 codierten Bild entspricht. Im folgenden zusehen ist die Einbindung der Kamera Komponente in den Face-Test. \newline \newline
 \begin{lstlisting}[caption={Einbindung Kamera Komponente}, language=HTML]
 	<camera [pictureMode]="true" (sourceChanged)="onSourceChanged($event)"></camera>
 \end{lstlisting}
@@ -317,7 +317,7 @@ Für den Face-Test wurden vier Kausalitätsregeln definiert. Von diesen vier Reg
 		}
 	]
 \end{lstlisting}
-Als Bedingung das eine Kausalitätsregel des Face-Test eintritt, ist gewählt das der jeweilige Indikator definiert ist. Diese sind im Normalfall nicht definiert, werden aber bei Erfassung eines Bildes gesetzt. Im Falle der Wut ist der Indikator der sogenannte \textit{angryIndicator}. Bei Eintritt der Bedingung werden die Auswirkungen wie oben beschrieben ausgeführt. Die andern drei Regeln für den Face-Test unterscheiden sich nur durch die Auswahl des \textit{Indicator-} und \textit{EmotionScores}. \newline \newline
+Als Bedingung das eine Kausalitätsregel des Face-Test eintritt, ist gewählt das der jeweilige Indikator definiert ist. Diese sind im Normalfall nicht definiert, werden aber bei Erfassung eines Bildes gesetzt. Im Falle der Wut ist der Indikator der sogenannte \textit{angryIndicator}. Bei Eintritt der Bedingung werden die Auswirkungen wie oben beschrieben ausgeführt. Die andern drei Regeln für den Face-Test unterscheiden sich nur durch die Auswahl des \textit{Indicator-} und \textit{EmotionScores}. \newline 
 \subsection{Benutzeroberfläche der App}
 \subsectionauthor{Lukas Seemann}
 In diesem Kapitel wird die Benutzeroberfläche der mobilen Applikation beschrieben. Das Kapitel soll auch als Benutzungsanleitung für die einzelnen Funktionen der App dienen.
@@ -339,7 +339,7 @@ Die GSRPage ist im Wesentlichen genau so umgesetzt worden, wie das Mockup den Sc
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=13.5cm]{Bilder/gsrpage.png}
-	\caption[GUI der HomePage]{GUI der GSRPage}
+	\caption[GUI der GSRPage]{GUI der GSRPage}
 \end{figure}%
 \newline
 Die GSRPage besteht aus 2 Slides, zwischen denen per Swipen hin und  her navigiert werden kann. Der erste Slide befasst sich mit dem Verbinden mit dem Bluetooth-Modul des Arduinos. Wie bereits im Mockup beschrieben, kann der User mit dem Button \textit{Scan} nach nicht verbundenen HC-05-Modulen suchen. Alle Ergebnisse werden dann unter \textit{Available Devices} angezeigt. \newline Unter \textit{Paired Devices} werden alle Bluetooth-Module gezeigt mit denen der User sich bereits schon vorher verbunden hat. Durch Klicken auf einen Eintrag in \textit{Paired Devices} oder nach dem \textit{Scan} in \textit{Available Devices} erscheint eine Anzeige, ob der User sich gerne mit dem Modul verbinden möchte. Bestätigt er dies und die Verbindung ist erfolgreich, wird dies durch einen grünen Haken nebem dem Eintrag angezeigt. Damit ist das Verbinden mit dem Bluetooth-Modul abgeschlossen und der Test kann gestartet werden. \newline
@@ -352,7 +352,7 @@ Die CameraPage dient dazu, den Emotionstest der Gesichtserkennung auszuführen. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=13.5cm]{Bilder/camerapage.png}
-	\caption[GUI der HomePage]{GUI der CameraPage}
+	\caption[GUI der CameraPage]{GUI der CameraPage}
 \end{figure}%
 \newline
 Mithilfe des \textit{TAKE PICTURE}-Buttons kann der User ein Bild von sich selbst aufnehmen. Beim ersten Benutzen der App wird beim Drücken dieses Buttons ein Hinweis angezeigt, dass der User bestätigen muss, dass die App emoTrix Zugriff auf die Kamera benötigt. Ansonsten wird die Kamera des Smartphone aufgerufen. Anschließend muss ein Bild vom Gesicht des Nutzers aufgenommen, welches im Anschluss von der API analysiert werden soll. Das aufgenommene Bild wird dann, wie rechts abgebildet, auf dem Screen der App eingefügt. Hierbei muss darauf geachtet werden, dass das Gesicht des Users auf dem Bild nach oben zeigt. Ist dies nicht der Fall muss ein neues Bild durch erneutes Drücken des \textit{TAKE PICTURE}-Buttons aufgenommen und das Smartphone entsprechend gedreht werden, dass das Bild in der richtigen Anordnung in der App angezeigt wird. Die API ist ansonsten nicht in der Lage, das Foto zu analysieren. \newline
@@ -363,7 +363,7 @@ Drückt der User auf der HomePage auf den \textit{AUSWERTUNG}-Button wird er an 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=6cm]{Bilder/decisionpage.png}
-	\caption[GUI der HomePage]{GUI der DecisionPage}
+	\caption[GUI der DecisionPage]{GUI der DecisionPage}
 \end{figure}%
 \newline
 Die Anzeige von EmotionScores erfolgt über ein Pie-Chart, dass die Scores für die Emotionen happy, angry, sad und suprised anzeigt. Die Emotion, die den größten Anteil des Pies hat, ist die Emotion, die der User am wahrscheinlichsten zu diesem Zeitpunkt hatte. Durch klicken auf ein Segment des Pie-Charts wird angezeigt, welchen Score die jeweilige Emotion erreicht hat.\newline
