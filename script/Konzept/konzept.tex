@@ -50,6 +50,7 @@ Eine Kausalitätsregel erwartet eine Menge von \textit{IndicatorScores} als Eing
 	\includegraphics[width=16cm]{Bilder/causalityrules.png}
 	\caption[Ablauf der Ausführung von Kausalitätsregeln]{Ablauf der Ausführung von Kausalitätsregeln}
 \end{figure}%
+\newline \newline \newline \newline
 \subsubsection{Unterteilung der Entscheidung in Intervalle}
 \subsubsectionauthor{Lukas Seemann}
 Es wurde bereits beschrieben, wie aus Sensordaten \textit{IndicatorScores} gewonnen werden und wie wiederum aus diesen mithilfe der Kausalitätsregeln \textit{EmotionScores} ermittelt werden. Nun muss bestimmt werden, wie oft jeweils neue \textit{EmotionScores} erstellt und eine Anwendung der Kausalitätsregeln durchgeführt wird. \newline
@@ -83,8 +84,8 @@ Zunächst wird explizit auf das Backend beziehungsweise die Hintergrundlogik der
 	\includegraphics[width=16cm]{Bilder/architecture.png}
 	\caption[Architektur der App]{Architektur der App}
 \end{figure}%
-\newline
-Die Klassen sind in der Abbildung blau dargestellt. TypeScript bietet die Möglichkeit, eigene Typen zu definieren. Diese Typen verfügen über Attribute, jedoch keine Methoden und sind in der Abbildung grün dargestellt. \newline \newline
+\newline \newline
+Die Klassen sind in der Abbildung blau dargestellt. TypeScript bietet die Möglichkeit, eigene Typen zu definieren. Diese Typen verfügen über Attribute, jedoch keine Methoden und sind in der Abbildung grün dargestellt. \newline
 Die App verfügt über eine abstrakte Klasse Sensor, die zwei Methoden definiert. Jeder Sensor, der später Daten für die App liefern soll, muss diese abstrakte Sensor-Klasse erweitern. Dabei muss jeder Sensor die \textit{mapper}-Funktion überschreiben, die die Sensordaten in mehrere \textit{IndicatorScores} umwandelt. Auf diese Weise muss jeder Sensor seinen individuellen Mapper implementieren. Der \textit{IndicatorScore} ist als Typ definiert worden, der einerseits einen Indicator und einen Score als Attribut hat. Indicator wiederum ist ein eigener Typ, der nur die definierten Indikatoren (\textit{activation, happyIndicator, sadIndicator, angryIndicator, suprisedIndicator, ...}) als String zulässt. Da die Implementierung des \textit{IndicatorScore}-Types sehr trivial ist, wurde sie aus Übersichtsgründen nicht in die Abbildung aufgenommen. Die \textit{onSensorData}-Funktion ist bereits vordefiniert und muss dementsprechdend nicht überschrieben werden. Diese Funktion führt lediglich den Mapper aus, wenn genug Sensordaten für eine Auswertung vorhanden sind, und fügt die resultierenden \textit{IndicatorScores} zum Decider hinzu. \newline \newline
 Die Decider-Klasse ist der Hauptbestandteil der App, da sie die Bestimmung der Emotion durchführt. Die Decider-Klasse ist als Singleton anzusehen, da es pro laufende Anwendung nur einen Decider geben kann. Der Decider verfügt über ein \textit{data}-Array, das allen Input der Sensoren enthält. Konkret handelt es sich hierbei um die \textit{IndicatorScores}, die die Sensoren ermittelt haben, erweitert mit einem Timestamp für den Zeitpunkt der Ankunft. Nach und nach wird dieses Array mit den \textit{IndicatorScores} der verschiedenen Sensoren gefüllt. Dies wird mit der Funktion \textit{addIndicatorScores} realisiert, die von den Sensoren mit der \textit{onSensorData}-Funktion aufgerufen wird. \newline
 Der Decider verfügt außerdem über ein Array von \textit{CausalityRules}. Die \textit{CausalityRule}-Klasse ist die Implementierung der oben beschriebenen Kausalitätsregel. Eine \textit{CausalityRule} besitzt immer eine Condition (Bedingung) und eine Menge von ScoreTransformationen. \newline
@@ -131,8 +132,9 @@ Bevor mit der Arbeit an dem Prototypen begonnen wurde, wurde  das Design der ein
 	\label{img:Mockup-Home}
 	\caption[Mockup - Homescreen(links) und Menü(rechts)]{Mockup - Homescreen(links) und Menü(rechts)}
 \end{figure}%
-Wie auf der Grafik zu sehen ist, sind für die fertige Anwendung 5 verschiedene Arten von Tests vorgesehen. Die dazugehörigen Anwendungsabschnitte sollen von der Startseite, durch anklicken des Testnamens aufgerufen werden können und dann ausgeführt werden können. Durch das Berühren des Auswertungsknopfes soll es möglich sein, eine Analyse der verschiedenen Testergebnisse durchzuführen. Diese gibt dann als Ergebnis eine Übersicht heraus, welche Emotionen wie wahrscheinlich sind. Eine Übersicht der bereits durchgeführten Auswertungen soll über das Menü (siehe Abbildung 17 rechts) erreichbar sein. In der Anleitung(ebenfalls über das Menü erreichbar) sollen sich Beschreibungen zur Durchführung der einzelnen Tests befinden.\newline
-Im Folgenden wird neben den einzelnen Testseiten, auch die Auswertungsseite genauer beschrieben.  \newline
+\newline
+Wie auf der Grafik zu sehen ist, sind für die fertige Anwendung 5 verschiedene Arten von Tests vorgesehen. Die dazugehörigen Anwendungsabschnitte sollen von der Startseite durch Anklicken des Testnamens aufgerufen und dann ausgeführt werden können. Durch das Berühren des Auswertungsknopfes soll es möglich sein, eine Analyse der verschiedenen Testergebnisse durchzuführen. Diese gibt dann als Ergebnis eine Übersicht heraus, welche Emotionen wie wahrscheinlich sind. Eine Übersicht der bereits durchgeführten Auswertungen soll über das Menü (siehe Abbildung 17 rechts) erreichbar sein. In der Anleitung (ebenfalls über das Menü erreichbar) sollen sich Beschreibungen zur Durchführung der einzelnen Tests befinden.\newline
+Im Folgenden wird neben den einzelnen Testseiten, auch die Auswertungsseite genauer beschrieben.  
 \subsubsection{Hautleitfähigkeit}
 \subsubsectionauthor{Torben Brenner}
 Der Test der Hautleitfähigkeit benötigt die Verbindung mit dem Arduino-Mikrocontroller. Deshalb muss dem Nutzer die Möglichkeit geboten werden, sich mit diesem über die Software möglichst einfach zu verbinden. Hierzu ist eine Seite für die Verbindung vorgesehen\footnote{zu sehen auf Abbildung 18}. 
@@ -142,44 +144,45 @@ Der Test der Hautleitfähigkeit benötigt die Verbindung mit dem Arduino-Mikroco
 	\label{img:Mockup-Arduino-Connection}
 	\caption[Mockup - Arduino verbinden(links nicht verbunden, rechts verbunden)]{Mockup - Arduino verbinden(links nicht verbunden, rechts verbunden)}
 \end{figure}%
-Auf dieser Seite hat der Nutzer die Möglichkeit, nach verfügbaren Geräten zu suchen. Da der Arduino mittels Bluetooth verbunden wird, werden in der Liste der verfügbaren Geräte auch andere Bluetoothgeräte angezeigt. Bei der Auswahl eines Gerätes wird versucht eine Verbindung mit diesem aufzubauen. Ist dieser Versuch erfolgreich, wird der Name des Gerätes zusammen mit einem Hacken dargestellt. Hat sich ein Benutzer bereits einmal mit einem Arduino verbunden, wird der Name des Arduinos beim aufrufen der Seite angezeigt. In diesem Fall soll es möglich sein, den Namen zu berühren um eine Verbindung aufzubauen. Gelingt der Aufbau der Verbindung, wird ebenfalls ein Hacken hinter den Namen gesetzt.\newline
-Wann die Verbindung mit dem Arduino genau durchgeführt wird, ist noch nicht festgelegt. Denkbar ist zum einen eine Settingsseite, von der aus diese Einstellung erreichbar wäre, zum anderen ist es auch möglich, dass diese Seite angezeigt wird sobald der Test aufgerufen wird.\newline
-Der Test ist folgendermaßen aufgebaut. Der Nutzer schließt sich extern an den Hautwiderstandssensor an. In der Anleitung soll hierzu dem Nutzer erklärt werden, worauf beim anschließen des Hautwiderstandssensor zu achten ist. Wenn der Nutzer an den Hautwiderstandssensor angeschlossen ist und mit dem Arduino verbunden ist, kann der Test gestartet werden. Die Messungen beginnen nach dem drücken des Startknopfes. Danach sendet der Sensor über Bluetooth die Daten, welche in Form eines Graphen auf der Oberfläche dargestellt werden\footnote{siehe Abbildung 19}. 
+Auf dieser Seite hat der Nutzer die Möglichkeit, nach verfügbaren Geräten zu suchen. In der Liste der verfügbaren Geräte werden, alle HC-05-Module aufgeführt, die momentan verfügbar sind. Bei der Auswahl eines Gerätes wird versucht, eine Verbindung mit diesem aufzubauen. Ist dieser Versuch erfolgreich, wird der Name des Gerätes zusammen mit einem Hacken dargestellt. Hat sich ein Benutzer bereits einmal mit einem Arduino verbunden, wird der Name des Arduinos beim Aufrufen der Seite angezeigt. In diesem Fall soll es möglich sein, den Namen zu berühren, um eine Verbindung aufzubauen. Gelingt der Aufbau der Verbindung, wird ebenfalls ein Hacken hinter den Namen gesetzt.\newline
+Wann die Verbindung mit dem Arduino genau durchgeführt wird, ist noch nicht festgelegt. Denkbar ist zum einen eine Settingsseite, von der aus diese Einstellung erreichbar wäre, zum anderen ist es auch möglich, dass diese Seite angezeigt wird, sobald der Test aufgerufen wird.\newline
+Der Test ist folgendermaßen aufgebaut. Der Nutzer schließt sich extern an den Hautwiderstandssensor an. In der Anleitung soll hierzu dem Nutzer erklärt werden, worauf beim Anschließen des Hautwiderstandssensor zu achten ist. Wenn der Nutzer an den Hautwiderstandssensor angeschlossen ist und mit dem Arduino verbunden ist, kann der Test gestartet werden. Die Messungen beginnen nach dem Drücken des Startknopfes. Danach sendet der Sensor über Bluetooth die Daten, welche in Form eines Graphen auf der Oberfläche dargestellt werden\footnote{siehe Abbildung 19}. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=10cm]{Bilder/Mockup-GSR.png}
 	\label{img:Mockup-GSR}
 	\caption[Mockup - Hautleitfähigkeit Test starten(links) und Test Ergebnis(rechts)]{Mockup - Hautleitfähigkeit Test starten(links) und Test Ergebnis(rechts)}
-\end{figure}%\newline
-Auf der Seite direkt werden keine Auswertungen der Emotionen dargestellt, sondern nur die Daten des Sensors. Durch betätigen des Stopknopfes, soll die Messung gestoppt werden. Mit dem Knopf ``DELETE GRAPH'' wird der gezeichnete Graph zurückgesetzt, aber nicht die bisher erfassten Daten.
+\end{figure}\newline
+Auf der Seite direkt werden keine Auswertungen der Emotionen dargestellt, sondern nur die Daten des Sensors. Durch Betätigen des Stopknopfes soll die Messung gestoppt werden. Mit dem Knopf \textit{``DELETE GRAPH''} wird der gezeichnete Graph zurückgesetzt, aber nicht die bisher erfassten Daten.
+\newline \newline \newline\newline \newline \newline
 \subsubsection{Tippverhalten}
 \subsubsectionauthor{Torben Brenner}
-Beim Test des Tippverhaltens ist es angedacht, dass der Nutzer mit einem ChatBot kommuniziert und die Anwendung im Hintergrund bei Nutzereingaben das Tippverhalten überprüft. In wie fern die Kommunikation mit dem ChatBot abläuft ist noch nicht ganz klar. Es wäre zum denkbar, dass der ChatBot einfach nur einen Dienst zu Verfügung stellt und somit wenig Interaktion bietet. Interessant wäre auch das Vorbereiten eines Gesprächs, in dem der Nutzer durch den ChatBot provoziert werden könnte.
+Beim Test des Tippverhaltens ist es angedacht, dass der Nutzer mit einem ChatBot kommuniziert und die Anwendung im Hintergrund bei Nutzereingaben das Tippverhalten überprüft. Inwiefern die Kommunikation mit dem ChatBot abläuft, ist noch nicht ganz klar. Es wäre zum denkbar, dass der ChatBot einfach nur einen Dienst zu Verfügung stellt und somit wenig Interaktion bietet. Interessant wäre auch das Vorbereiten eines Gesprächs, indem der Nutzer durch den ChatBot provoziert werden könnte.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=10cm]{Bilder/Mockup-Tippverhalten.png}
 	\label{img:Mockup-Tippverhalten}
 	\caption[Mockup - Tippverhalten Test starten(links) und Test ergebnis(rechts)]{Mockup - Tippverhalten Test starten(links) und Test ergebnis(rechts)}
-\end{figure}% \newline
-Die Oberfläche für die Interaktion mit dem ChatBot soll einem normalen Chat ähneln, d.h. Nachrichten des ChatBots und Antworten des Nutzers werden angezeigt. Der Nutzer bekommt außerdem eine Bildschirmtatstatur angezeigt, auf der er seine Antworten eingeben kann (siehe Abbildung 20).\newline
-Ein Alternative zu diesem Testszenario war, dass der Nutzer einen Zeitraum angibt in dem die App seine Eingaben überwachen darf. Dieser Fall ist aber nicht umsetzbar, da die Betriebssystem natürlich verhindern wollen, dass Passwörter des Nutzers mit gelesen werden können.
+\end{figure} \newline
+Die Oberfläche für die Interaktion mit dem ChatBot soll einem normalen Chat ähneln, das heißt Nachrichten des ChatBots und Antworten des Nutzers werden angezeigt. Der Nutzer bekommt außerdem eine Bildschirmtatstatur angezeigt, auf der er seine Antworten eingeben kann (siehe Abbildung 20).\newline
+Ein Alternative zu diesem Testszenario war, dass der Nutzer einen Zeitraum angibt, in dem die App seine Eingaben überwachen darf. Dieser Fall ist aber nicht umsetzbar, da die Betriebssysteme natürlich verhindern wollen, dass Passwörter des Nutzers mitgelesen werden können.
 Deshalb soll das erste Szenario umgesetzt werden.
 \subsubsection{Gesichtserkennung}
 \subsubsectionauthor{Torben Brenner}
 \label{section:Mockup-Gesichtserkennung}
-Bei der Gesichtserkennung wird der Nutzer von der Anwendung dazu aufgefordert, die Kamera zu starten und daraufhin ein Bild mit dieser zu machen. Die Anwendung soll dem Nutzer daraufhin die Aufnahme anzeigen und es ihm ermöglichen das er eine neue Aufnahme machen kann. Wenn der Nutzer eine Aufnahme hat die er analysieren lassen möchte, soll die Anwendung mit Hilfe eines ``Send Picture'' Knopfes die Möglichkeit bieten, dass Bild analysieren zu lassen (siehe Abbildung 21). \newline
+Bei der Gesichtserkennung wird der Nutzer von der Anwendung dazu aufgefordert, die Kamera zu starten und daraufhin ein Bild mit dieser zu machen. Die Anwendung soll dem Nutzer daraufhin die Aufnahme anzeigen und es ihm ermöglichen, dass er eine neue Aufnahme machen kann. Wenn der Nutzer eine Aufnahme gemacht hat, die er analysieren lassen möchte, soll die Anwendung mit Hilfe eines \textit{``Send Picture''} Knopfes die Möglichkeit bieten, dass Bild analysieren zu lassen (siehe Abbildung 21). \newline
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=10cm]{Bilder/Mockup-Gesichtserkennung.png}
 	\label{img:Mockup-Gesichtserkennung}
 	\caption[Mockup - Gesichtserkennung vor Senden des Bilds(links) und Testergebnis(rechts)]{Mockup - Gesichtserkennung vor Senden des Bilds(links) und Testergebnis(rechts)}
 \end{figure} \newline
-Während der Analyse soll dem Nutzer durch einen Ladebalken signalisiert werden, dass die Daten gerade verarbeitet werden. Auf der Ergebnisseite soll neben dem analysierten Bild das Ergebnis angezeigt werden und außerdem die Möglichkeit bestehen ein neues Bild zu machen oder das gleiche Bild erneut zu analysieren.
+Während der Analyse soll dem Nutzer durch einen Ladebalken signalisiert werden, dass die Daten gerade verarbeitet werden. Auf der Ergebnisseite soll neben dem analysierten Bild das Ergebnis angezeigt werden und außerdem die Möglichkeit bestehen, ein neues Bild zu machen oder das gleiche Bild erneut zu analysieren.
 \subsubsection{Auswertung}
 \subsubsectionauthor{Torben Brenner}
-Durch betätigen des Auswertungkopfes auf der Startseite der Anwendung, sollen die bisher erfassten Daten analysiert werden. Das Ergebnis dieser Analyse soll dem Nutzer auf der Auswertungsseite dargestellt werden. Diese besteht aus einem Kreisdiagramm und einem Zeitstrahl (siehe Abbildung 22).
+Durch Betätigen des Auswertungkopfes auf der Startseite der Anwendung sollen die bisher erfassten Daten analysiert werden. Das Ergebnis dieser Analyse soll dem Nutzer auf der Auswertungsseite dargestellt werden. Diese besteht aus einem Kreisdiagramm und einem Zeitstrahl (siehe Abbildung 22).
 \newline
-Die Farben des Kreisdiagramms werden durch eine Legende erklärt, d.h. sie werden den einzelnen Emotionen zugeordnet. Durch berühren einer Farbe soll der Nutzer den konkreten Wert für die Emotion angezeigt bekommen. Unter dem Kreisdiagramm soll außerdem ein Zeitstrahl angezeigt werden. Da es später möglich sein soll, Daten im Hintergrund zu erfassen ist es deutlich sinnvoller, die erfassten Daten nicht alle auf einmal zusammen zu rechnen, sondern den Nutzer einen Bestimmten Zeitpunkt auswählen zu lassen. Mit Hilfe des Zeitstrahls soll der Nutzer diese Möglichkeit geboten bekommen. 
+Die Farben des Kreisdiagramms werden durch eine Legende erklärt, das heißt sie werden den einzelnen Emotionen zugeordnet. Durch Berühren einer Farbe soll der Nutzer den konkreten Wert für die Emotion angezeigt bekommen. Unter dem Kreisdiagramm soll außerdem ein Zeitstrahl angezeigt werden. Da es später möglich sein soll, Daten im Hintergrund zu erfassen ist es deutlich sinnvoller, die erfassten Daten nicht alle auf einmal zusammenzurechnen, sondern den Nutzer einen bestimmten Zeitpunkt auswählen zu lassen. Mit Hilfe des Zeitstrahls soll der Nutzer diese Möglichkeit geboten bekommen. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=10cm]{Bilder/Mockup-Auswertung.png}

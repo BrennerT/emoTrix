@@ -128,7 +128,7 @@ Mit diesen Komponenten werden die vom Sensor zurückgelieferten Daten an den Ard
 	\includegraphics[width=7cm]{Bilder/hc05.jpg}
 	\caption[HC-05-Bluetooth-Modul für Arduino]{HC-05-Bluetooth-Modul für Arduino\footnotemark}
 \end{figure}%
-\newline
+\newline \newline
 Die Beschreibung der Entwicklungsarbeiten wird in zwei Teile aufgespalten. Der erste Teil ist der Quellcode des Arduinos, der zweite Teil die Entwicklung des Emotionstest in der emoTrix-App. \newline
 \begin{lstlisting}[caption={Quellcode des Arduinos},style=Arduino]
 #include <SoftwareSerial.h>
@@ -166,7 +166,7 @@ Der \textit{Loop}-Block beginnt in Zeile 11 mit dem Auslesen der Daten, die übe
 In Zeile 18 wird über die \textit{measuring}-Variable überprüft, ob gemessen werden soll. Wenn ja, wird eine Variable für die Summe von zehn Messdaten initialisiert. Anschließend werden in Abstand von fünf Millisekunden zehn Messungen durchgeführt. In Zeile 21 wird die eigentliche Messung des Sensors durchgeführt. Der hier verwendete GSR-Sensor liefert als Output einen Integer-Wert, der die Stromspannung auf dem seriellen Port des Arduinos in Volt entspricht. Dieser Wert hängt vom gemessenen Hautwiderstand ab. Die Umrechnung in den Hautwiderstand geschieht dann in der App und wird im Anschluss noch betrieben. Im Arduino-Code selbst werden die Daten überliefert, die auch der Sensor übermittelt. Alle zehn Messungen werden nach und nach aufaddiert. Dies geschieht in der for-Schleife in den Zeilen 20 bis 23. Anschließend wird die Summe durch zehn geteilt, sodass man den Durchschnitt aller zehn Werte erhält. Dieses Verfahren wird durchgeführt, da die Messdaten des Sensors Schwankungen aufweisen, die dadurch nahezu eliminiert werden können. In Zeile 25 wird schließlich der Messwert auf den Port des Bluetooth-Moduls geschickt und damit versendet. Als Trennzeichen zum nächsten Wert wird ein Semikolon angehängt. \newline
 Wenn die Messung gestartet wurde, erhält die mobile Applikation also alle 50 Millisekunden vom Arduino per Bluetooth einen Integer-Wert übermittelt. \newline
 Die Daten, die der Arduino schickt, müssen innerhalb der App verarbeitet werden. Hierfür wurde eine neue TestPage mit dem Namen GSRPage erstellt. Diese Page dient dazu, sich mit dem Arduino Bluetooth-Modul zu verbinden und die Messung zu starten und zu stoppen. Zusätzlich werden die gemessenen Werte in einem Graphen dargestellt, um zu veranschaulichen, wie sich der Hautwiderstand während der Messung ändert. \newline \newline
-Die \textit{GSRPage} implementiert den \textit{GSRSensor}, der eine Implementierung des Sensor-Interfaces darstellt. In der Klasse \textit{GSRSensor} sind alle Methoden implentiert, die für die Umsetzug der genannten Funktionalitäten benötigt werden. In Listing 9 ist ein Ausschnitt aus der TypeScript-Datei mit den Funktionen \textit{startMeasuring} und \textit{stopMeasuring} abgebildet. \newline \newline \newline
+Die \textit{GSRPage} implementiert den \textit{GSRSensor}, der eine Implementierung des Sensor-Interfaces darstellt. In der Klasse \textit{GSRSensor} sind alle Methoden implementiert, die für die Umsetzung der genannten Funktionalitäten benötigt werden. In Listing 9 ist ein Ausschnitt aus der TypeScript-Datei mit den Funktionen \textit{startMeasuring} und \textit{stopMeasuring} abgebildet. \newline
 \begin{lstlisting}[caption={startMeasuring- und stopMeasuring-Funktion}, language=JavaScript]
 startMeasuring(){
 	this.bluetoothSerial.write('S').then((data: any) => { })
