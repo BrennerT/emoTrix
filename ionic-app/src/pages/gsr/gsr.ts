@@ -201,6 +201,7 @@ export class GsrPage {
   }
 
   updateChart() {
+    this.value = this.GsrSensor.value;
     this.lineChart.data.labels = this.GsrSensor.graphDataLabels;
     this.lineChart.data.datasets.forEach((dataset) => {
         dataset.data = this.GsrSensor.graphData;

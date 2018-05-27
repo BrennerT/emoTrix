@@ -17,7 +17,7 @@ export class GSRSensor extends SensorEvaluator{
     }
 
     time: any;
-    value: any;
+    public value: any;
     oldValue: any;
     connected: String;
     public graphDataLabels: Array<number>;
